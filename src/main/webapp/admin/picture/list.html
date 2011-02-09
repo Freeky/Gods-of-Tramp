@@ -1,0 +1,27 @@
+<lift:surround with="default" at="content">
+  <h2>Listing Images...</h2>
+  <p>
+    <lift:ImageAction.list>
+    <table>
+      <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Uploader</td>
+        <td>Link</td>
+        <td>Delete</td>
+      </tr>
+      <picture:entries>
+      <tr>
+        <td><entry:id /></td>
+        <td><entry:name /></td>
+        <td><entry:uploader /></td>
+        <td><entry:link /></td>
+        <td><entry:deletelink /></td>
+      </tr>
+      </picture:entries>
+    </table>
+      <picture:previsious />
+      <picture:next />
+    </lift:ImageAction.list>
+  </p>
+</lift:surround>

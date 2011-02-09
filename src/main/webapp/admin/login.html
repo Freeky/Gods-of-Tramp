@@ -1,0 +1,19 @@
+<lift:surround with="default" at="content">
+  <h2>Admin Login</h2>
+  <p>
+    <lift:UserAction.login form="POST">
+      <table>
+        <tr>
+          <td>Login:</td>
+          <td>Passwort:</td>
+        </tr>
+        <tr>
+          <td><form:name /></td>
+          <td><form:password /></td>
+        </tr>
+      </table>
+      <form:submit />
+    </lift:UserAction.login>
+  </p>
+</lift:surround>
+

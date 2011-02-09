@@ -1,0 +1,110 @@
+package svn.got.snippet
+import _root_.scala.xml.{ NodeSeq, Text }
+import _root_.net.liftweb.util.Helpers
+import _root_.net.liftweb.http._
+import _root_.net.liftweb.common._
+import _root_.net.liftweb.mapper._
+import Helpers._
+import svn.got.model._
+import S._
+
+class ImageAction extends DispatchSnippet {
+  def dispatch: DispatchIt = _ match {
+    case "upload" => upload
+    case "list" => list
+  }
+
+  def upload(in: NodeSeq): NodeSeq = {
+
+    var fileBox: Box[FileParamHolder] = Empty
+    val currentUser = User.find(User.currentUserId)
+
+    def processUpload() = {
+      fileBox match {
+        case Full(FileParamHolder(_, null, _, _)) => S.error("No file uploaded")
+        case Full(FileParamHolder(_, mime, fileName, data)) if mime.startsWith("image/") => {
+          val image = Image.create
+            .blob(data)
+            .name(fileName)
+            .mimeType(mime)
+            .uploader(currentUser)
+          image.save
+          S.redirectTo("/image/" + image.secure.is.toLowerCase + "/" + image.name.is)
+        }
+        case _ => S.error("Invalid upload")
+      }
+
+    }
+
+    bind("form", in,
+      "fileupload" -> SHtml.fileUpload(x => fileBox = Full(x)),
+      "submit" -> SHtml.submit(S ? "upload", processUpload))
+  }
+  
+  def list(in: NodeSeq): NodeSeq = {
+	val page = S.param("page").openOr("1").toInt
+    val pagesize = S.param("pagesize").openOr("50").toInt
+    val entries = Image.count
+
+    var images: List[Image] =
+      for {
+        foundImages <- Image.findAll(
+          OrderBy(Image.id, Descending),
+          StartAt((page - 1) * pagesize),
+          MaxRows(pagesize))
+      } yield foundImages
+
+    // make prev page link if required
+    def prev(in: NodeSeq) =
+      if (page <= 1) Text("")
+      else <a href={ "/admin/picture/list/page/" + (page - 1) }>{ S ? "newer" }</a>
+
+    // make next page link if required
+    def next(in: NodeSeq) =
+      if (maxpages(entries, pagesize) <= page) Text("")
+      else <a href={ "/admin/picture/list/page/" + (page + 1) }>{ S ? "older" }</a>
+
+    // processes the given news entries to real HTML-entries 
+    def bindImages(in: NodeSeq): NodeSeq = images.flatMap(i => {
+    	val uploader = User.find(i.uploader.is)
+    	bind("entry", in,
+      "name" -> Text(i.name.is),
+      "uploader" -> Text(uploader.open_!.name.is),
+      "id" -> Text(i.id.is.toString),
+      "link" -> <a href={ "/image/"+ i.secure.is.toLowerCase + "/" + i.name.is }>Link</a>,
+      "deletelink" -> <a href={ "/admin/picture/delete/" + i.id.is }>Delete</a>)
+    })
+
+    bind("picture", in,
+      "entries" -> bindImages _,
+      "previsious" -> prev _,
+      "next" -> next _)
+  }
+  
+  /**
+   * maxpages Method
+   * calculates max amount of pages for given entries,
+   * why there could be max $pagesize entries per page
+   * @param entries
+   * @param pagesize
+   * @return
+   */
+  def maxpages(entries: Long, pagesize: Int): Long =
+    if (entries % pagesize > 0)
+      (entries / pagesize) + 1
+    else
+      entries / pagesize
+
+}
+
+object ImageAction {
+  def serveImage(secure: String, name: String): Box[LiftResponse] = {
+    for {
+      image <- Image.find(By(Image.secure, secure.toUpperCase)) if image.name.is.equals(name)
+    } yield InMemoryResponse(
+      image.blob.is,
+      ("Content-Type" -> image.mimeType.is) :: Nil,
+      Nil,
+      200)
+  }
+}

@@ -1,0 +1,9 @@
+<lift:surround with="default" at="content">
+  <h2>Adding News...</h2>
+  <p>
+    <lift:ImageAction.upload form="POST" multipart="true">
+    <form:fileupload /><br />
+    <form:submit />
+    </lift:ImageAction.upload>
+  </p>
+</lift:surround>
