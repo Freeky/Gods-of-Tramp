@@ -12,8 +12,8 @@
   <name>got Project</name>
   <inceptionYear>2010</inceptionYear>
   <properties>
-    <scala.version>2.8.0</scala.version>
-    <!-- Common plugin settings -->
+  	<scala.version>2.8.1</scala.version>
+  	<!-- Common plugin settings -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>${project.build.sourceEncoding}</project.reporting.outputEncoding>
     <!-- vscaladoc settings -->
@@ -39,11 +39,6 @@
   </pluginRepositories>
 
   <dependencies>
-    <dependency>
-      <groupId>net.liftweb</groupId>
-      <artifactId>lift-mapper_2.8.0</artifactId>
-      <version>2.2-RC1</version>
-    </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -87,9 +82,9 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>mysql</groupId>
-    	<artifactId>mysql-connector-java</artifactId>
-    	<version>5.1.14</version>
+    	<groupId>net.liftweb</groupId>
+    	<artifactId>lift-mapper_2.8.1</artifactId>
+    	<version>2.2</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
@@ -97,6 +92,13 @@
     	<groupId>net.liftweb</groupId>
     	<artifactId>lift-textile_2.8.1</artifactId>
     	<version>2.2</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    	<version>5.1.14</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>

@@ -1,13 +1,13 @@
 package bootstrap.liftweb
 
-import net.liftweb.common.Full
-import net.liftweb.mapper.DefaultConnectionIdentifier
-import net.liftweb.mapper.DB
-import net.liftweb.mapper.Schemifier
-import net.liftweb.util._
-import net.liftweb.http._
-import net.liftweb.sitemap._
-import net.liftweb.sitemap.Loc._
+import _root_.net.liftweb.common.Full
+import _root_.net.liftweb.mapper.DefaultConnectionIdentifier
+import _root_.net.liftweb.mapper.DB
+import _root_.net.liftweb.mapper.Schemifier
+import _root_.net.liftweb.util._
+import _root_.net.liftweb.http._
+import _root_.net.liftweb.sitemap._
+import _root_.net.liftweb.sitemap.Loc._
 import Helpers._
 
 import svn.got.model._

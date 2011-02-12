@@ -12,10 +12,10 @@ import net.liftweb.textile._
 class StaticPage extends DispatchSnippet {
 
   def dispatch: DispatchIt = _ match {
-    case "show" => show
-    case "list" => list
-    case "generate" => generate
-    case "edit" => edit
+    case "show" => show _
+    case "list" => list _
+    case "generate" => generate _
+    case "edit" => edit _
   }
 
   def show(in: NodeSeq): NodeSeq = {

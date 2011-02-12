@@ -14,11 +14,11 @@ import net.liftweb.textile._
 class NewsAction extends DispatchSnippet {
 
   def dispatch: DispatchIt = _ match {
-    case "show" => show
-    case "list" => list
-    case "new" => createNews
-    case "delete" => delete
-    case "edit" => edit
+    case "show" => show _
+    case "list" => list _
+    case "new" => createNews _
+    case "delete" => delete _
+    case "edit" => edit _
   }
 
   /**
