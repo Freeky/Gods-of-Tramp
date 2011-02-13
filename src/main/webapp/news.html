@@ -1,38 +1,25 @@
 <lift:surround with="default" at="content">
-  <h2>News</h2>
-  <p>
-    <lift:helloWorld.howdy>
-      Welcome to got at <span id="time">The current time</span>
-    </lift:helloWorld.howdy>
-    <lift:NewsAction.show>
-      <table>
-      
-      <news:entries>
-        <tr>
-        <td> 
-        <b>Titel: </b><entry:title />
-        </td>
-        </tr>
-        <tr>
-        <td> 
-        <entry:text />
-        </td>
-        </tr>
-        <tr>
-        <td> 
-        <entry:date /> <entry:author />
-        </td>
-        </tr>
-        <tr>
-        <td>
-        <hr />
-        </td>
-        </tr>
-      </news:entries>
-      
-      </table>
-      <news:previsious />
-      <news:next />
-    </lift:NewsAction.show>
-  </p>
+	<h2>News</h2>
+	<p><lift:NewsAction.show>
+		<table>
+			<news:entries>
+				<tr>
+					<td><b>Titel: </b><entry:title /></td>
+				</tr>
+				<tr>
+					<td><entry:text /></td>
+				</tr>
+				<tr>
+					<td><entry:date /> <entry:author /></td>
+				</tr>
+				<tr>
+					<td>
+					<hr />
+					</td>
+				</tr>
+			</news:entries>
+		</table>
+		<news:previsious />
+		<news:next />
+	</lift:NewsAction.show></p>
 </lift:surround>
