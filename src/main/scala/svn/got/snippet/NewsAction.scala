@@ -64,7 +64,7 @@ class NewsAction extends DispatchSnippet {
       "title" -> Text(n.title.is),
       "text" -> TextileParser.paraFixer(TextileParser.toHtml(n.text.is)),
       "date" -> Text(timestamp.format(n.createDate.is)),
-      "author" -> Text(n.author.is),
+      "author" -> Text(n.author.getName),
       "id" -> Text(n.id.is.toString)))
 
     bind("news", in,
@@ -100,7 +100,7 @@ class NewsAction extends DispatchSnippet {
     def bindNews(in: NodeSeq): NodeSeq = news.flatMap(n => bind("entry", in,
       "title" -> Text(n.title.is),
       "date" -> Text(timestamp.format(n.createDate.is)),
-      "author" -> Text(n.author.is),
+      "author" -> Text(n.author.getName),
       "id" -> Text(n.id.is.toString),
       "editlink" -> <a href={ "/admin/news/edit/" + n.id.is }>Edit</a>,
       "deletelink" -> <a href={ "/admin/news/delete/" + n.id.is }>Delete</a>))
@@ -134,7 +134,7 @@ class NewsAction extends DispatchSnippet {
    */
   def createNews(in: NodeSeq): NodeSeq = {
     val news = News.create
-    news.author(logginName.openOr("noname"))
+    news.author(curUserId.is.open_!)
 
     def addNewsToDatabase() = {
       if (news.title.is.eq("") && news.text.is.eq(""))
@@ -173,7 +173,7 @@ class NewsAction extends DispatchSnippet {
       "title" -> Text(n.title.is),
       "text" -> TextileParser.paraFixer(TextileParser.toHtml(n.text.is)),
       "date" -> Text(timestamp.format(n.createDate.is)),
-      "author" -> Text(n.author.is),
+      "author" -> Text(n.author.getName),
       "id" -> Text(n.id.is.toString),
       "submit" -> SHtml.submit(S ? "delete", deleteNewsFormDatabase))
   }
@@ -190,7 +190,7 @@ class NewsAction extends DispatchSnippet {
 
     val news = queriedNews.open_!
 
-    news.author(logginName.openOr("noname"))
+    news.author(curUserId.is.open_!)
 
     def updateNewsInDatabase() = {
       if (news.title.is.eq("") && news.text.is.eq(""))

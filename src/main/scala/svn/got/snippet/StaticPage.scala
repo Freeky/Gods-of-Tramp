@@ -25,9 +25,9 @@ class StaticPage extends DispatchSnippet {
     } yield staticSite.content.is
 
     contentBox match {
-      case Full(content) => Text(content)
-//        TextileParser.paraFixer(
-//          TextileParser.toHtml(content))
+      case Full(content) => 
+        TextileParser.paraFixer(
+          TextileParser.toHtml(content))
       case _ => {
     	  generatePages
     	  S.redirectTo("/")
