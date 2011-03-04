@@ -1,4 +1,8 @@
 package svn.got.snippet
+import java.io.ByteArrayOutputStream
+import java.io.ByteArrayInputStream
+import javax.imageio.ImageIO
+import java.awt.image.BufferedImage
 import _root_.scala.xml.{ NodeSeq, Text }
 import _root_.net.liftweb.util.Helpers
 import _root_.net.liftweb.http._
@@ -40,9 +44,9 @@ class ImageAction extends DispatchSnippet {
       "fileupload" -> SHtml.fileUpload(x => fileBox = Full(x)),
       "submit" -> SHtml.submit(S ? "upload", processUpload))
   }
-  
+
   def list(in: NodeSeq): NodeSeq = {
-	val page = S.param("page").openOr("1").toInt
+    val page = S.param("page").openOr("1").toInt
     val pagesize = S.param("pagesize").openOr("50").toInt
     val entries = Image.count
 
@@ -66,13 +70,13 @@ class ImageAction extends DispatchSnippet {
 
     // processes the given news entries to real HTML-entries 
     def bindImages(in: NodeSeq): NodeSeq = images.flatMap(i => {
-    	val uploader = User.find(i.uploader.is)
-    	bind("entry", in,
-      "name" -> Text(i.name.is),
-      "uploader" -> Text(uploader.open_!.name.is),
-      "id" -> Text(i.id.is.toString),
-      "link" -> <a href={ "/image/"+ i.secure.is.toLowerCase + "/" + i.name.is }>Link</a>,
-      "deletelink" -> <a href={ "/admin/picture/delete/" + i.id.is }>Delete</a>)
+      val uploader = User.find(i.uploader.is)
+      bind("entry", in,
+        "name" -> Text(i.name.is),
+        "uploader" -> Text(uploader.open_!.name.is),
+        "id" -> Text(i.id.is.toString),
+        "link" -> <a href={ "/image/" + i.secure.is.toLowerCase + "/" + i.name.is }>Link</a>,
+        "deletelink" -> <a href={ "/admin/picture/delete/" + i.id.is }>Delete</a>)
     })
 
     bind("picture", in,
@@ -80,7 +84,7 @@ class ImageAction extends DispatchSnippet {
       "previsious" -> prev _,
       "next" -> next _)
   }
-  
+
   /**
    * maxpages Method
    * calculates max amount of pages for given entries,
@@ -101,10 +105,52 @@ object ImageAction {
   def serveImage(secure: String, name: String): Box[LiftResponse] = {
     for {
       image <- Image.find(By(Image.secure, secure.toUpperCase)) if image.name.is.equals(name)
-    } yield InMemoryResponse(
-      image.blob.is,
-      ("Content-Type" -> image.mimeType.is) :: Nil,
-      Nil,
-      200)
+    } yield {
+      val inputStream = new ByteArrayInputStream(image.blob.is)
+      val originalImage = ImageIO.read(inputStream)
+
+      val widthParam = S.param("width").openOr(Int.MaxValue.toString).toInt
+      var width =
+        if (widthParam.abs < originalImage.getWidth)
+          widthParam.abs
+        else
+          originalImage.getWidth
+
+      val heightParam = S.param("height").openOr(Int.MaxValue.toString).toInt
+      var height =
+        if (heightParam.abs < originalImage.getHeight)
+          heightParam.abs
+        else
+          originalImage.getHeight
+
+      val widthRatio = originalImage.getWidth.toDouble / width
+      val heightRatio = originalImage.getHeight.toDouble / height
+
+      if (widthRatio > heightRatio) {
+        height = (originalImage.getHeight / widthRatio).toInt
+      } else {
+        width = (originalImage.getWidth / heightRatio).toInt
+      }
+
+      val byteStream = new ByteArrayOutputStream()
+
+      ImageIO.write(resize(originalImage, width, height),
+        image.mimeType.is.substring("image/".length), byteStream)
+
+      InMemoryResponse(
+        byteStream.toByteArray,
+        ("Content-Type" -> image.mimeType.is) :: Nil,
+        Nil,
+        200)
+    }
+  }
+
+  private def resize(image: BufferedImage, width: Int, height: Int): BufferedImage = {
+    val resizedImage = new BufferedImage(width, height,
+      if (image.getType == 0) BufferedImage.TYPE_INT_ARGB else image.getType);
+    val g = resizedImage.createGraphics();
+    g.drawImage(image, 0, 0, width, height, null);
+    g.dispose();
+    return resizedImage;
   }
 }

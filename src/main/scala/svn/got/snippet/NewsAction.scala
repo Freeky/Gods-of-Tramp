@@ -148,7 +148,7 @@ class NewsAction extends DispatchSnippet {
     bind("news", in,
       "title" -> SHtml.text(news.title.toString, news.title(_)),
       "text" -> SHtml.textarea(news.text.toString, news.text(_)),
-      "author" -> Text(news.author.toString),
+      "author" -> Text(news.author.getName),
       "submit" -> SHtml.submit(S ? "add", addNewsToDatabase))
   }
 
@@ -204,7 +204,7 @@ class NewsAction extends DispatchSnippet {
     bind("news", in,
       "title" -> SHtml.text(news.title.toString, news.title(_)),
       "text" -> SHtml.textarea(news.text.toString, news.text(_)),
-      "author" -> Text(news.author.toString),
+      "author" -> Text(news.author.getName),
       "submit" -> SHtml.submit(S ? "edit", updateNewsInDatabase))	  
   }
 }

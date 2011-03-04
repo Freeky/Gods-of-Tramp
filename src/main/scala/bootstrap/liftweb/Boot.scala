@@ -31,7 +31,7 @@ class Boot {
 
     // Database things
     DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
-    Schemifier.schemify(true, Schemifier.infoF _, News, User, Image, StaticPage)
+    Schemifier.schemify(true, Schemifier.infoF _, News, User, Image, StaticPage, ImageCategory, ImageToCategory)
 
     // Dispatches
     LiftRules.dispatch.append {
