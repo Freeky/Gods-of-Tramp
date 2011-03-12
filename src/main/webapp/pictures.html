@@ -2,5 +2,17 @@
   <lift:ImageBrowser.categories>
     <div class="image_category"><category:name /></div>
   </lift:ImageBrowser.categories>
-  
+  <lift:ImageBrowser.images columns="4" width="200" height="200">
+    <table>
+      <tr height="200">
+        <image:entry>
+          <td width="200"><entry:content /></td>    
+        </image:entry>
+        <image:linebreak>
+          </tr>
+          <tr height="200">
+        </image:linebreak>
+      </tr>
+    </table>
+  </lift:ImageBrowser.images>
 </lift:surround>

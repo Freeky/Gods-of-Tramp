@@ -18,4 +18,9 @@ class ImageCategory extends LongKeyedMapper[ImageCategory] with IdPK {
 	object parent extends MappedLongForeignKey(this, ImageCategory)
 }
 
-object ImageCategory extends ImageCategory with LongKeyedMetaMapper[ImageCategory]
+object ImageCategory extends ImageCategory with LongKeyedMetaMapper[ImageCategory]{
+	override def afterSchemifier = {
+       if(ImageCategory.find(By(ImageCategory.name, "")).isEmpty)
+    	   ImageCategory.create.name("").save
+	}
+}
