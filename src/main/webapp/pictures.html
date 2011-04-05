@@ -1,18 +1,22 @@
 <lift:surround with="default" at="content">
+  <h2><lift:ImageBrowser.currentCategory /></h2>
   <lift:ImageBrowser.categories>
     <div class="image_category"><category:name /></div>
   </lift:ImageBrowser.categories>
-  <lift:ImageBrowser.images columns="4" width="200" height="200">
-    <table>
-      <tr height="200">
-        <image:entry>
-          <td width="200"><entry:content /></td>    
-        </image:entry>
-        <image:linebreak>
-          </tr>
-          <tr height="200">
-        </image:linebreak>
-      </tr>
-    </table>
+  <br />
+  <lift:ImageBrowser.images columns="4" width="150" height="150">
+    <image:entry>
+      <div class="column span-4 span-down-4" style="text-align: center;"><entry:content /></div>
+    </image:entry>
   </lift:ImageBrowser.images>
+  <div class="span-16">
+	  <lift:ImageBrowser.addCategory form="POST">
+	    Unter Kategory Name: <form:name /> <form:submit />
+	  </lift:ImageBrowser.addCategory>
+  </div>
+  <div class="span-16">
+	  <lift:ImageAction.uploadWithCategory form="POST" multipart="true">
+	    Bild hochladen: <form:fileupload /> <form:submit />
+	  </lift:ImageAction.uploadWithCategory>
+  </div>
 </lift:surround>

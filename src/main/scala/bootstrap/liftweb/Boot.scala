@@ -1,5 +1,6 @@
 package bootstrap.liftweb
 
+import net.liftweb.mapper.StandardDBVendor
 import _root_.net.liftweb.common.Full
 import _root_.net.liftweb.mapper.DefaultConnectionIdentifier
 import _root_.net.liftweb.mapper.DB
@@ -19,19 +20,32 @@ import svn.got.snippet._
  */
 class Boot {
   def boot {
+
+    // Database things
+    if (!DB.jndiJdbcConnAvailable_?) {
+      val vendor =
+        new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
+          Props.get("db.url") openOr
+          "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
+          Props.get("db.user"), Props.get("db.password"))
+
+      LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
+
+      DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
+    }
+    //DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
+    Schemifier.schemify(true, Schemifier.infoF _, News, User, Image, StaticPage, ImageCategory, ImageToCategory)
+    S.addAround(DB.buildLoanWrapper)
+    
     // where to search snippet
     LiftRules.addToPackages("svn.got")
     LiftRules.resourceNames = "i18n/got" :: LiftRules.resourceNames
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
 
-    LiftRules.loggedInTest = Full(() => User.loggedIn_?)
-
     LiftRules.setSiteMapFunc(sitemap)
     addRewritesToLiftRules
 
-    // Database things
-    DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
-    Schemifier.schemify(true, Schemifier.infoF _, News, User, Image, StaticPage, ImageCategory, ImageToCategory)
+    LiftRules.loggedInTest = Full(() => User.loggedIn_?)
 
     // Dispatches
     LiftRules.dispatch.append {
@@ -98,6 +112,12 @@ class Boot {
       case RewriteRequest(
         ParsePath(List("admin", "staticpage", "edit", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "staticpage" :: "edit" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("admin", "picture", "delete", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "picture" :: "delete" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("pictures", category), _, _, _), _, _) =>
+        RewriteResponse("pictures" :: Nil, Map("category" -> category))
     }
 }
 

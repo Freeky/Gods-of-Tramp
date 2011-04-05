@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>svn</groupId>
   <artifactId>got</artifactId>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   <packaging>war</packaging>
   <name>got Project</name>
   <inceptionYear>2010</inceptionYear>
@@ -45,12 +45,6 @@
       <version>0.9.26</version>
     </dependency>
     <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <version>1.2.138</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
@@ -60,12 +54,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.7</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.scala-tools.testing</groupId>
-      <artifactId>specs_2.8.0</artifactId>
-      <version>1.6.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -83,22 +71,29 @@
     </dependency>
     <dependency>
     	<groupId>net.liftweb</groupId>
-    	<artifactId>lift-mapper_2.8.1</artifactId>
-    	<version>2.2</version>
-    	<type>jar</type>
-    	<scope>compile</scope>
-    </dependency>
-    <dependency>
-    	<groupId>net.liftweb</groupId>
     	<artifactId>lift-textile_2.8.1</artifactId>
     	<version>2.2</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>
     <dependency>
+    	<groupId>net.liftweb</groupId>
+    	<artifactId>lift-mapper_2.8.1</artifactId>
+    	<version>2.3-M1</version>
+    	<type>jar</type>
+    	<scope>compile</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.scala-tools.testing</groupId>
+    	<artifactId>specs_2.8.1</artifactId>
+    	<version>1.6.6</version>
+    	<type>jar</type>
+    	<scope>test</scope>
+    </dependency>
+    <dependency>
     	<groupId>mysql</groupId>
     	<artifactId>mysql-connector-java</artifactId>
-    	<version>5.1.14</version>
+    	<version>5.1.15</version>
     	<type>jar</type>
     	<scope>compile</scope>
     </dependency>

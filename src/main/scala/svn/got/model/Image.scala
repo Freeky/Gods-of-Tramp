@@ -1,4 +1,6 @@
-package svn.got.model
+package svn.got.model
+import scala.xml.Node
+
 import _root_.net.liftweb.sitemap.Loc._
 import _root_.net.liftweb.common._
 import _root_.net.liftweb.util._
@@ -25,4 +27,7 @@ class Image extends LongKeyedMapper[Image] with IdPK {
   object uploader extends MappedLongForeignKey(this, User)
 }
 
-object Image extends Image with LongKeyedMetaMapper[Image]
+object Image extends Image with LongKeyedMetaMapper[Image] {
+	def toHTML(img: Image): Node =
+		<img src={"/image/" + img.secure.is + "/" + img.name.is}>{img.name.is}</img>
+}

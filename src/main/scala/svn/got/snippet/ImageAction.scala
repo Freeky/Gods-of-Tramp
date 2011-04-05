@@ -15,7 +15,9 @@ import S._
 class ImageAction extends DispatchSnippet {
   def dispatch: DispatchIt = _ match {
     case "upload" => upload
+    case "uploadWithCategory" => uploadWithCategory
     case "list" => list
+    case "delete" => delete
   }
 
   def upload(in: NodeSeq): NodeSeq = {
@@ -45,6 +47,35 @@ class ImageAction extends DispatchSnippet {
       "submit" -> SHtml.submit(S ? "upload", processUpload))
   }
 
+  def uploadWithCategory(in: NodeSeq): NodeSeq = {
+    if (!User.isAdmin_?) return Text("")
+
+    var fileBox: Box[FileParamHolder] = Empty
+    val currentUser = User.find(User.currentUserId)
+
+    def processUpload() = {
+      fileBox match {
+        case Full(FileParamHolder(_, null, _, _)) => S.error("No file uploaded")
+        case Full(FileParamHolder(_, mime, fileName, data)) if mime.startsWith("image/") => {
+          val image = Image.create
+            .blob(data)
+            .name(fileName)
+            .mimeType(mime)
+            .uploader(currentUser)
+          image.save
+
+          val currentCategoryName = S.param("category").openOr("")
+          val currentCategory = ImageCategory.find(By(ImageCategory.name, currentCategoryName))
+          ImageToCategory.create.image(image).category(currentCategory).save
+        }
+        case _ => S.error("Invalid upload" + fileBox.toString)
+      }
+
+    }
+    bind("form", in,
+      "fileupload" -> SHtml.fileUpload(x => fileBox = Full(x)),
+      "submit" -> SHtml.submit(S ? "upload", processUpload))
+  }
   def list(in: NodeSeq): NodeSeq = {
     val page = S.param("page").openOr("1").toInt
     val pagesize = S.param("pagesize").openOr("50").toInt
@@ -99,10 +130,26 @@ class ImageAction extends DispatchSnippet {
     else
       entries / pagesize
 
+  def delete(in: NodeSeq): NodeSeq = {
+    val imageId = S.param("id").open_!.toInt
+    val image = Image.find(imageId).open_!
+    
+    def processDelete() = {
+    	ImageToCategory.findAll(By(ImageToCategory.image, image)).map(_.delete_!)
+    	image.delete_!
+    	S.redirectTo("/admin/picture/list")
+    	S.error("Image is deleted!")
+    }
+    
+    bind("delete", in,
+    		"submit" -> SHtml.submit(S ? "delete", processDelete),
+    		"image" -> Image.toHTML(image))
+  }
 }
 
-object ImageAction {
+object ImageAction extends Logger {
   def serveImage(secure: String, name: String): Box[LiftResponse] = {
+
     for {
       image <- Image.find(By(Image.secure, secure.toUpperCase)) if image.name.is.equals(name)
     } yield {
