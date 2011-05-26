@@ -7,7 +7,6 @@ import _root_.net.liftweb.util._
 import _root_.net.liftweb.http._
 import Helpers._
 import net.liftweb.mapper._
-import scala.xml.Text
 import S._
 
 class Image extends LongKeyedMapper[Image] with IdPK {
@@ -24,10 +23,10 @@ class Image extends LongKeyedMapper[Image] with IdPK {
     override def defaultValue = new java.util.Date
   }
   
-  object uploader extends MappedLongForeignKey(this, User)
+  object uploader extends MappedLongForeignKey(this, User) {	def getName: String = {      val user = User.find(this.is);      if (user.isDefined) {        user.open_!.name.is      } else {        "noname"      }    }  }
 }
 
-object Image extends Image with LongKeyedMetaMapper[Image] {
-	def toHTML(img: Image): Node =
-		<img src={"/image/" + img.secure.is + "/" + img.name.is}>{img.name.is}</img>
+object Image extends Image with LongKeyedMetaMapper[Image] {	def toHTML(img: Image, width: Integer, height: Integer): Node =		<img src={String.format("/image/%s/%s?width=%d&height=%d", img.secure.is, img.name.is, width, height)}>{img.name.is}</img>		
+	def toHTML(img: Image): Node = 
+		<img src={"/image/" + img.secure.is + "/" + img.name.is}>{img.name.is}</img>	
 }

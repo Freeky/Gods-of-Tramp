@@ -15,7 +15,6 @@ class News extends LongKeyedMapper[News] with IdPK {
     override def defaultValue = new java.util.Date
   }
   object text extends MappedText(this)
-  //object author extends MappedString(this, 40) OLD!
 
   object author extends MappedLongForeignKey(this, User) {
     def getName: String = {

@@ -18,6 +18,7 @@ class ImageAction extends DispatchSnippet {
     case "uploadWithCategory" => uploadWithCategory
     case "list" => list
     case "delete" => delete
+    case "detail" => detail
   }
 
   def upload(in: NodeSeq): NodeSeq = {
@@ -76,6 +77,7 @@ class ImageAction extends DispatchSnippet {
       "fileupload" -> SHtml.fileUpload(x => fileBox = Full(x)),
       "submit" -> SHtml.submit(S ? "upload", processUpload))
   }
+
   def list(in: NodeSeq): NodeSeq = {
     val page = S.param("page").openOr("1").toInt
     val pagesize = S.param("pagesize").openOr("50").toInt
@@ -133,17 +135,37 @@ class ImageAction extends DispatchSnippet {
   def delete(in: NodeSeq): NodeSeq = {
     val imageId = S.param("id").open_!.toInt
     val image = Image.find(imageId).open_!
-    
+
     def processDelete() = {
-    	ImageToCategory.findAll(By(ImageToCategory.image, image)).map(_.delete_!)
-    	image.delete_!
-    	S.redirectTo("/admin/picture/list")
-    	S.error("Image is deleted!")
+      ImageToCategory.findAll(By(ImageToCategory.image, image)).map(_.delete_!)
+      image.delete_!
+      S.error("Image is deleted!")
+      S.redirectTo("/admin/picture/list")
     }
-    
+
     bind("delete", in,
-    		"submit" -> SHtml.submit(S ? "delete", processDelete),
-    		"image" -> Image.toHTML(image))
+      "submit" -> SHtml.submit(S ? "delete", processDelete),
+      "image" -> Image.toHTML(image))
+  }
+
+  def detail(in: NodeSeq): NodeSeq = {
+
+    val imageId = S.param("id").open_!.toInt
+    val image = Image.find(imageId).open_!
+    val imageData = ImageIO.read(new ByteArrayInputStream(image.blob.is))
+
+    bind("detail", in,
+      "image" -> Image.toHTML(image, 300, 300),
+      "id" -> Text(image.id.is.toString),
+      "name" -> Text(image.name.is),
+      "height" -> Text(imageData.getHeight.toString),
+      "width" -> Text(imageData.getWidth.toString),
+      "uploader" -> Text(image.uploader.getName),
+      "date" -> Text(image.uploadDate.is.toString),
+      "showcategorys" -> Text(""),
+      "selectcategory" -> Text(""),
+      "addcategory" -> Text(""),
+      "deletelink" -> Text(""))
   }
 }
 

@@ -86,7 +86,7 @@ class Boot {
       Menu("admin.picture.delete", S ? "admin.picture.delete") / "admin" / "picture" / "delete"
       >> If(User.isAdmin_?, "You have no Permission to see this page")
       >> Hidden,
-      Menu("admin.picture.group", S ? "admin.picture.group") / "admin" / "picture" / "group"
+      Menu("admin.picture.group", S ? "admin.picture.group") / "admin" / "picture" / "detail"
       >> If(User.isAdmin_?, "You have no Permission to see this page")
       >> Hidden,
       Menu("admin.staticpage.list", S ? "admin.staticpage.list") / "admin" / "staticpage" / "list"
