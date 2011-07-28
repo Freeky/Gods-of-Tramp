@@ -83,10 +83,10 @@ class Boot {
       >> If(User.isAdmin_?, "You have no Permission to see this page"),
       Menu("admin.picture.list", S ? "admin.picture.list") / "admin" / "picture" / "list"
       >> If(User.isAdmin_?, "You have no Permission to see this page"),
-      Menu("admin.picture.delete", S ? "admin.picture.delete") / "admin" / "picture" / "delete"
+      Menu("admin.picture.detail", S ? "admin.picture.detail") / "admin" / "picture" / "detail"
       >> If(User.isAdmin_?, "You have no Permission to see this page")
       >> Hidden,
-      Menu("admin.picture.group", S ? "admin.picture.group") / "admin" / "picture" / "detail"
+      Menu("admin.picture.delete", S ? "admin.picture.delete") / "admin" / "picture" / "delete"
       >> If(User.isAdmin_?, "You have no Permission to see this page")
       >> Hidden,
       Menu("admin.staticpage.list", S ? "admin.staticpage.list") / "admin" / "staticpage" / "list"
@@ -115,6 +115,9 @@ class Boot {
       case RewriteRequest(
         ParsePath(List("admin", "picture", "delete", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "picture" :: "delete" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("admin", "picture", "detail", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "picture" :: "detail" :: Nil, Map("id" -> id))
       case RewriteRequest(
         ParsePath(List("pictures", category), _, _, _), _, _) =>
         RewriteResponse("pictures" :: Nil, Map("category" -> category))

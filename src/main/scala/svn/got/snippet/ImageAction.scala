@@ -109,7 +109,7 @@ class ImageAction extends DispatchSnippet {
         "uploader" -> Text(uploader.open_!.name.is),
         "id" -> Text(i.id.is.toString),
         "link" -> <a href={ "/image/" + i.secure.is.toLowerCase + "/" + i.name.is }>Link</a>,
-        "deletelink" -> <a href={ "/admin/picture/delete/" + i.id.is }>Delete</a>)
+        "detaillink" -> Image.detailLink(i, "Details"))
     })
 
     bind("picture", in,
@@ -165,7 +165,7 @@ class ImageAction extends DispatchSnippet {
       "showcategorys" -> Text(""),
       "selectcategory" -> Text(""),
       "addcategory" -> Text(""),
-      "deletelink" -> Text(""))
+      "deletelink" -> Image.deleteLink(image, "Delete"))
   }
 }
 
