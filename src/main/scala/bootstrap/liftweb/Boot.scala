@@ -24,10 +24,11 @@ class Boot {
     // Database things
     if (!DB.jndiJdbcConnAvailable_?) {
       val vendor =
-        new StandardDBVendor(Props.get("db.driver") openOr "org.h2.Driver",
-          Props.get("db.url") openOr
-          "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-          Props.get("db.user"), Props.get("db.password"))
+        new StandardDBVendor(
+          Props.get("db.driver") openOr "org.h2.Driver",
+          Props.get("db.url") openOr "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
+          Props.get("db.user"), 
+          Props.get("db.password"))
 
       LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
 
@@ -66,7 +67,8 @@ class Boot {
     //Menu("archive", S ? "archive") / "archive", //TODO Archiv für alte News erstellen (schon abgedeckt durch News sektion?)
     Menu("impressum", S ? "impressum") / "impressum"
     >> Hidden,
-    Menu("admin.login", S ? "admin.login") / "admin" / "login" >> Hidden,
+    Menu("user.login", S ? "user.login") / "login" >> Hidden,
+    Menu("user.register", S ? "user.register") / "register" >> Hidden,
     Menu("admin", S ? "admin") / "admin" / "index"
     >> If(User.isAdmin_?, "You have no Permission to see this page")
     submenus (Menu("admin.news.list", S ? "admin.news.list") / "admin" / "news" / "list"

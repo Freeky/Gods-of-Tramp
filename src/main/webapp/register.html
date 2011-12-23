@@ -1,0 +1,26 @@
+<lift:surround with="default" at="content">
+	<h2>Registrieren</h2>
+	<p>
+		<lift:UserAction.register form="POST">
+			<table>
+				<tr>
+					<td>Name</td>
+					<td><form:name /></td>
+				</tr>
+				<tr>
+					<td>E-Mail</td>
+					<td><form:email /></td>
+				</tr>
+				<tr>
+					<td>Passwort</td>
+					<td><form:password /></td>
+				</tr>
+				<tr>
+					<td>Wiederhole Passwort</td>
+					<td><form:retypepassword /></td>
+				</tr>
+			</table>
+			<form:submit />
+		</lift:UserAction.register>
+	</p>
+</lift:surround>

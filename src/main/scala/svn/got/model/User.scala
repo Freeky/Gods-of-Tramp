@@ -10,6 +10,7 @@ class User extends LongKeyedMapper[User] with IdPK {
 	
 	object name extends MappedString(this, 20)
 	object password extends MappedPassword(this)
+	object email extends MappedEmail(this,256)
 	object registrationDate extends MappedDate(this){
 		override def defaultValue = new java.util.Date
 	}
