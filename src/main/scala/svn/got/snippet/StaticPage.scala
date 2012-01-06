@@ -74,5 +74,9 @@ class StaticPage extends DispatchSnippet {
     	StaticPage.create.name("links").content("").save
     	if(StaticPage.find(By(StaticPage.name, "contact")) == Empty)
     	StaticPage.create.name("contact").content("").save
+    	if(StaticPage.find(By(StaticPage.name, "agb")) == Empty)
+    	StaticPage.create.name("agb").content("").save
+    	if(StaticPage.find(By(StaticPage.name, "impressum")) == Empty)
+    	StaticPage.create.name("impressum").content("").save
     }
 }

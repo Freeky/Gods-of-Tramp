@@ -1,11 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/classes" path="src/main/scala"/>
-	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
-	<classpathentry kind="src" output="target/test-classes" path="src/test/scala"/>
-	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
-	<classpathentry kind="output" path="target/classes"/>
+  <classpathentry output="target\scala-2.9.1\classes" path="src\main\scala" kind="src"></classpathentry>
+  <classpathentry output="target\scala-2.9.1\classes" path="src\main\java" kind="src"></classpathentry>
+  <classpathentry output="target\scala-2.9.1\test-classes" path="src\test\scala" kind="src"></classpathentry>
+  <classpathentry output="target\scala-2.9.1\test-classes" path="src\test\java" kind="src"></classpathentry>
+  <classpathentry path="org.scala-ide.sdt.launching.SCALA_CONTAINER" kind="con"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-webkit_2.9.1\jars\lift-webkit_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\commons-fileupload\commons-fileupload\jars\commons-fileupload-1.2.2.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-util_2.9.1\jars\lift-util_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\joda-time\joda-time\jars\joda-time-1.6.2.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\commons-codec\commons-codec\jars\commons-codec-1.4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\nu.validator.htmlparser\htmlparser\jars\htmlparser-1.2.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\javax.mail\mail\jars\mail-1.4.4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\javax.activation\activation\jars\activation-1.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-actor_2.9.1\jars\lift-actor_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-common_2.9.1\jars\lift-common_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\org.slf4j\slf4j-api\jars\slf4j-api-1.6.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-json_2.9.1\jars\lift-json_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\com.thoughtworks.paranamer\paranamer\jars\paranamer-2.3.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\org.scala-lang\scalap\jars\scalap-2.9.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="org.scala-ide.sdt.launching.SCALA_COMPILER_CONTAINER" kind="con"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-mapper_2.9.1\jars\lift-mapper_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-db_2.9.1\jars\lift-db_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-proto_2.9.1\jars\lift-proto_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\com.h2database\h2\jars\h2-1.2.147.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\org.apache.derby\derby\jars\derby-10.7.1.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\net.liftweb\lift-textile_2.9.1\jars\lift-textile_2.9.1-2.4-M4.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\ch.qos.logback\logback-core\jars\logback-core-0.9.26.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\ch.qos.logback\logback-classic\jars\logback-classic-0.9.26.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\mysql\mysql-connector-java\jars\mysql-connector-java-5.1.10.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\javax.servlet\servlet-api\jars\servlet-api-2.5.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\org.mortbay.jetty\jetty\jars\jetty-6.1.26.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\org.mortbay.jetty\jetty-util\jars\jetty-util-6.1.26.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\org.mortbay.jetty\servlet-api\jars\servlet-api-2.5-20081211.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\junit\junit\jars\junit-4.7.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\martin\.ivy2\cache\org.scala-tools.testing\specs_2.9.0\jars\specs_2.9.0-1.6.8.jar" kind="lib"></classpathentry>
+  <classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"></classpathentry>
+  <classpathentry path="bin" kind="output"></classpathentry>
 </classpath>

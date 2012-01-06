@@ -33,7 +33,9 @@
 
       <div class="column span-6 colborder sidebar">
         <hr class="space" />
-        <lift:Menu.builder />	
+        <lift:Menu.builder />
+        <br />
+        <lift:UserAction.panel form="POST">Eingeloggt als: <form:name /> <form:logout /></lift:UserAction.panel>
         <div>
           <hr class="space" />
         </div>
@@ -49,8 +51,8 @@
       <hr />
       
       <div class="column span-23 last" style="text-align: center">
-        <h4 class="alt">All Copyrights 2011 by Freeky and Endi<br />
-        <lift:Menu.item name="impressum">Impressum</lift:Menu.item></h4>
+        <h4 class="alt">All Copyrights 2011-2012 by Freeky and Endi<br />
+        <lift:Menu.item name="impressum">Impressum</lift:Menu.item> <lift:Menu.item name="agb">AGB</lift:Menu.item></h4>
       </div>
     </div>
   </body>

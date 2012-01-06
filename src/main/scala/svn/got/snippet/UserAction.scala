@@ -1,11 +1,9 @@
 package svn.got.snippet
-import net.liftweb.common.Full
-import net.liftweb.common.Logger
-import net.liftweb.common.Failure
+import net.liftweb.common._
 import net.liftweb.mapper._
-import _root_.scala.xml.{ NodeSeq, Text }
-import _root_.net.liftweb.util.Helpers
-import _root_.net.liftweb.http._
+import scala.xml.{ NodeSeq, Text }
+import net.liftweb.util.Helpers
+import net.liftweb.http._
 import net.liftweb.proto.ProtoRules
 import Helpers._
 import svn.got.model._
@@ -16,6 +14,7 @@ class UserAction extends StatefulSnippet with Logger {
   def dispatch = _ match {
     case "login" => login
     case "register" => register
+    case "panel" => panel
   }
 
   def login(in: NodeSeq): NodeSeq = {
@@ -108,5 +107,23 @@ class UserAction extends StatefulSnippet with Logger {
       "password" -> SHtml.password(userPassword, userPassword = _),
       "retypepassword" -> SHtml.password(userRetypePassword, userRetypePassword = _),
       "submit" -> SHtml.submit(S ? "register", processRegister))
+  }
+
+  def panel(in: NodeSeq): NodeSeq = {
+
+    def processLogout() = {
+      curUserIsAdmin(Empty)
+      curUserId(Empty)
+      logginName(Empty)
+      S.redirectTo("/")
+    }
+
+    if (User.loggedIn_?()) {
+      bind("form", in,
+        "name" -> logginName.openOr("Unknown"),
+        "logout" -> SHtml.submit(S ? "logout", processLogout))
+    } else {
+      <lift:Menu.item name="login"/>
+    }
   }
 }

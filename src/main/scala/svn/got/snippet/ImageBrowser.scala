@@ -57,7 +57,7 @@ class ImageBrowser extends DispatchSnippet {
                      }/>
                    </a>)
 
-    for (val imageListId <- 0 to (images.size - 1)) {
+    for (imageListId <- 0 to (images.size - 1)) {
 
       outputNodes.appendAll(bind("image", in,
         "entry" -> (xml => bindImage(xml, images(imageListId)))))

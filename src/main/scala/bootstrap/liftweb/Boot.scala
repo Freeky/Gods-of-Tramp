@@ -65,10 +65,10 @@ class Boot {
     //Menu("events", S ? "events") / "events", //TODO Eventkalender erstellen
     Menu("links", S ? "links") / "links",
     //Menu("archive", S ? "archive") / "archive", //TODO Archiv für alte News erstellen (schon abgedeckt durch News sektion?)
-    Menu("impressum", S ? "impressum") / "impressum"
-    >> Hidden,
-    Menu("user.login", S ? "user.login") / "login" >> Hidden,
-    Menu("user.register", S ? "user.register") / "register" >> Hidden,
+    Menu("impressum", S ? "impressum") / "impressum" >> Hidden,
+    Menu("agb", S ? "agb") / "agb" >> Hidden,
+    Menu("login", S ? "login") / "login" >> Hidden,
+    Menu("register", S ? "register") / "register" >> Hidden,
     Menu("admin", S ? "admin") / "admin" / "index"
     >> If(User.isAdmin_?, "You have no Permission to see this page")
     submenus (Menu("admin.news.list", S ? "admin.news.list") / "admin" / "news" / "list"
@@ -98,7 +98,7 @@ class Boot {
       >> Hidden))
 
   def addRewritesToLiftRules() =
-    LiftRules.rewrite.append {
+    LiftRules.statelessRewrite.append {
       case RewriteRequest(
         ParsePath(List("news", id), _, _, _), _, _) =>
         RewriteResponse("news" :: Nil, Map("id" -> id))

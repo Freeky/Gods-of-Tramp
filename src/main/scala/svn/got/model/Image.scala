@@ -26,7 +26,7 @@ class Image extends LongKeyedMapper[Image] with IdPK {
   object uploader extends MappedLongForeignKey(this, User) {	def getName: String = {      val user = User.find(this.is);      if (user.isDefined) {        user.open_!.name.is      } else {        "noname"      }    }  }
 }
 
-object Image extends Image with LongKeyedMetaMapper[Image] {	def toHTML(img: Image, width: Integer, height: Integer): Node =		<img src={String.format("/image/%s/%s?width=%d&height=%d", img.secure.is, img.name.is, width, height)}>{img.name.is}</img>		
+object Image extends Image with LongKeyedMetaMapper[Image] {	def toHTML(img: Image, width: Int, height: Int): Node =		<img src={ "/image/%s/%s?width=%d&height=%d".format(img.secure.is, img.name.is, width, height)}>{img.name.is}</img>		
 	def toHTML(img: Image): Node = 
 		<img src={"/image/" + img.secure.is + "/" + img.name.is}>{img.name.is}</img>;		def detailLink(img: Image, text: String): Node =		<a href={ "/admin/picture/detail/" + img.id.is }>{text}</a>;			def deleteLink(img: Image, text: String): Node =		<a href={ "/admin/picture/delete/" + img.id.is }>{text}</a>;		
 }

@@ -1,0 +1,7 @@
+# Properties in this file will be read when running in dev mode
+# runmode.pcname.props -> test.default.props = default
+# production.default.props
+db.driver=com.mysql.jdbc.Driver
+db.url=jdbc:mysql://localhost/dbname
+db.user=dbuser
+db.password=dbpass
