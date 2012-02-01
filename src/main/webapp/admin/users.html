@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+<title>Near Infinity</title>
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<h2>Advanced: User Administration</h2>
+		<div>
+			<lift:UserAdministration.edituser form="POST">
+				<table>
+					<tr>
+						<td>Name:</td>
+						<td><user:name /></td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><user:password /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><user:passwordretype /></td>
+					</tr>
+					<tr>
+						<td>Email:</td>
+						<td><user:email /></td>
+					</tr>
+					<tr>
+						<td>Registration date:</td>
+						<td><user:registrationdate /></td>
+					</tr>
+					<tr>
+						<td>Account type:</td>
+						<td><user:accounttype /></td>
+					</tr>
+					<tr>
+						<td>Erhält Newsletter:</td>
+						<td><user:newsletter /></td>
+					</tr>
+				</table>
+				<user:submit />
+			</lift:UserAdministration.edituser>
+		</div>
+		<div>
+			<lift:UserAdministration.overview>
+				<overview:entrycount />
+				<overview:prevpage />
+				<span id="current_page"><overview:page /> </span>
+				<overview:nextpage />
+				<table>
+					<thead>
+						<tr>
+							<td>id</td>
+							<td>name</td>
+							<td>Type</td>
+							<td>edit link</td>
+						</tr>
+					</thead>
+					<tbody id="user_table">
+						<overview:table>
+							<overview:entry>
+								<tr>
+									<td><entry:id />
+									</td>
+									<td><entry:name />
+									</td>
+									<td><entry:type />
+									</td>
+									<td><entry:editlink>edit</entry:editlink>
+									</td>
+								</tr>
+							</overview:entry>
+						</overview:table>
+					</tbody>
+				</table>
+			</lift:UserAdministration.overview>
+		</div>
+	</div>
+</body>
+</html>

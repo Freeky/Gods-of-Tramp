@@ -20,6 +20,9 @@ class User extends LongKeyedMapper[User] with IdPK {
 	object isEnabled extends MappedBoolean(this){
 		override def defaultValue = true
 	}
+	object wantsNewsletter extends MappedBoolean(this){
+	  override def defaultValue = true
+	}
 }
 
 object User extends User with LongKeyedMetaMapper[User] {

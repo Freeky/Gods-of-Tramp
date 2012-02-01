@@ -4,7 +4,7 @@
 		<lift:UserAction.register form="POST">
 			<table>
 				<tr>
-					<td>Name</td>
+					<td>Benutzername</td>
 					<td><form:name /></td>
 				</tr>
 				<tr>
@@ -18,6 +18,14 @@
 				<tr>
 					<td>Wiederhole Passwort</td>
 					<td><form:retypepassword /></td>
+				</tr>
+				<tr>
+					<td>Ja, ich will Newsletter erhalten</td>
+					<td><form:newsletter /></td>
+				</tr>
+				<tr>
+					<td>Ich akzeptiere die <lift:Menu.item name="agb" /></td>
+					<td><form:agb /></td>
 				</tr>
 			</table>
 			<form:submit />

@@ -27,7 +27,7 @@ class Boot {
         new StandardDBVendor(
           Props.get("db.driver") openOr "org.h2.Driver",
           Props.get("db.url") openOr "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
-          Props.get("db.user"), 
+          Props.get("db.user"),
           Props.get("db.password"))
 
       LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
@@ -37,7 +37,7 @@ class Boot {
     //DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
     Schemifier.schemify(true, Schemifier.infoF _, News, User, Image, StaticPage, ImageCategory, ImageToCategory)
     S.addAround(DB.buildLoanWrapper)
-    
+
     // where to search snippet
     LiftRules.addToPackages("svn.got")
     LiftRules.resourceNames = "i18n/got" :: LiftRules.resourceNames
@@ -65,37 +65,44 @@ class Boot {
     //Menu("events", S ? "events") / "events", //TODO Eventkalender erstellen
     Menu("links", S ? "links") / "links",
     //Menu("archive", S ? "archive") / "archive", //TODO Archiv für alte News erstellen (schon abgedeckt durch News sektion?)
+    Menu("options", S ? "options") / "options" >> If(() => User.loggedIn_?(), S ? "no.permission") >> Hidden,
     Menu("impressum", S ? "impressum") / "impressum" >> Hidden,
     Menu("agb", S ? "agb") / "agb" >> Hidden,
     Menu("login", S ? "login") / "login" >> Hidden,
     Menu("register", S ? "register") / "register" >> Hidden,
+    Menu("changemail", S ? "change.mail") / "options" / "changemail" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
+    Menu("changepassword", S ? "change.password") / "options" / "changepassword" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
+    Menu("changenewsletter", S ? "change.newsletter") / "options" / "changenewsletter" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
+    Menu("deleteaccount", S ? "delete.account") / "options" / "deleteaccount" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("admin", S ? "admin") / "admin" / "index"
-    >> If(User.isAdmin_?, "You have no Permission to see this page")
-    submenus (Menu("admin.news.list", S ? "admin.news.list") / "admin" / "news" / "list"
-      >> If(User.isAdmin_?, "You have no Permission to see this page"),
-      Menu("admin.news.new", S ? "admin.news.new") / "admin" / "news" / "new"
-      >> If(User.isAdmin_?, "You have no Permission to see this page"),
-      Menu("admin.news.edit", S ? "admin.news.edit") / "admin" / "news" / "edit"
-      >> If(User.isAdmin_?, "You have no Permission to see this page")
-      >> Hidden,
-      Menu("admin.news.delete", S ? "admin.news.delete") / "admin" / "news" / "delete"
-      >> If(User.isAdmin_?, "You have no Permission to see this page")
-      >> Hidden,
-      Menu("admin.picture.add", S ? "admin.picture.add") / "admin" / "picture" / "add"
-      >> If(User.isAdmin_?, "You have no Permission to see this page"),
-      Menu("admin.picture.list", S ? "admin.picture.list") / "admin" / "picture" / "list"
-      >> If(User.isAdmin_?, "You have no Permission to see this page"),
-      Menu("admin.picture.detail", S ? "admin.picture.detail") / "admin" / "picture" / "detail"
-      >> If(User.isAdmin_?, "You have no Permission to see this page")
-      >> Hidden,
-      Menu("admin.picture.delete", S ? "admin.picture.delete") / "admin" / "picture" / "delete"
-      >> If(User.isAdmin_?, "You have no Permission to see this page")
-      >> Hidden,
-      Menu("admin.staticpage.list", S ? "admin.staticpage.list") / "admin" / "staticpage" / "list"
-      >> If(User.isAdmin_?, "You have no Permission to see this page"),
-      Menu("admin.staticpage.edit", S ? "admin.staticpage.edit") / "admin" / "staticpage" / "edit"
-      >> If(User.isAdmin_?, "You have no Permission to see this page")
-      >> Hidden))
+      >> If(User.isAdmin_?, "no.permission")
+      submenus (Menu("admin.news.list", S ? "admin.news.list") / "admin" / "news" / "list"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.news.new", S ? "admin.news.new") / "admin" / "news" / "new"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.news.edit", S ? "admin.news.edit") / "admin" / "news" / "edit"
+        >> If(User.isAdmin_?, "no.permission")
+        >> Hidden,
+        Menu("admin.news.delete", S ? "admin.news.delete") / "admin" / "news" / "delete"
+        >> If(User.isAdmin_?, "no.permission")
+        >> Hidden,
+        Menu("admin.picture.add", S ? "admin.picture.add") / "admin" / "picture" / "add"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.picture.list", S ? "admin.picture.list") / "admin" / "picture" / "list"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.picture.detail", S ? "admin.picture.detail") / "admin" / "picture" / "detail"
+        >> If(User.isAdmin_?, "no.permission")
+        >> Hidden,
+        Menu("admin.picture.delete", S ? "admin.picture.delete") / "admin" / "picture" / "delete"
+        >> If(User.isAdmin_?, "no.permission")
+        >> Hidden,
+        Menu("admin.staticpage.list", S ? "admin.staticpage.list") / "admin" / "staticpage" / "list"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.staticpage.edit", S ? "admin.staticpage.edit") / "admin" / "staticpage" / "edit"
+        >> If(User.isAdmin_?, "no.permission")
+        >> Hidden,
+        Menu("admin.users", S ? "admin.users") / "admin" / "users"
+        >> If(User.isAdmin_?, "no.permission")))
 
   def addRewritesToLiftRules() =
     LiftRules.statelessRewrite.append {
@@ -123,6 +130,9 @@ class Boot {
       case RewriteRequest(
         ParsePath(List("pictures", category), _, _, _), _, _) =>
         RewriteResponse("pictures" :: Nil, Map("category" -> category))
+      case RewriteRequest(
+        ParsePath(List("admin", "users", userId), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "users" :: Nil, Map("id" -> userId))
     }
 }
 
