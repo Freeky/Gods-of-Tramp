@@ -56,16 +56,16 @@ class Boot {
   }
 
   def sitemap() = SiteMap(
-    Menu("home", S ? "home") / "index",
-    Menu("news", S ? "news") / "news",
+    Menu("home", S ? "home") / "index" >> LocGroup("main"),
+    Menu("news", S ? "news") / "news" >> LocGroup("main"),
     Menu("pictures", S ? "pictures") / "pictures",
     //Menu("movies", S ? "movies") / "movies", //TODO Movie/Videosektion erstellen
-    Menu("about us", S ? "about.us") / "aboutus",
-    Menu("contact", S ? "contact") / "contact",
+    Menu("about us", S ? "about.us") / "aboutus" >> LocGroup("main"),
+    Menu("contact", S ? "contact") / "contact" >> LocGroup("main"),
     //Menu("events", S ? "events") / "events", //TODO Eventkalender erstellen
-    Menu("links", S ? "links") / "links",
+    Menu("links", S ? "links") / "links" >> LocGroup("main"),
     //Menu("archive", S ? "archive") / "archive", //TODO Archiv für alte News erstellen (schon abgedeckt durch News sektion?)
-    Menu("options", S ? "options") / "options" >> If(() => User.loggedIn_?(), S ? "no.permission") >> Hidden,
+    Menu("options", S ? "options") / "options" >> If(() => User.loggedIn_?(), S ? "no.permission") >> LocGroup("main") >> Hidden,
     Menu("impressum", S ? "impressum") / "impressum" >> Hidden,
     Menu("agb", S ? "agb") / "agb" >> Hidden,
     Menu("login", S ? "login") / "login" >> Hidden,
@@ -75,6 +75,7 @@ class Boot {
     Menu("changenewsletter", S ? "change.newsletter") / "options" / "changenewsletter" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("deleteaccount", S ? "delete.account") / "options" / "deleteaccount" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("admin", S ? "admin") / "admin" / "index"
+      >> LocGroup("main")
       >> If(User.isAdmin_?, "no.permission")
       submenus (Menu("admin.news.list", S ? "admin.news.list") / "admin" / "news" / "list"
         >> If(User.isAdmin_?, "no.permission"),
