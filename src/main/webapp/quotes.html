@@ -1,13 +1,13 @@
 <lift:surround with="default" at="content">
 	<head>
 <title>Gods of Tramp | Trendsportschule | Trampolin | Slackline
-	| München | News</title>
+	| München | Angebote</title>
 	</head>
-	<h2>News</h2>
+	<h2>Angebote</h2>
 	<p>
-		<lift:NewsAction.show>
+		<lift:QuoteAction.show>
 			<table>
-				<news:entries>
+				<quote:entries>
 					<tr>
 						<td>Titel: <b><entry:title /></b></td>
 					</tr>
@@ -22,10 +22,10 @@
 							<hr />
 						</td>
 					</tr>
-				</news:entries>
+				</quote:entries>
 			</table>
-			<news:previsious />
-			<news:next />
-		</lift:NewsAction.show>
+			<quote:previsious />
+			<quote:next />
+		</lift:QuoteAction.show>
 	</p>
 </lift:surround>

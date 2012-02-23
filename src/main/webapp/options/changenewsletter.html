@@ -5,11 +5,16 @@
 </head>
 <body class="lift:content_id=main">
 	<div id="main" class="lift:surround?with=default;at=content">
+		<head>
+<title>Gods of Tramp | Trendsportschule | Trampolin | Slackline
+	| München | Newsletter abonieren</title>
+		</head>
 		<h2>Newsletter ändern</h2>
-			<lift:UserAction.changenewsletter form="POST">
-				Ja, ich will Newsletter erhalten: <changenewsletter:newsletter /> <br />
-				<changenewsletter:submit />
-			</lift:UserAction.changenewsletter>
+		<lift:UserAction.changenewsletter form="POST">
+				Ja, ich will Newsletter erhalten: <changenewsletter:newsletter />
+			<br />
+			<changenewsletter:submit />
+		</lift:UserAction.changenewsletter>
 	</div>
 </body>
 </html>

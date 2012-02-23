@@ -1,11 +1,14 @@
 <lift:surround with="default" at="content">
-  <h2>Bearbeite News...</h2>
-  <p>
-    <lift:NewsAction.edit form="POST">
-    Titel: <news:title /><br />
+	<h2>Bearbeite News...</h2>
+	<p>
+		<lift:NewsAction.edit form="POST">
+    Titel: <news:title />
+			<br />
     Text:<br />
-    <news:text /><br />
-    Autor: <news:author /><news:submit />
-    </lift:NewsAction.edit>
-  </p>
+			<news:text />
+			<br />
+    Autor: <news:author />
+			<news:submit />
+		</lift:NewsAction.edit>
+	</p>
 </lift:surround>

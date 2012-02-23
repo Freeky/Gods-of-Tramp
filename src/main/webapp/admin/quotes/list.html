@@ -1,7 +1,7 @@
 <lift:surround with="default" at="content">
 	<h2>Listing News...</h2>
 	<p>
-		<lift:NewsAction.list>
+		<lift:QuoteAction.list>
 			<table>
 				<tr>
 					<td>ID</td>
@@ -11,7 +11,7 @@
 					<td>Edit</td>
 					<td>Delete</td>
 				</tr>
-				<news:entries>
+				<quote:entries>
 					<tr>
 						<td><entry:id /></td>
 						<td><entry:title /></td>
@@ -20,10 +20,10 @@
 						<td><entry:editlink /></td>
 						<td><entry:deletelink /></td>
 					</tr>
-				</news:entries>
+				</quote:entries>
 			</table>
-			<news:previsious />
-			<news:next />
-		</lift:NewsAction.list>
+			<quote:previsious />
+			<quote:next />
+		</lift:QuoteAction.list>
 	</p>
 </lift:surround>

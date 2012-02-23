@@ -1,0 +1,14 @@
+<lift:surround with="default" at="content">
+	<h2>Bearbeite News...</h2>
+	<p>
+		<lift:QuoteAction.edit form="POST">
+    Titel: <quote:title />
+			<br />
+    Text:<br />
+			<quote:text />
+			<br />
+    Autor: <quote:author />
+			<quote:submit />
+		</lift:QuoteAction.edit>
+	</p>
+</lift:surround>

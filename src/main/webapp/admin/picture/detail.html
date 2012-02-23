@@ -1,24 +1,35 @@
 <lift:surround with="default" at="content">
-  <h2>Details for picture</h2>
-  <p>
-    <lift:ImageAction.detail form="POST">
-      <detail:image /> <br />
-      ID: <detail:id /> <br />
-      Name: <detail:name /> <br />
-      Height: <detail:height /> <br />
-      Width: <detail:width /> <br />
-      Uploader: <detail:uploader /> <br />
-      Date: <detail:date /> <br />
+	<h2>Details for picture</h2>
+	<p>
+		<lift:ImageAction.detail form="POST">
+			<detail:image />
+			<br />
+      ID: <detail:id />
+			<br />
+      Name: <detail:name />
+			<br />
+      Height: <detail:height />
+			<br />
+      Width: <detail:width />
+			<br />
+      Uploader: <detail:uploader />
+			<br />
+      Date: <detail:date />
+			<br />
       
       Is in Categorys: <br />
-      <detail:showcategorys>
-      	<category:delete /><category:name /> <br />
-      </detail:showcategorys>
+			<detail:showcategorys>
+				<category:delete />
+				<category:name />
+				<br />
+			</detail:showcategorys>
       
       Add Category:
-     	<detail:selectcategory /><detail:addcategory /><br />
-     	
-     	<detail:deletelink>Delete Image</detail:deletelink>
-    </lift:ImageAction.detail>
-  </p>
+     	<detail:selectcategory />
+			<detail:addcategory />
+			<br />
+
+			<detail:deletelink>Delete Image</detail:deletelink>
+		</lift:ImageAction.detail>
+	</p>
 </lift:surround>

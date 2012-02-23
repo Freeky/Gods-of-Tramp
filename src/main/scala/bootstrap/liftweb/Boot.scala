@@ -35,7 +35,7 @@ class Boot {
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
     }
     //DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
-    Schemifier.schemify(true, Schemifier.infoF _, News, User, Image, StaticPage, ImageCategory, ImageToCategory)
+    Schemifier.schemify(true, Schemifier.infoF _, Quotes, News, User, Image, StaticPage, ImageCategory, ImageToCategory)
     S.addAround(DB.buildLoanWrapper)
 
     // where to search snippet
@@ -60,6 +60,7 @@ class Boot {
     Menu("news", S ? "news") / "news" >> LocGroup("main"),
     Menu("pictures", S ? "pictures") / "pictures",
     //Menu("movies", S ? "movies") / "movies", //TODO Movie/Videosektion erstellen
+    Menu("quotes", S ? "quotes") / "quotes" >> LocGroup("main"),
     Menu("about us", S ? "about.us") / "aboutus" >> LocGroup("main"),
     Menu("contact", S ? "contact") / "contact" >> LocGroup("main"),
     //Menu("events", S ? "events") / "events", //TODO Eventkalender erstellen
@@ -85,6 +86,16 @@ class Boot {
         >> If(User.isAdmin_?, "no.permission")
         >> Hidden,
         Menu("admin.news.delete", S ? "admin.news.delete") / "admin" / "news" / "delete"
+        >> If(User.isAdmin_?, "no.permission")
+        >> Hidden,
+        Menu("admin.quotes.list", S ? "admin.quotes.list") / "admin" / "quotes" / "list"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.quotes.new", S ? "admin.quotes.new") / "admin" / "quotes" / "new"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.quotes.edit", S ? "admin.quotes.edit") / "admin" / "quotes" / "edit"
+        >> If(User.isAdmin_?, "no.permission")
+        >> Hidden,
+        Menu("admin.quotes.delete", S ? "admin.quotes.delete") / "admin" / "quotes" / "delete"
         >> If(User.isAdmin_?, "no.permission")
         >> Hidden,
         Menu("admin.picture.add", S ? "admin.picture.add") / "admin" / "picture" / "add"
@@ -113,6 +124,12 @@ class Boot {
       case RewriteRequest(
         ParsePath(List("news", "page", page), _, _, _), _, _) =>
         RewriteResponse("news" :: Nil, Map("page" -> page))
+      case RewriteRequest(
+        ParsePath(List("admin", "quotes", "edit", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "quotes" :: "edit" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("admin", "quotes", "delete", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "quotes" :: "delete" :: Nil, Map("id" -> id))
       case RewriteRequest(
         ParsePath(List("admin", "news", "edit", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "news" :: "edit" :: Nil, Map("id" -> id))

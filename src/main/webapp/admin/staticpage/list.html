@@ -1,23 +1,23 @@
 <lift:surround with="default" at="content">
-  <h2>Listing News...</h2>
-  <p>
-    <table>
-      <tr>
-        <td>ID</td>
-        <td>Name</td>
-        <td>Edit</td>
-      </tr>
-      <lift:StaticPage.list>
-      <tr>
-        <td><page:id /></td>
-        <td><page:name /></td>
-        <td><page:editlink /></td>
-      </tr>
-      </lift:StaticPage.list>
-    </table>
-    <br />
-    <lift:StaticPage.generate form="POST">
-      <form:submit />
-    </lift:StaticPage.generate>
-  </p>
+	<h2>Listing News...</h2>
+	<p>
+	<table>
+		<tr>
+			<td>ID</td>
+			<td>Name</td>
+			<td>Edit</td>
+		</tr>
+		<lift:StaticPage.list>
+			<tr>
+				<td><page:id /></td>
+				<td><page:name /></td>
+				<td><page:editlink /></td>
+			</tr>
+		</lift:StaticPage.list>
+	</table>
+	<br />
+	<lift:StaticPage.generate form="POST">
+		<form:submit />
+	</lift:StaticPage.generate>
+	</p>
 </lift:surround>

@@ -1,9 +1,10 @@
 <lift:surround with="default" at="content">
-  <h2>Folgendes Bild wirklich löschen?</h2>
-  <p>
-    <lift:ImageAction.delete form="POST">
-      <delete:submit /> <br />
-      <delete:image />
-    </lift:ImageAction.delete>
-  </p>
+	<h2>Folgendes Bild wirklich löschen?</h2>
+	<p>
+		<lift:ImageAction.delete form="POST">
+			<delete:submit />
+			<br />
+			<delete:image />
+		</lift:ImageAction.delete>
+	</p>
 </lift:surround>

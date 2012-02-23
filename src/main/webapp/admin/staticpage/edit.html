@@ -1,13 +1,16 @@
 <lift:surround with="default" at="content">
-  <h2>Bearbeite Statische Seite...</h2>
-  <p>
-    <lift:StaticPage.edit form="POST">
-    Seite: <page:name /><br />
+	<h2>Bearbeite Statische Seite...</h2>
+	<p>
+		<lift:StaticPage.edit form="POST">
+    Seite: <page:name />
+			<br />
     Inhalt:<br />
-    <page:editcontent /><br />
-    <page:submit /><br />
-    <hr />
-    <page:showcontent />
-    </lift:StaticPage.edit>
-  </p>
+			<page:editcontent />
+			<br />
+			<page:submit />
+			<br />
+			<hr />
+			<page:showcontent />
+		</lift:StaticPage.edit>
+	</p>
 </lift:surround>
