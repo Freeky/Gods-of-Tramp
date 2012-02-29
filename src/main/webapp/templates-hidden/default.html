@@ -41,32 +41,35 @@
 				return;
 			js = d.createElement(s);
 			js.id = id;
-			js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1";
+			js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
 			fjs.parentNode.insertBefore(js, fjs);
 		}(document, 'script', 'facebook-jssdk'));
 	</script>
 	<div class="container">
-		<div id="header" class="column span-24 span-down-4 last">
-			<div id="header-content">
-				<lift:Menu.item linkToSelf="true" name="home">
-					<img src="/static/logo.png">Gods of Tramp</img>
-				</lift:Menu.item>
+		<div id="header" class="column span-23 last">
+			<div id="header-content span-23">
+				<div style="float: left;">
+					<lift:Menu.item linkToSelf="true" name="home">
+						<img src="/static/logo.png">Gods of Tramp</img>
+					</lift:Menu.item>
+				</div>
+				<div class="push-down-2 header-content" style="float: right; margin-top: 50px">
+					<lift:UserAction.panel style="float: right;" form="POST">Eingeloggt als: <form:name />
+						<form:logout />
+						<form:options />
+					</lift:UserAction.panel>
+				</div>
 			</div>
 		</div>
 
 		<div class="column span-5 sidebar toparea">
 			<lift:Menu.builder linkToSelf="true"></lift:Menu.builder>
 			<br />
-			<lift:UserAction.panel form="POST">Eingeloggt als: <form:name />
-				<form:logout />
-				<br />
-				<form:options />
-			</lift:UserAction.panel>
-			<br />
-			<div class="fb-like-box"
+			<div class="fb-like"
 				data-href="https://www.facebook.com/pages/Gods-of-Tramp/222893047806890"
-				data-width="190" data-height="300" data-colorscheme="dark"
-				data-show-faces="true" data-stream="false" data-header="true"></div>
+				data-send="true" data-layout="button_count" data-width="190"
+				data-show-faces="true" data-colorscheme="dark" data-font="tahoma">
+			</div>
 			<br />
 			<div id="copyright-container" class="span-down-2">
 				<div id="copyright">

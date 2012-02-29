@@ -26,6 +26,10 @@ class Quotes extends LongKeyedMapper[Quotes] with IdPK {
       }
     }
   }
+  
+  object order extends MappedInt(this) {
+    override def defaultValue = 9999
+  }
 }
 
 object Quotes extends Quotes with LongKeyedMetaMapper[Quotes]

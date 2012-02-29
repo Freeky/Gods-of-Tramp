@@ -43,7 +43,7 @@ class QuoteAction extends DispatchSnippet {
       } else {
         for {
           foundQuote <- Quotes.findAll(
-            OrderBy(Quotes.id, Descending),
+            OrderBy(Quotes.order, Ascending),
             StartAt((page - 1) * pagesize),
             MaxRows(pagesize))
         } yield foundQuote
@@ -102,6 +102,7 @@ class QuoteAction extends DispatchSnippet {
       "date" -> Text(timestamp.format(n.createDate.is)),
       "author" -> Text(n.author.getName),
       "id" -> Text(n.id.is.toString),
+      "order" -> Text(n.order.is.toString),
       "editlink" -> <a href={ "/admin/quotes/edit/" + n.id.is }>Edit</a>,
       "deletelink" -> <a href={ "/admin/quotes/delete/" + n.id.is }>Delete</a>))
 
@@ -148,6 +149,7 @@ class QuoteAction extends DispatchSnippet {
     bind("quote", in,
       "title" -> SHtml.text(quote.title.toString, quote.title(_)),
       "text" -> SHtml.textarea(quote.text.toString, quote.text(_)),
+      "order" -> SHtml.text(quote.order.toString, x => quote.order(x.toInt)),
       "author" -> Text(quote.author.getName),
       "submit" -> SHtml.submit(S ? "add", addQuoteToDatabase))
   }
@@ -204,6 +206,7 @@ class QuoteAction extends DispatchSnippet {
     bind("quote", in,
       "title" -> SHtml.text(quote.title.toString, quote.title(_)),
       "text" -> SHtml.textarea(quote.text.toString, quote.text(_)),
+      "order" -> SHtml.text(quote.order.toString, x => quote.order(x.toInt)),
       "author" -> Text(quote.author.getName),
       "submit" -> SHtml.submit(S ? "edit", updateQuoteInDatabase))	  
   }
