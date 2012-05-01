@@ -11,8 +11,9 @@ import _root_.net.liftweb.sitemap._
 import _root_.net.liftweb.sitemap.Loc._
 import Helpers._
 
-import svn.got.model._
-import svn.got.snippet._
+import de.got.model._
+import de.got.snippet._
+import de.got.lib._
 
 /**
  * A class that's instantiated early and run.  It allows the application
@@ -28,22 +29,23 @@ class Boot {
           Props.get("db.driver") openOr "org.h2.Driver",
           Props.get("db.url") openOr "jdbc:h2:lift_proto.db;AUTO_SERVER=TRUE",
           Props.get("db.user"),
-          Props.get("db.password")) 
+          Props.get("db.password"))
 
       LiftRules.unloadHooks.append(vendor.closeAllConnections_! _)
 
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
     }
     //DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
-    Schemifier.schemify(true, Schemifier.infoF _, Quotes, News, User, Image, StaticPage, ImageCategory, ImageToCategory)
+    Schemifier.schemify(true, Schemifier.infoF _, Event, Offer, Date, DateRegistration, News, User, Image, StaticPage, ImageCategory, ImageToCategory, AccountType)
     S.addAround(DB.buildLoanWrapper)
 
     // where to search snippet
-    LiftRules.addToPackages("svn.got")
+    LiftRules.addToPackages("de.got")
     LiftRules.resourceNames = "i18n/got" :: LiftRules.resourceNames
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
 
     LiftRules.setSiteMapFunc(sitemap)
+
     addRewritesToLiftRules
 
     LiftRules.loggedInTest = Full(() => User.loggedIn_?)
@@ -59,13 +61,11 @@ class Boot {
     Menu("home", S ? "home") / "index" >> LocGroup("main"),
     Menu("news", S ? "news") / "news" >> LocGroup("main"),
     Menu("pictures", S ? "pictures") / "pictures",
-    //Menu("movies", S ? "movies") / "movies", //TODO Movie/Videosektion erstellen
-    Menu("quotes", S ? "quotes") / "quotes" >> LocGroup("main"),
+    Menu(new EventLoc("events", List("events"), S ? "events", LocGroup("main") :: PlaceHolder :: Nil)),
+    Menu(new OfferLoc("offers", List("offers"), S ? "offers", LocGroup("main") :: PlaceHolder :: Nil)),
     Menu("about us", S ? "about.us") / "aboutus" >> LocGroup("main"),
     Menu("contact", S ? "contact") / "contact" >> LocGroup("main"),
-    //Menu("events", S ? "events") / "events", //TODO Eventkalender erstellen
     Menu("links", S ? "links") / "links" >> LocGroup("main"),
-    //Menu("archive", S ? "archive") / "archive", //TODO Archiv für alte News erstellen (schon abgedeckt durch News sektion?)
     Menu("options", S ? "options") / "options" >> If(() => User.loggedIn_?(), S ? "no.permission") >> LocGroup("main") >> Hidden,
     Menu("impressum", S ? "impressum") / "impressum" >> Hidden,
     Menu("agb", S ? "agb") / "agb" >> Hidden,
@@ -77,44 +77,59 @@ class Boot {
     Menu("deleteaccount", S ? "delete.account") / "options" / "deleteaccount" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("admin", S ? "admin") / "admin" / "index"
       >> LocGroup("main")
-      >> If(User.isAdmin_?, "no.permission")
+      >> If(User.isAdmin_?, S ? "no.permission")
       submenus (Menu("admin.news.list", S ? "admin.news.list") / "admin" / "news" / "list"
-        >> If(User.isAdmin_?, "no.permission"),
+        >> If(User.isAdmin_?, S ? "no.permission"),
         Menu("admin.news.new", S ? "admin.news.new") / "admin" / "news" / "new"
-        >> If(User.isAdmin_?, "no.permission"),
+        >> If(User.isAdmin_?, S ? "no.permission"),
         Menu("admin.news.edit", S ? "admin.news.edit") / "admin" / "news" / "edit"
-        >> If(User.isAdmin_?, "no.permission")
+        >> If(User.isAdmin_?, S ? "no.permission")
         >> Hidden,
         Menu("admin.news.delete", S ? "admin.news.delete") / "admin" / "news" / "delete"
-        >> If(User.isAdmin_?, "no.permission")
+        >> If(User.isAdmin_?, S ? "no.permission")
         >> Hidden,
-        Menu("admin.quotes.list", S ? "admin.quotes.list") / "admin" / "quotes" / "list"
-        >> If(User.isAdmin_?, "no.permission"),
-        Menu("admin.quotes.new", S ? "admin.quotes.new") / "admin" / "quotes" / "new"
-        >> If(User.isAdmin_?, "no.permission"),
-        Menu("admin.quotes.edit", S ? "admin.quotes.edit") / "admin" / "quotes" / "edit"
-        >> If(User.isAdmin_?, "no.permission")
+        Menu("admin.offers.list", S ? "admin.offers.list") / "admin" / "offers" / "list"
+        >> If(User.isAdmin_?, S ? "no.permission"),
+        Menu("admin.offers.new", S ? "admin.offers.new") / "admin" / "offers" / "new"
+        >> If(User.isAdmin_?, S ? "no.permission"),
+        Menu("admin.offers.edit", S ? "admin.offers.edit") / "admin" / "offers" / "edit"
+        >> If(User.isAdmin_?, S ? "no.permission")
         >> Hidden,
-        Menu("admin.quotes.delete", S ? "admin.quotes.delete") / "admin" / "quotes" / "delete"
-        >> If(User.isAdmin_?, "no.permission")
+        Menu("admin.offers.delete", S ? "admin.offers.delete") / "admin" / "offers" / "delete"
+        >> If(User.isAdmin_?, S ? "no.permission")
+        >> Hidden,
+        Menu("admin.events.list", S ? "admin.events.list") / "admin" / "events" / "list"
+        >> If(User.isAdmin_?, S ? "no.permission"),
+        Menu("admin.events.new", S ? "admin.events.new") / "admin" / "events" / "new"
+        >> If(User.isAdmin_?, S ? "no.permission"),
+        Menu("admin.events.edit", S ? "admin.events.edit") / "admin" / "events" / "edit"
+        >> If(User.isAdmin_?, S ? "no.permission")
+        >> Hidden,
+        Menu("admin.events.delete", S ? "admin.events.delete") / "admin" / "events" / "delete"
+        >> If(User.isAdmin_?, S ? "no.permission")
         >> Hidden,
         Menu("admin.picture.add", S ? "admin.picture.add") / "admin" / "picture" / "add"
-        >> If(User.isAdmin_?, "no.permission"),
+        >> If(User.isAdmin_?, S ? "no.permission"),
         Menu("admin.picture.list", S ? "admin.picture.list") / "admin" / "picture" / "list"
+        >> If(User.isAdmin_?, "no.permission"),
+        Menu("admin.picture.categories", S ? "admin.picture.categories") / "admin" / "picture" / "categories"
         >> If(User.isAdmin_?, "no.permission"),
         Menu("admin.picture.detail", S ? "admin.picture.detail") / "admin" / "picture" / "detail"
         >> If(User.isAdmin_?, "no.permission")
         >> Hidden,
         Menu("admin.picture.delete", S ? "admin.picture.delete") / "admin" / "picture" / "delete"
-        >> If(User.isAdmin_?, "no.permission")
+        >> If(User.isAdmin_?, S ? "no.permission")
         >> Hidden,
         Menu("admin.staticpage.list", S ? "admin.staticpage.list") / "admin" / "staticpage" / "list"
-        >> If(User.isAdmin_?, "no.permission"),
+        >> If(User.isAdmin_?, S ? "no.permission"),
         Menu("admin.staticpage.edit", S ? "admin.staticpage.edit") / "admin" / "staticpage" / "edit"
-        >> If(User.isAdmin_?, "no.permission")
+        >> If(User.isAdmin_?, S ? "no.permission")
         >> Hidden,
         Menu("admin.users", S ? "admin.users") / "admin" / "users"
-        >> If(User.isAdmin_?, "no.permission")))
+        >> If(User.isAdmin_?, S ? "no.permission")),
+    Menu("") / "css" / ** >> Hidden,
+    Menu("") / "images" / ** >> Hidden,
+    Menu("") / "js" / ** >> Hidden)
 
   def addRewritesToLiftRules() =
     LiftRules.statelessRewrite.append {
@@ -122,14 +137,26 @@ class Boot {
         ParsePath(List("news", id), _, _, _), _, _) =>
         RewriteResponse("news" :: Nil, Map("id" -> id))
       case RewriteRequest(
+        ParsePath(List("events", id), _, _, _), _, _) =>
+        RewriteResponse("events" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("offers", id), _, _, _), _, _) =>
+        RewriteResponse("offers" :: Nil, Map("id" -> id))
+      case RewriteRequest(
         ParsePath(List("news", "page", page), _, _, _), _, _) =>
         RewriteResponse("news" :: Nil, Map("page" -> page))
       case RewriteRequest(
-        ParsePath(List("admin", "quotes", "edit", id), _, _, _), _, _) =>
-        RewriteResponse("admin" :: "quotes" :: "edit" :: Nil, Map("id" -> id))
+        ParsePath(List("admin", "offers", "edit", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "offers" :: "edit" :: Nil, Map("id" -> id))
       case RewriteRequest(
-        ParsePath(List("admin", "quotes", "delete", id), _, _, _), _, _) =>
-        RewriteResponse("admin" :: "quotes" :: "delete" :: Nil, Map("id" -> id))
+        ParsePath(List("admin", "offers", "delete", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "offers" :: "delete" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("admin", "events", "edit", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "events" :: "edit" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("admin", "events", "delete", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "events" :: "delete" :: Nil, Map("id" -> id))
       case RewriteRequest(
         ParsePath(List("admin", "news", "edit", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "news" :: "edit" :: Nil, Map("id" -> id))
@@ -140,11 +167,17 @@ class Boot {
         ParsePath(List("admin", "staticpage", "edit", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "staticpage" :: "edit" :: Nil, Map("id" -> id))
       case RewriteRequest(
+        ParsePath(List("admin", "picture", "list", "page", page), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "picture" :: "list" :: Nil, Map("page" -> page))
+      case RewriteRequest(
         ParsePath(List("admin", "picture", "delete", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "picture" :: "delete" :: Nil, Map("id" -> id))
       case RewriteRequest(
         ParsePath(List("admin", "picture", "detail", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "picture" :: "detail" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("admin", "picture", "categories", id), _, _, _), _, _) =>
+        RewriteResponse("admin" :: "picture" :: "categories" :: Nil, Map("id" -> id))
       case RewriteRequest(
         ParsePath(List("pictures", category), _, _, _), _, _) =>
         RewriteResponse("pictures" :: Nil, Map("category" -> category))

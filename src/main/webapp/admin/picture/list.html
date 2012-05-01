@@ -1,27 +1,30 @@
-<lift:surround with="default" at="content">
-	<h2>Listing Images...</h2>
-	<p>
-		<lift:ImageAction.list>
-			<table>
-				<tr>
-					<td>ID</td>
-					<td>Name</td>
-					<td>Uploader</td>
-					<td>Link</td>
-					<td>Details</td>
-				</tr>
-				<picture:entries>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<h2>Listing Images...</h2>
+		<p>
+			<div class="lift:ImageAction.list">
+				<table>
 					<tr>
-						<td><entry:id /></td>
-						<td><entry:name /></td>
-						<td><entry:uploader /></td>
-						<td><entry:link /></td>
-						<td><entry:detaillink /></td>
+						<td>ID</td>
+						<td>Name</td>
+						<td>Uploader</td>
+						<td>Details</td>
 					</tr>
-				</picture:entries>
-			</table>
-			<picture:previsious />
-			<picture:next />
-		</lift:ImageAction.list>
-	</p>
-</lift:surround>
+					<tr class="entry">
+						<td><span class="id">0</span></td>
+						<td><a class="name" href="/">Moo</a></td>
+						<td><span class="uploader">Administrator</span></td>
+						<td><a class="detaillink" href="/">Details</a></td>
+					</tr>
+				</table>
+				<a class="previsious" href="/">Newer</a> <a class="next" href="/">Older</a>
+			</div>
+		</p>
+	</div>
+</body>
+</html>

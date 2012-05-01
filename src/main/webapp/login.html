@@ -1,23 +1,23 @@
-<lift:surround with="default" at="content">
+<div class="lift:surround?with=default&at=content;">
 	<head>
 <title>Gods of Tramp | Trendsportschule | Trampolin | Slackline
 	| München | Anmelden</title>
 	</head>
 	<h2>Login</h2>
 	<p>
-		<lift:UserAction.login form="POST">
+		<form class="lift:UserAction.login?form=POST">
 			<table>
 				<tr>
 					<td>Email:</td>
 					<td>Passwort:</td>
 				</tr>
 				<tr>
-					<td><form:email /></td>
-					<td><form:password /></td>
+					<td><input type="text" class="email" /></td>
+					<td><input type="password" class="password"/></td>
 				</tr>
 			</table>
-			<form:submit />
-		</lift:UserAction.login>
+			<button type="submit" class="submit">Submit</button>
+		</form>
 	</p>
-</lift:surround>
+</div>
 

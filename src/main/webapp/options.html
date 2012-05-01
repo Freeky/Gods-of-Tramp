@@ -10,31 +10,31 @@
 	| München | Optionen</title>
 		</head>
 		<h2>Optionen</h2>
-		<lift:Options.show>
+		<div class="lift:Options.show">
 			<table>
 				<tr>
 					<td>Mitglied seit:</td>
-					<td><show:registrationdate /></td>
+					<td><span class="registrationdate">2012-01-01</span></td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>Email:</td>
-					<td><show:mail /></td>
-					<td><show:changemail /></td>
+					<td><span class="mail">test@test.de</span></td>
+					<td><span class="changemail">Link</span></td>
 				</tr>
 				<tr>
 					<td>Passwort:</td>
 					<td>******</td>
-					<td><show:changepassword /></td>
+					<td><span class="changepassword">Link</span></td>
 				</tr>
 				<tr>
 					<td>Newsletter:</td>
-					<td><show:newsletter /></td>
-					<td><show:changenewsletter /></td>
+					<td><span class="newsletter">Ja</span></td>
+					<td><span class="changenewsletter">Link</span></td>
 				</tr>
 			</table>
-			<show:deleteaccount />
-		</lift:Options.show>
+			<span class="deleteaccount">Delete Link</span>
+		</div>
 	</div>
 </body>
 </html>

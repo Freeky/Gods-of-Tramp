@@ -1,10 +1,18 @@
-<lift:surround with="default" at="content">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
 	<h2>Adding News...</h2>
 	<p>
-		<lift:ImageAction.upload form="POST" multipart="true">
-			<form:fileupload />
+		<form class="lift:ImageAction.upload?form=POST&multipart=true;">
+			<input type"file" class="fileupload" />
 			<br />
-			<form:submit />
-		</lift:ImageAction.upload>
+			<button type="submit" class="submit">Submit</button>
+		</form>
 	</p>
-</lift:surround>
+	</div>
+</body>
+</html>

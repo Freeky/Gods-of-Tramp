@@ -1,31 +1,28 @@
-<lift:surround with="default" at="content">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
 	<head>
 <title>Gods of Tramp | Trendsportschule | Trampolin | Slackline
 	| München | News</title>
 	</head>
 	<h2>News</h2>
 	<p>
-		<lift:NewsAction.show>
-			<table>
-				<news:entries>
-					<tr>
-						<td>Titel: <b><entry:title /></b></td>
-					</tr>
-					<tr>
-						<td><entry:text /></td>
-					</tr>
-					<tr>
-						<td><entry:date /> <entry:author /></td>
-					</tr>
-					<tr>
-						<td>
-							<hr />
-						</td>
-					</tr>
-				</news:entries>
-			</table>
-			<news:previsious />
-			<news:next />
-		</lift:NewsAction.show>
+		<div class="lift:NewsAction.show">
+			<div class="entry">
+				<h3><span class="title">Mein Titel</span></h3>
+				<span class="text">Some text in the news</span><br />
+				<span class="date">01-01-2012</span> <span class="author">Freeky</span>
+				<br /><br />
+				<hr />
+			</div>
+			<a class="previsious" href="/">««</a>
+			<a class="next" href="/">»»</a>
+		</div>
 	</p>
-</lift:surround>
+	</div>
+</body>
+</html>

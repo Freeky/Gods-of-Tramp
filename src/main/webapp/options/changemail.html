@@ -10,11 +10,11 @@
 	| München | Email ändern</title>
 		</head>
 		<h2>EMail ändern</h2>
-		<lift:UserAction.changemail form="POST">
-				Neue EMail: <changemail:email />
+		<form class="lift:UserAction.changemail?form=POST">
+				Neue EMail: <input type="text" class="email" />
 			<br />
-			<changemail:submit />
-		</lift:UserAction.changemail>
+			<button type="submit" class="submit">Submit</button>
+		</form>
 	</div>
 </body>
 </html>

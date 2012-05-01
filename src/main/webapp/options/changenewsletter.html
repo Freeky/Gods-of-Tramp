@@ -10,11 +10,11 @@
 	| München | Newsletter abonieren</title>
 		</head>
 		<h2>Newsletter ändern</h2>
-		<lift:UserAction.changenewsletter form="POST">
-				Ja, ich will Newsletter erhalten: <changenewsletter:newsletter />
+		<form class="lift:UserAction.changenewsletter?form=POST">
+				Ja, ich will Newsletter erhalten: <input type="checkbox" class="newsletter" />
 			<br />
-			<changenewsletter:submit />
-		</lift:UserAction.changenewsletter>
+			<button type="submit" class="submit">Submit</button>
+		</form>
 	</div>
 </body>
 </html>

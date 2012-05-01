@@ -1,38 +1,38 @@
-<lift:surround with="default" at="content">
+<div class="lift:surround?with=default&at=content;">
 	<head>
 <title>Gods of Tramp | Trendsportschule | Trampolin | Slackline
 	| München | Registrieren</title>
 	</head>
 	<h2>Registrieren</h2>
 	<p>
-		<lift:UserAction.register form="POST">
+		<form class="lift:UserAction.register?form=POST">
 			<table>
 				<tr>
 					<td>Benutzername</td>
-					<td><form:name /></td>
+					<td><input type="text" class="name" /></td>
 				</tr>
 				<tr>
 					<td>E-Mail</td>
-					<td><form:email /></td>
+					<td><input type="text" class="email" /></td>
 				</tr>
 				<tr>
 					<td>Passwort</td>
-					<td><form:password /></td>
+					<td><input type="password" class="password"/></td>
 				</tr>
 				<tr>
 					<td>Wiederhole Passwort</td>
-					<td><form:retypepassword /></td>
+					<td><input type="password" class="retypepassword" /></td>
 				</tr>
 				<tr>
 					<td>Ja, ich will Newsletter erhalten</td>
-					<td><form:newsletter /></td>
+					<td><input type="checkbox" class="newsletter" /></td>
 				</tr>
 				<tr>
-					<td>Ich akzeptiere die <lift:Menu.item name="agb" /></td>
-					<td><form:agb /></td>
+					<td>Ich akzeptiere die <span class="lift:Menu.item?name=agb">AGB</span></td>
+					<td><input type="checkbox" class="agb" /></td>
 				</tr>
 			</table>
-			<form:submit />
-		</lift:UserAction.register>
+			<button type="submit" class="submit">Submit</button>
+		</form>
 	</p>
-</lift:surround>
+</div>

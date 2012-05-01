@@ -10,11 +10,11 @@
 	| München | Account löschen</title>
 		</head>
 		<h2>Account löschen</h2>
-		<lift:UserAction.deleteaccount form="POST">
+		<form class="lift:UserAction.deleteaccount?form=POST">
 			Account wirklich löschen? <br />
-			<form:yes />
-			<form:no />
-		</lift:UserAction.deleteaccount>
+			<button type="submit" class="yes">Ja</button>
+			<button type="submit" class="no">Nein</button>
+		</form>
 	</div>
 </body>
 </html>

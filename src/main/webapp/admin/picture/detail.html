@@ -1,35 +1,34 @@
-<lift:surround with="default" at="content">
-	<h2>Details for picture</h2>
-	<p>
-		<lift:ImageAction.detail form="POST">
-			<detail:image />
-			<br />
-      ID: <detail:id />
-			<br />
-      Name: <detail:name />
-			<br />
-      Height: <detail:height />
-			<br />
-      Width: <detail:width />
-			<br />
-      Uploader: <detail:uploader />
-			<br />
-      Date: <detail:date />
-			<br />
-      
-      Is in Categorys: <br />
-			<detail:showcategorys>
-				<category:delete />
-				<category:name />
-				<br />
-			</detail:showcategorys>
-      
-      Add Category:
-     	<detail:selectcategory />
-			<detail:addcategory />
-			<br />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<h2>Details for picture</h2>
+		<p>
+			<form class="lift:ImageAction.detail?form=POST">
+				<img class="image" src="/static/logo.png" /> <br />
+				ID: <span class="id">0</span> <br />
+			    Name: <span class="name">Bildname</span> <br /> 
+				Height: <span class="height">150</span> <br /> 
+				Width: <span class="width">150</span> <br /> 
+				Uploader: <span class="uploader">Administrator</span> <br /> 
+				Date: <span class="date">2012-01-01</span> <br /> 
+				Is in Categorys: <br />
+				<div class="showcategories">
+					<span class="name">Meine Kategory</span>
+					<button type="submit" class="delete">Delete</button>
+					<br />
+				</div>
 
-			<detail:deletelink>Delete Image</detail:deletelink>
-		</lift:ImageAction.detail>
-	</p>
-</lift:surround>
+				Add Category: <select class="listcategories">
+					<option value="0">Meine Kategory</option>
+				</select>
+				<button type="submit" class="addcategory">Hinzufügen</button>
+				<br /> <a class="deletelink" href="/">Delete</a>
+			</form>
+		</p>
+	</div>
+</body>
+</html>

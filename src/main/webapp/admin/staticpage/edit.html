@@ -1,16 +1,24 @@
-<lift:surround with="default" at="content">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
 	<h2>Bearbeite Statische Seite...</h2>
 	<p>
-		<lift:StaticPage.edit form="POST">
-    Seite: <page:name />
+		<form class="lift:StaticPage.edit?form=POST">
+    Seite: <input type="text" class="name" />
 			<br />
     Inhalt:<br />
-			<page:editcontent />
+			<textarea rows="10" cols="300" class="editcontent"></textarea>
 			<br />
-			<page:submit />
+			<button type="submit" class="submit">Submit</button>
 			<br />
 			<hr />
-			<page:showcontent />
-		</lift:StaticPage.edit>
+			<span class="showcontent">Content der Seite</span>
+		</form>
 	</p>
-</lift:surround>
+	</div>
+</body>
+</html>

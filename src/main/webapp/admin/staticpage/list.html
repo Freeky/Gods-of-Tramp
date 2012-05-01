@@ -1,23 +1,29 @@
-<lift:surround with="default" at="content">
-	<h2>Listing News...</h2>
-	<p>
-	<table>
-		<tr>
-			<td>ID</td>
-			<td>Name</td>
-			<td>Edit</td>
-		</tr>
-		<lift:StaticPage.list>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<h2>Listing News...</h2>
+		<p>
+		<table>
 			<tr>
-				<td><page:id /></td>
-				<td><page:name /></td>
-				<td><page:editlink /></td>
+				<td>ID</td>
+				<td>Name</td>
+				<td>Edit</td>
 			</tr>
-		</lift:StaticPage.list>
-	</table>
-	<br />
-	<lift:StaticPage.generate form="POST">
-		<form:submit />
-	</lift:StaticPage.generate>
-	</p>
-</lift:surround>
+			<tr class="lift:StaticPage.list">
+				<td><span class="id">0</span></td>
+				<td><span class="name">Statische Seite</span></td>
+				<td><a class="editlink" href="/">Edit</a></td>
+			</tr>
+		</table>
+		<br />
+		<form class="lift:StaticPage.generate?form=POST">
+			<button type="submit" class="submit">Submit</button>
+		</form>
+		</p>
+	</div>
+</body>
+</html>

@@ -1,15 +1,23 @@
-<lift:surround with="default" at="content">
-	<h2>Adding News...</h2>
-	<p>
-		<lift:NewsAction.delete form="POST">
-    Sicher Löschen? <news:submit />
-			<br />
-    Titel: <news:title />
-			<br />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<h2>Adding News...</h2>
+		<p>
+			<form class="lift:NewsAction.delete?form=POST">
+    Sicher Löschen? <button type="submit" class="submit">Submit</button>
+				<br />
+    Titel: <span class="title">Mein Newstitel</span>
+				<br />
     Text:<br />
-			<news:text />
-			<br />
-    Autor: <news:author />
-		</lift:NewsAction.delete>
-	</p>
-</lift:surround>
+				<span class="text">Ein hauen Text der da steht blabla</span>
+				<br />
+    Autor: <span class="author">Administrator</span>
+			</form>
+		</p>
+	</div>
+</body>
+</html>

@@ -1,34 +1,42 @@
-<lift:surround with="default" at="content">
-	<head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<head>
 <title>Gods of Tramp | Trendsportschule | Trampolin | Slackline
 	| München | Bilder</title>
-	</head>
-	<h2>
-		<lift:ImageBrowser.currentCategory />
-	</h2>
-	<lift:ImageBrowser.categories>
-		<div class="image_category">
-			<category:name />
-		</div>
-	</lift:ImageBrowser.categories>
-	<br />
-	<lift:ImageBrowser.images columns="4" width="150" height="150">
-		<image:entry>
-			<div class="column span-4 span-down-4" style="text-align: center;">
-				<entry:content />
+		</head>
+		<h2>
+			<span class="lift:ImageBrowser.currentCategory" />
+		</h2>
+		<div class="lift:ImageBrowser.categories">
+			<div class="image_category">
+				<a class="categorylink" href="/"><span class="name">Image Catagory</span></a>
 			</div>
-		</image:entry>
-	</lift:ImageBrowser.images>
-	<div class="span-16">
-		<lift:ImageBrowser.addCategory form="POST">
-	    Unter Kategory Name: <form:name />
-			<form:submit />
-		</lift:ImageBrowser.addCategory>
+		</div>
+		<br />
+		<div class="lift:ImageBrowser.images?columns=4&width=150&height=150;">
+			<div class="entry column span-4 span-down-4"
+				style="text-align: center;">
+				<a class="imagelink" rel="lightbox[gallery]" href="/"><img class="content"
+					style="vertical-align: middle;" src="/static/logo.png" /></a>
+			</div>
+		</div>
+		<div class="span-16">
+			<form class="lift:ImageBrowser.addCategory?form=POST">
+	    Unter Kategory Name: <input type="text" class="name" />
+				<button type="submit" class="submit">Submit</button>
+			</form>
+		</div>
+		<div class="span-16">
+			<form class="lift:ImageAction.uploadWithCategory?form=POST&multipart=true;">
+	    Bild hochladen: <input type="file"  class="fileupload"/>
+				<button type="submit" class="submit">Submit</button>
+			</form>
+		</div>
 	</div>
-	<div class="span-16">
-		<lift:ImageAction.uploadWithCategory form="POST" multipart="true">
-	    Bild hochladen: <form:fileupload />
-			<form:submit />
-		</lift:ImageAction.uploadWithCategory>
-	</div>
-</lift:surround>
+</body>
+</html>
