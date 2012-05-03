@@ -49,7 +49,7 @@ class ImageBrowser extends DispatchSnippet {
       } yield img
 
     "*" #> images.map(img =>
-      ".imagelink [href]" #> "/image/%s/%s".format(img.secure.is.toLowerCase, img.name.is) &
+      ".imagelink [href]" #> "/image/%s/%s?width=950".format(img.secure.is.toLowerCase, img.name.is) &
         ".content [src]" #> "/image/%s/%s?width=%d&height=%d".format(img.secure.is.toLowerCase, img.name.is, imageWidth, imageHeight))
   }
 

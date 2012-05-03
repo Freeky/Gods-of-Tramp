@@ -296,8 +296,9 @@ textarea {width:390px;height:250px;padding:5px;}
 
 /* own css */
 body {background-image: url("/images/bg.jpg"); background-position: center top; background-repeat: no-repeat; background-attachment: fixed;}
-.image_category {margin-top: 2px; padding-left: 2px; background-color: #c800c8;}
-.image_category:hover {background-color: #fff;}
+.image-category {margin: 2px; padding-left: 10px; font-size: 1.7em; background-color: rgba(180,0,180,0.4); border-radius: 5px;}
+.image-category:hover {background-color: rgba(0,0,0,0.5);}
+.image-category a {text-decoration: none;}
 .toparea {background-color: rgb(30,30,30); background-color: rgba(0, 0, 0, 0.7); padding:10px;border:solid 1px #646464;border-radius:7px}
 .alt {font-style: italic; font-weight: normal; font-size: 80%;}
 .logo{float: left;position:absolute;z-index:1;}
@@ -305,4 +306,7 @@ body {background-image: url("/images/bg.jpg"); background-position: center top; 
 #header{position: relative;}
 #header-content{position: absolute;bottom: 0;}
 #copyright-container{position: relative;}
-#copyright{position: absolute;bottom: 0;padding-left:10px}
+#copyright {position: absolute;bottom: 0;padding-left:10px;}
+.entryheader {font-size: 0.8em;}
+.entryheader h1 {margin-bottom: 0px;}
+.entryheader hr {background-color: #777;}

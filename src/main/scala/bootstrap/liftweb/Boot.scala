@@ -49,11 +49,11 @@ class Boot {
     addRewritesToLiftRules
 
     LiftRules.loggedInTest = Full(() => User.loggedIn_?)
-
+    
     // Dispatches
     LiftRules.dispatch.append {
       case Req("image" :: secure :: name :: Nil, fileType, _) =>
-        () => ImageAction.serveImage(secure, name + "." + fileType)
+        () => ImageAction.serveImage(secure, "%s.%s".format(name, fileType))
     }
   }
 
