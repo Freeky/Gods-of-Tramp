@@ -67,7 +67,9 @@ class EventAction extends DispatchSnippet {
         ".text" #> TextileParser.paraFixer(TextileParser.toHtml(n.text.is)) &
         ".date" #> Text(timestamp.format(n.createDate.is)) &
         ".author" #> Text(n.author.getName) &
-        ".id" #> Text(n.id.is.toString))
+        ".id" #> Text(n.id.is.toString) &
+        "title *" #> n.title &
+        "@description [content]" #> n.description)
 
     ".entry" #> bindEvent &
       ".previsious" #> prev &
@@ -150,6 +152,7 @@ class EventAction extends DispatchSnippet {
 
     ".title" #> SHtml.text(event.title.toString, event.title(_)) &
       ".text" #> SHtml.textarea(event.text.toString, event.text(_)) &
+      ".description" #> SHtml.text(event.description, event.description(_)) &
       ".order" #> SHtml.text(event.order.toString, x => event.order(x.toInt)) &
       ".author" #> Text(event.author.getName) &
       ".submit" #> SHtml.submit(S ? "add", addEventToDatabase)
@@ -174,6 +177,7 @@ class EventAction extends DispatchSnippet {
 
     ".title" #> Text(n.title.is) &
       ".text" #> TextileParser.paraFixer(TextileParser.toHtml(n.text.is)) &
+      ".description" #> Text(n.description) &
       ".date" #> Text(timestamp.format(n.createDate.is)) &
       ".author" #> Text(n.author.getName) &
       ".id" #> Text(n.id.is.toString) &
@@ -205,6 +209,7 @@ class EventAction extends DispatchSnippet {
 
     ".title" #> SHtml.text(event.title.toString, event.title(_)) &
       ".text" #> SHtml.textarea(event.text.toString, event.text(_)) &
+      ".description" #> SHtml.text(event.description, event.description(_)) &
       ".order" #> SHtml.text(event.order.toString, x => event.order(x.toInt)) &
       ".author" #> Text(event.author.getName) &
       ".submit" #> SHtml.submit(S ? "edit", updateEventInDatabase)

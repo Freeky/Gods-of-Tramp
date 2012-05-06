@@ -16,6 +16,8 @@ class Event extends LongKeyedMapper[Event] with IdPK {
     override def defaultValue = new java.util.Date
   }
   object text extends MappedText(this)
+  
+  object description extends MappedString(this, 300)
 
   object author extends MappedLongForeignKey(this, User) {
     def getName: String = {

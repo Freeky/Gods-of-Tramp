@@ -60,9 +60,9 @@ class Boot {
   def sitemap() = SiteMap(
     Menu("home", S ? "home") / "index" >> LocGroup("main"),
     Menu("news", S ? "news") / "news" >> LocGroup("main"),
-    Menu("pictures", S ? "pictures") / "pictures",
-    Menu(new EventLoc("events", List("events"), S ? "events", LocGroup("main") :: PlaceHolder :: Nil)),
     Menu(new OfferLoc("offers", List("offers"), S ? "offers", LocGroup("main") :: PlaceHolder :: Nil)),
+    Menu(new EventLoc("events", List("events"), S ? "events", LocGroup("main") :: PlaceHolder :: Nil)),
+    Menu("pictures", S ? "pictures") / "pictures",
     Menu("about us", S ? "about.us") / "aboutus" >> LocGroup("main"),
     Menu("contact", S ? "contact") / "contact" >> LocGroup("main"),
     Menu("links", S ? "links") / "links" >> LocGroup("main"),
