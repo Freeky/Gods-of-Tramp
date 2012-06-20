@@ -10,6 +10,8 @@ import S._
 import java.text.SimpleDateFormat
 import de.got.main._
 import net.liftweb.textile._
+import net.liftweb.http.js.JsCmd
+import net.liftweb.http.js.JsCmds
 
 class NewsAction extends DispatchSnippet {
 
@@ -148,11 +150,19 @@ class NewsAction extends DispatchSnippet {
         S.redirectTo("/news")
       }
     }
+    
+    def preview = TextileParser.toHtml(news.text.toString)
+
+    def updatePreview(text: String): JsCmd = {
+      news.text(text)
+      JsCmds.SetHtml("previewarea", preview)
+    }
 
     ".title" #> SHtml.text(news.title.toString, news.title(_)) &
-      ".text" #> SHtml.textarea(news.text.toString, news.text(_)) &
+      ".text" #> SHtml.ajaxTextarea(news.text.toString, updatePreview) &
       ".author" #> Text(news.author.getName) &
-      ".submit" #> SHtml.submit(S ? "add", addNewsToDatabase)
+      ".submit" #> SHtml.submit(S ? "add", addNewsToDatabase) &
+      "#previewarea *" #> preview
   }
 
   def delete = {
@@ -202,10 +212,18 @@ class NewsAction extends DispatchSnippet {
         S.redirectTo("/news")
       }
     }
+    
+    def preview = TextileParser.toHtml(news.text.toString)
+
+    def updatePreview(text: String): JsCmd = {
+      news.text(text)
+      JsCmds.SetHtml("previewarea", preview)
+    }
 
     ".title" #> SHtml.text(news.title.toString, news.title(_)) &
-      ".text" #> SHtml.textarea(news.text.toString, news.text(_)) &
+      ".text" #> SHtml.ajaxTextarea(news.text.toString, updatePreview) &
       ".author" #> Text(news.author.getName) &
-      ".submit" #> SHtml.submit(S ? "edit", updateNewsInDatabase)
+      ".submit" #> SHtml.submit(S ? "edit", updateNewsInDatabase) &
+      "#previewarea *" #> preview
   }
 }

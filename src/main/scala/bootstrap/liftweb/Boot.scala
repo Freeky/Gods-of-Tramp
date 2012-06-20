@@ -36,13 +36,15 @@ class Boot {
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
     }
     //DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
-    Schemifier.schemify(true, Schemifier.infoF _, Event, Offer, Date, DateRegistration, News, User, Image, StaticPage, ImageCategory, ImageToCategory, AccountType)
+    Schemifier.schemify(true, Schemifier.infoF _, Event, Offer, News, User, Image, StaticPage, ImageCategory, ImageToCategory, AccountType)
     S.addAround(DB.buildLoanWrapper)
 
     // where to search snippet
     LiftRules.addToPackages("de.got")
     LiftRules.resourceNames = "i18n/got" :: LiftRules.resourceNames
     LiftRules.early.append(_.setCharacterEncoding("UTF-8"))
+    LiftRules.maxMimeFileSize = 2 * 1024 * 1024 // 2MB
+    LiftRules.maxMimeSize = 512 * 1024 * 1024 // 512MB
 
     LiftRules.setSiteMapFunc(sitemap)
 
@@ -55,6 +57,8 @@ class Boot {
       case Req("image" :: secure :: name :: Nil, fileType, _) =>
         () => ImageAction.serveImage(secure, "%s.%s".format(name, fileType))
     }
+    LiftRules.statelessDispatchTable.append(de.got.lib.MySitemap) 
+    
   }
 
   def sitemap() = SiteMap(
@@ -129,7 +133,8 @@ class Boot {
         >> If(User.isAdmin_?, S ? "no.permission")),
     Menu("") / "css" / ** >> Hidden,
     Menu("") / "images" / ** >> Hidden,
-    Menu("") / "js" / ** >> Hidden)
+    Menu("") / "js" / ** >> Hidden,
+    Menu("") / "static" / ** >> Hidden)
 
   def addRewritesToLiftRules() =
     LiftRules.statelessRewrite.append {

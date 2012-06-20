@@ -27,9 +27,9 @@ class ImageAction extends DispatchSnippet {
     val currentUser = User.find(User.currentUserId)
 
     def processUpload() = {
-      fileBox match {
-        case Full(FileParamHolder(_, null, _, _)) => S.error("No file uploaded")
-        case Full(FileParamHolder(_, mime, fileName, data)) if mime.startsWith("image/") => {
+      fileBox.map(_ match {
+        case FileParamHolder(_, null, _, _) => S.error("No file uploaded")
+        case FileParamHolder(_, mime, fileName, data) if mime.startsWith("image/") => {
           val image = Image.create
             .blob(data)
             .name(fileName)
@@ -39,7 +39,7 @@ class ImageAction extends DispatchSnippet {
           S.redirectTo("/image/" + image.secure.is.toLowerCase + "/" + image.name.is)
         }
         case _ => S.error("Invalid upload")
-      }
+      })
 
     }
 
@@ -49,13 +49,13 @@ class ImageAction extends DispatchSnippet {
 
   def uploadWithCategory = {
 
-    var fileBox: Box[FileParamHolder] = Empty
     val currentUser = User.find(User.currentUserId)
 
     def processUpload() = {
-      fileBox match {
-        case Full(FileParamHolder(_, null, _, _)) => S.error("No file uploaded")
-        case Full(FileParamHolder(_, mime, fileName, data)) if mime.startsWith("image/") => {
+      S.request.map(_.uploadedFiles.map(_ match {
+        case FileParamHolder(_, null, _, _) => S.error("No file uploaded")
+        case FileParamHolder(name , mime, fileName, data) if mime.startsWith("image/") => {
+          println(name)
           val image = Image.create
             .blob(data)
             .name(fileName)
@@ -67,12 +67,12 @@ class ImageAction extends DispatchSnippet {
           val currentCategory = ImageCategory.find(By(ImageCategory.name, currentCategoryName))
           ImageToCategory.create.image(image).category(currentCategory).save
         }
-        case _ => S.error("Invalid upload" + fileBox.toString)
-      }
+        case _ => S.error("Invalid upload")
+      }))
 
     }
     if (User.isAdmin_?)
-      ".fileupload" #> SHtml.fileUpload(x => fileBox = Full(x)) &
+      ".fileupload" #> SHtml.fileUpload(_ => ()) &
         ".submit" #> SHtml.submit(S ? "upload", processUpload)
     else
       "*" #> ""

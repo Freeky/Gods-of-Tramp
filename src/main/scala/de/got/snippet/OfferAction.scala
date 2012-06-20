@@ -10,6 +10,8 @@ import S._
 import java.text.SimpleDateFormat
 import de.got.main._
 import net.liftweb.textile._
+import net.liftweb.http.js.JsCmd
+import net.liftweb.http.js.JsCmds
 
 class OfferAction extends DispatchSnippet {
 
@@ -150,13 +152,23 @@ class OfferAction extends DispatchSnippet {
         S.redirectTo("/offers")
       }
     }
+    
+    def preview = {
+      TextileParser.toHtml(offer.text.toString)
+    }
+
+    def updatePreview(text: String): JsCmd = {
+      offer.text(text)
+      JsCmds.SetHtml("previewarea", preview)
+    }
 
     ".title" #> SHtml.text(offer.title.toString, offer.title(_)) &
-      ".text" #> SHtml.textarea(offer.text.toString, offer.text(_)) &
+      ".text" #> SHtml.ajaxTextarea(offer.text.toString, updatePreview) &
       ".description" #> SHtml.text(offer.description, offer.description(_)) &
       ".order" #> SHtml.text(offer.order.toString, x => offer.order(x.toInt)) &
       ".author" #> Text(offer.author.getName) &
-      ".submit" #> SHtml.submit(S ? "add", addOfferToDatabase)
+      ".submit" #> SHtml.submit(S ? "add", addOfferToDatabase) &
+      "#previewarea *" #> preview
   }
 
   def delete = {
@@ -178,7 +190,7 @@ class OfferAction extends DispatchSnippet {
 
     ".title" #> Text(n.title.is) &
       ".text" #> TextileParser.paraFixer(TextileParser.toHtml(n.text.is)) &
-      ".description" #> Text(n.description) &
+      ".description" #> Text(n.description.is) &
       ".date" #> Text(timestamp.format(n.createDate.is)) &
       ".author" #> Text(n.author.getName) &
       ".id" #> Text(n.id.is.toString) &
@@ -207,12 +219,22 @@ class OfferAction extends DispatchSnippet {
         S.redirectTo("/offers")
       }
     }
+    
+    def preview = {
+      TextileParser.toHtml(offer.text.toString)
+    }
+
+    def updatePreview(text: String): JsCmd = {
+      offer.text(text)
+      JsCmds.SetHtml("previewarea", preview)
+    }
 
     ".title" #> SHtml.text(offer.title.toString, offer.title(_)) &
-      ".text" #> SHtml.textarea(offer.text.toString, offer.text(_)) &
+      ".text" #> SHtml.ajaxTextarea(offer.text.toString, updatePreview) &
       ".description" #> SHtml.text(offer.description, offer.description(_)) &
       ".order" #> SHtml.text(offer.order.toString, x => offer.order(x.toInt)) &
       ".author" #> Text(offer.author.getName) &
-      ".submit" #> SHtml.submit(S ? "edit", updateOfferInDatabase)
+      ".submit" #> SHtml.submit(S ? "edit", updateOfferInDatabase) &
+      "#previewarea *" #> preview
   }
 }

@@ -6,31 +6,67 @@
 <meta name="description"
 	content="Gerne können Sie sich kostenlos bei der Gods-of-Tramp Trendsportschule Registrieren. Sie können dabei Ihre Persönlichen Daten einpflegen. Registrierte User können sich jederzeit wieder abmelden." />
 	</head>
-	<h2>Registrieren</h2>
+	<h1>Registrieren</h1>
 	<p>
 	<form class="lift:UserAction.register?form=POST">
 		<table>
-			<tr>
-				<td>Benutzername</td>
+			<tr id="form-username">
+				<td>Benutzername*</td>
 				<td><input type="text" class="name" /></td>
 			</tr>
-			<tr>
-				<td>E-Mail</td>
+			<tr id="form-email">
+				<td>E-Mail*</td>
 				<td><input type="text" class="email" /></td>
 			</tr>
-			<tr>
-				<td>Passwort</td>
+			<tr id="form-email2">
+				<td>Wiederhole E-Mail*</td>
+				<td><input type="text" class="retypeemail" /></td>
+			</tr>
+			<tr id="form-password">
+				<td>Passwort*</td>
 				<td><input type="password" class="password" /></td>
 			</tr>
-			<tr>
-				<td>Wiederhole Passwort</td>
+			<tr id="form-password2">
+				<td>Wiederhole Passwort*</td>
 				<td><input type="password" class="retypepassword" /></td>
 			</tr>
-			<tr>
+			<tr id="form-firstname">
+				<td>Vorname</td>
+				<td><input type="text" class="firstname" /></td>
+			</tr>
+			<tr id="form-lastname">
+				<td>Familienname</td>
+				<td><input type="text" class="lastname" /></td>
+			</tr>
+			<tr id="form-birthday">
+				<td>Geburtstag</td>
+				<td><input type="text" class="birthday" /></td>
+			</tr>
+			<tr id="form-parentfirstname">
+				<td>Erziehungsberechtigter Vorname</td>
+				<td><input type="text" class="parentfirstname" /></td>
+			</tr>
+			<tr id="form-parentlastname">
+				<td>Erziehungsberechtigter Nachname</td>
+				<td><input type="text" class="parentfirstname" /></td>
+			</tr>
+			<tr id="form-phone">
+				<td>Telefonnummer</td>
+				<td><input type="text" class="phone" /></td>
+			</tr>
+			<tr id="form-street">
+				<td>Strasse/Hausnummer</td>
+				<td><input type="text" class="street" /></td>
+			</tr>
+			<tr id="form-city">
+				<td>PLZ/Ort</td>
+				<td><input type="text" class="postalcode" /><input type="text" class="city" /></td>
+			</tr>
+			<tr id="form-newsletter">
 				<td>Ja, ich will Newsletter erhalten</td>
 				<td><input type="checkbox" class="newsletter" /></td>
 			</tr>
-			<tr>
+			<tr id="form-agb">
 				<td>Ich akzeptiere die <span class="lift:Menu.item?name=agb">AGB</span></td>
 				<td><input type="checkbox" class="agb" /></td>
 			</tr>

@@ -24,6 +24,15 @@ class User extends LongKeyedMapper[User] with IdPK {
 	object wantsNewsletter extends MappedBoolean(this){
 	  override def defaultValue = true
 	}
+	object firstName extends MappedString(this, 40)
+	object lastName extends MappedString(this, 40)
+	object birthday extends MappedDate(this)
+	object parentFirstName extends MappedString(this, 40)
+	object parentLastName extends MappedString(this, 40)
+	object street extends MappedString(this, 50)
+	object postalCode extends MappedString(this, 5)
+	object city extends MappedString(this, 20)
+	object phoneNumber extends MappedString(this, 20)
 }
 
 object User extends User with LongKeyedMetaMapper[User] {

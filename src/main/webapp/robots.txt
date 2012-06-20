@@ -1,0 +1,4 @@
+# robots.txt für gods-of-tramp.de
+
+User-agent: *
+Disallow:

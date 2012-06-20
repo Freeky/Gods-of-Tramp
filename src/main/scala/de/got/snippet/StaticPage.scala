@@ -8,6 +8,7 @@ import Helpers._
 import de.got.model._
 import S._
 import net.liftweb.textile._
+import net.liftweb.http.js.JsCmds
 
 class StaticPage extends DispatchSnippet {
 
@@ -47,14 +48,23 @@ class StaticPage extends DispatchSnippet {
 	  val dbPage = StaticPage.find(pageId)
 	  
 	  def processEdit() = {
-	 	  dbPage.open_!.save
+	 	  dbPage.map(_.lastModified(now).save())
+	  }
+	  
+	  def updateShowContent(text: String) = {
+	    dbPage match {
+	 	  case Full(page) => 
+	 		  page.content(text)
+	 		  JsCmds.SetHtml("showcontent", TextileParser.toHtml(text))
+	 	  case _ => S.redirectTo("/admin/staticpage/list")
+	  }
 	  }
 	   
 	  dbPage match {
 	 	  case Full(page) => 
 	 		  ".name" #> Text(page.name.is) &
-	 		  ".editcontent" #> SHtml.textarea(page.content.is, page.content(_)) &
-	 		  ".showcontent" #> TextileParser.paraFixer(TextileParser.toHtml(page.content.is)) &
+	 		  ".editcontent" #> SHtml.ajaxTextarea(page.content.is, updateShowContent _) &
+	 		  "#showcontent *" #> TextileParser.paraFixer(TextileParser.toHtml(page.content.is)) &
 	 		  ".submit" #> SHtml.submit(S ? "edit", processEdit)
 	 	  case _ => S.redirectTo("/admin/staticpage/list")
 	  }
@@ -65,8 +75,8 @@ class StaticPage extends DispatchSnippet {
   }
   
   def generatePages() = {
-    	if(StaticPage.find(By(StaticPage.name, "home")) == Empty)
-    	StaticPage.create.name("home").content("").save
+    	if(StaticPage.find(By(StaticPage.name, "index")) == Empty)
+    	StaticPage.create.name("index").content("").save
     	if(StaticPage.find(By(StaticPage.name, "aboutus")) == Empty)
     	StaticPage.create.name("aboutus").content("").save
     	if(StaticPage.find(By(StaticPage.name, "links")) == Empty)
