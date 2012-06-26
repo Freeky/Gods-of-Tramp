@@ -33,3 +33,11 @@ $('.sidebar ul li').hover(function() {
 	}, function() {
 	$(this).find('ul').hide();
 });
+
+//
+$("#birthdate").datepicker({
+	dateFormat: "dd.mm.yy",
+	changeMonth: true,
+	changeYear: true,
+	yearRange: "1912:2012"
+});

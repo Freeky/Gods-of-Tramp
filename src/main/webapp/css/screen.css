@@ -303,3 +303,9 @@ body {background-image: url("/images/bg.jpg"); background-position: center top; 
 .entryheader {font-size: 0.8em;}
 .entryheader h1 {margin-bottom: 0px;}
 .entryheader hr {background-color: #777;}
+.input-label{width: 250px; float: left; text-align: right;margin-right: 10px;}
+.input-field{width: 250px;}
+.input-field-postalcode{width: 50px;}
+.input-field-city{width:191px;}
+.input-checkbox{margin-left: 150px;}
+.input-child{background-color: rgba(150,0,150,0.8); border: solid 1px #646464}

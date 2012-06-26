@@ -9,69 +9,92 @@
 	<h1>Registrieren</h1>
 	<p>
 	<form class="lift:UserAction.register?form=POST">
-		<table>
-			<tr id="form-username">
-				<td>Benutzername*</td>
-				<td><input type="text" class="name" /></td>
-			</tr>
-			<tr id="form-email">
-				<td>E-Mail*</td>
-				<td><input type="text" class="email" /></td>
-			</tr>
-			<tr id="form-email2">
-				<td>Wiederhole E-Mail*</td>
-				<td><input type="text" class="retypeemail" /></td>
-			</tr>
-			<tr id="form-password">
-				<td>Passwort*</td>
-				<td><input type="password" class="password" /></td>
-			</tr>
-			<tr id="form-password2">
-				<td>Wiederhole Passwort*</td>
-				<td><input type="password" class="retypepassword" /></td>
-			</tr>
-			<tr id="form-firstname">
-				<td>Vorname</td>
-				<td><input type="text" class="firstname" /></td>
-			</tr>
-			<tr id="form-lastname">
-				<td>Familienname</td>
-				<td><input type="text" class="lastname" /></td>
-			</tr>
-			<tr id="form-birthday">
-				<td>Geburtstag</td>
-				<td><input type="text" class="birthday" /></td>
-			</tr>
-			<tr id="form-parentfirstname">
-				<td>Erziehungsberechtigter Vorname</td>
-				<td><input type="text" class="parentfirstname" /></td>
-			</tr>
-			<tr id="form-parentlastname">
-				<td>Erziehungsberechtigter Nachname</td>
-				<td><input type="text" class="parentfirstname" /></td>
-			</tr>
-			<tr id="form-phone">
-				<td>Telefonnummer</td>
-				<td><input type="text" class="phone" /></td>
-			</tr>
-			<tr id="form-street">
-				<td>Strasse/Hausnummer</td>
-				<td><input type="text" class="street" /></td>
-			</tr>
-			<tr id="form-city">
-				<td>PLZ/Ort</td>
-				<td><input type="text" class="postalcode" /><input type="text" class="city" /></td>
-			</tr>
-			<tr id="form-newsletter">
-				<td>Ja, ich will Newsletter erhalten</td>
-				<td><input type="checkbox" class="newsletter" /></td>
-			</tr>
-			<tr id="form-agb">
-				<td>Ich akzeptiere die <span class="lift:Menu.item?name=agb">AGB</span></td>
-				<td><input type="checkbox" class="agb" /></td>
-			</tr>
-		</table>
-		<button type="submit" class="submit">Submit</button>
+	
+		<div class="input">
+			<div class="input-label">Bitte wählen:</div>
+			<input type="radio" name="usertype" value="user" checked="checked" />Privatperson
+			<input type="radio" name="usertype" value="business" />Geschäftskunde
+		</div>
+		<br />
+		<div id="register-content">
+			<div class="register-user">
+				<div class="input">
+					<div class="input-label">Benutzername:*</div>
+					<input type="text" class="name input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">E-Mail:*</div>
+					<input type="text" class="email input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Wiederhole E-Mail:*</div>
+					<input type="text" class="retypeemail input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Passwort:*</div>
+					<input type="password" class="password input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Wiederhole Passwort:*</div>
+					<input type="password" class="retypepassword input-field" />
+				</div>
+				<br />
+				<div class="input">
+					<div class="input-label">Vorname:</div>
+					<input type="text" class="firstname input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Familienname:</div>
+					<input type="text" class="lastname input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Geburtstag:</div>
+					<input type="text" id="birthdate"  class="birthday input-field"/>
+				</div>
+				<div id="input-register-parent">
+					<div class="input-child">
+						<span class="input-label">Erziehungsberechtiger:</span><br />
+						<div class="input">
+							<div class="input-label">Vorname:</div>
+							<input type="text" class="parentfirstname input-field" />
+						</div>
+						<div class="input">
+							<div class="input-label">Nachname:</div>
+							<input type="text" class="parentfirstname input-field" />
+						</div>
+					</div>
+				</div>
+				<div class="input">
+					<div class="input-label">Telefonnummer:</div>
+					<input type="text" class="phone input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Strasse/Hausnummer:</div>
+					<input type="text" class="street input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">PLZ/Ort:</div>
+					<input type="text" class="postalcode input-field-postalcode" />/<input
+						type="text" class="city input-field-city" />
+				</div><br />
+				<div class="input">
+					<div class="input-checkbox">
+						<input type="checkbox" class="newsletter" />Ja, ich will
+						Newsletter erhalten
+					</div>
+				</div>
+				<div class="input">
+					<div class="input-checkbox">
+						<input type="checkbox" class="agb" />Ich akzeptiere die <span
+							class="lift:Menu.item?name=agb">AGB</span>
+					</div>
+
+				</div>
+			</div>
+			<div class="register-business"><center>Anmeldung für Geschäftskunden ist noch nicht möglich</center></div>
+		</div><br />
+		<button type="submit" class="submit input-checkbox">Submit</button><br />
+		* Pflichtfelder
 	</form>
 	</p>
 </div>
