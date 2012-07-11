@@ -4,6 +4,7 @@ import _root_.net.liftweb.util._
 import Helpers._
 import net.liftweb.mapper._
 import de.got.main._
+import org.joda.time._
 
 class User extends LongKeyedMapper[User] with IdPK {
 	def getSingleton = User
@@ -40,4 +41,24 @@ object User extends User with LongKeyedMetaMapper[User] {
 	def loggedIn_?() = currentUserId.isDefined
 	def currentUserIsAdmin: Box[Boolean] = curUserIsAdmin.is
 	def isAdmin_?() = currentUserIsAdmin.isDefined
+	
+	def isFullUser_?(u: User) = {
+	  var is = true;
+	  
+	  if(u.firstName.length() <= 0) is = false;
+	  if(u.lastName.length() <= 0) is = false;
+	  if(u.birthday.is == null) is = false;
+	  println("")
+	  if(u.street.length() <=0 ) is = false;
+	  if(u.postalCode.length() != 5) is = false;
+	  if(u.city.length() <= 0) is = false;
+	  if(u.phoneNumber.length() <= 0) is = false;
+	  
+	  val age = Years.yearsBetween(new DateTime(u.birthday.is), new DateTime(Helpers.now)).getYears()
+	  if(age < 18 && u.parentFirstName.length() <= 0) is = false;
+	  if(age < 18 && u.parentLastName.length() <= 0) is = false;
+	  
+	  is
+	}
+	
 }

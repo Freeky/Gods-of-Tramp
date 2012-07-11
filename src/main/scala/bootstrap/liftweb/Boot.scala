@@ -77,7 +77,6 @@ class Boot {
     Menu("register", S ? "register") / "register" >> Hidden,
     Menu("changemail", S ? "change.mail") / "options" / "changemail" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("changepassword", S ? "change.password") / "options" / "changepassword" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
-    Menu("changenewsletter", S ? "change.newsletter") / "options" / "changenewsletter" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("deleteaccount", S ? "delete.account") / "options" / "deleteaccount" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("admin", S ? "admin") / "admin" / "index"
       >> LocGroup("main")

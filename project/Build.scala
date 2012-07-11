@@ -3,7 +3,7 @@ import Keys._
 
 object BuildSettings {
   val buildOrganization = "de.got"
-  val buildVersion      = "0.2.1"
+  val buildVersion      = "0.2.2"
   val buildScalaVersion = "2.9.1"
 
   val buildSettings = Defaults.defaultSettings ++ Seq (
@@ -25,7 +25,7 @@ object Resolvers {
 
 object Dependencies {
   val logbackVer = "0.9.26"
-  val liftVersion = "2.4-M4"
+  val liftVersion = "2.4"
 
   val liftwebkit     = "net.liftweb"             %% "lift-webkit"          % liftVersion % "compile->default"
   val liftmapper	 = "net.liftweb" 			 %% "lift-mapper" 		   % liftVersion % "compile->default"
@@ -33,10 +33,10 @@ object Dependencies {
   val jetty          = "org.mortbay.jetty"       %  "jetty"                % "6.1.26"    % "container,test"
   val servlet        = "javax.servlet"           %  "servlet-api"          % "2.5"       % "provided->default"
   val junit          = "junit"                   %  "junit"                % "4.7"       % "test"
-  val scalatest      = "org.scala-tools.testing" % "specs_2.9.0"           % "1.6.8"     % "test"
+  val scalatest      = "org.scala-tools.testing" %  "specs_2.9.0"          % "1.6.8"     % "test"
   val logbackcore    = "ch.qos.logback"          %  "logback-core"         % logbackVer
   val logbackclassic = "ch.qos.logback"          %  "logback-classic"      % logbackVer
-  val mysql          = "mysql"                   %  "mysql-connector-java" % "5.1.10"
+  val mysql          = "mysql"                   %  "mysql-connector-java" % "5.1.20"
 }
 
 object FreekyWeb extends Build {

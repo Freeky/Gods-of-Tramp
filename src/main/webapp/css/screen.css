@@ -308,4 +308,10 @@ body {background-image: url("/images/bg.jpg"); background-position: center top; 
 .input-field-postalcode{width: 50px;}
 .input-field-city{width:191px;}
 .input-checkbox{margin-left: 150px;}
-.input-child{background-color: rgba(150,0,150,0.8); border: solid 1px #646464}
+#input-child{background-color: rgba(150,0,150,0.8); border: solid 1px #646464}
+.errorBox {border: 1px solid red; background-color: #f77; padding: 5px; margin-bottom: 15px; color: white;}
+.errorBox ul {margin-bottom: 0px; }
+.warningBox {border: 1px solid #f60; background-color: #fa0; padding: 5px; margin-bottom: 15px; color: white;}
+.warningBox ul {margin-bottom: 0px; }
+.noticeBox {border: 1px solid #33f; background-color: #aaf; padding: 5px; margin-bottom: 15px; color: white;}
+.noticeBox ul {margin-bottom: 0px;}

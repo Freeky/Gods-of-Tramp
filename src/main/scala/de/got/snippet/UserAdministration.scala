@@ -11,6 +11,7 @@ import java.sql.Timestamp
 import net.liftweb.http.js.JsCmds
 import net.liftweb.http.js.JsCmd
 import de.got.model._
+import java.text.SimpleDateFormat
 
 class UserAdministration extends StatefulSnippet {
   def dispatch = _ match {
@@ -19,6 +20,8 @@ class UserAdministration extends StatefulSnippet {
     case "edituser" => editUser
   }
 
+  val germanDate = new SimpleDateFormat("dd.MM.yyyy")
+  
   def short(in: NodeSeq): NodeSeq = {
     bind("short", in,
       "overall" -> Text(User.count.toString()))
@@ -124,6 +127,15 @@ class UserAdministration extends StatefulSnippet {
           "registrationdate" -> Text(user.registrationDate.toString()),
           "accounttype" -> SHtml.select(buildAccountTypeValues, Full(user.accountType.is.toString), accountType = _),
           "newsletter" -> SHtml.checkbox(user.wantsNewsletter, user.wantsNewsletter(_)),
+          "firstname" -> SHtml.text(user.firstName, user.firstName(_)),
+          "lastname" -> SHtml.text(user.lastName, user.lastName(_)),
+          "birthday" -> SHtml.text(tryo{germanDate.format(user.birthday.is)}.openOr(""), s => tryo {user.birthday(germanDate.parse(s))}),
+          "parentfirstname" -> SHtml.text(user.parentFirstName, user.parentLastName(_)),
+          "parentlastname" -> SHtml.text(user.parentLastName, user.parentLastName(_)),
+          "street" -> SHtml.text(user.street, user.street(_)),
+          "postalcode" -> SHtml.text(user.postalCode, user.postalCode(_)),
+          "city" -> SHtml.text(user.city, user.city(_)),
+          "phonenumber" -> SHtml.text(user.phoneNumber, user.phoneNumber(_)),
           "submit" -> SHtml.submit(S ? "edit", processEditUser))
       }
       case _ => Text("")

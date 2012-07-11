@@ -67,7 +67,7 @@ class ImageBrowser extends DispatchSnippet {
 
       val currentCategory = ImageCategory.find(By(ImageCategory.name, currentCategoryName))
 
-      S.error(currentCategory.open_!.name)
+      S.error(currentCategoryName)
       ImageCategory.create
         .name(categoryName)
         .parent(currentCategory.open_!)

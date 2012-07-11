@@ -30,14 +30,17 @@ _gaq.push([ 'b._trackPageview' ]);
 // Submenu
 $('.sidebar ul li').hover(function() {
 	$(this).find('ul').show();
-	}, function() {
+}, function() {
 	$(this).find('ul').hide();
 });
 
 //
-$("#birthdate").datepicker({
-	dateFormat: "dd.mm.yy",
-	changeMonth: true,
-	changeYear: true,
-	yearRange: "1912:2012"
-});
+function birthdayDatepicker() {
+	$("#birthday").datepicker({
+		dateFormat : "dd.mm.yy",
+		changeMonth : true,
+		changeYear : true,
+		yearRange : "1912:2012"
+	});
+};
+birthdayDatepicker();

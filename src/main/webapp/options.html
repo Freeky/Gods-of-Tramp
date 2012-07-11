@@ -10,31 +10,77 @@
 	| München | Optionen</title>
 		</head>
 		<h2>Optionen</h2>
-		<div class="lift:Options.show">
-			<table>
-				<tr>
-					<td>Mitglied seit:</td>
-					<td><span class="registrationdate">2012-01-01</span></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Email:</td>
-					<td><span class="mail">test@test.de</span></td>
-					<td><span class="changemail">Link</span></td>
-				</tr>
-				<tr>
-					<td>Passwort:</td>
-					<td>******</td>
-					<td><span class="changepassword">Link</span></td>
-				</tr>
-				<tr>
-					<td>Newsletter:</td>
-					<td><span class="newsletter">Ja</span></td>
-					<td><span class="changenewsletter">Link</span></td>
-				</tr>
-			</table>
-			<span class="deleteaccount">Delete Link</span>
-		</div>
+		<form class="lift:UserOptions?form=POST">
+			<div class="input">
+				<div class="input-label">Vollstäniger Benutzeraccount:</div>
+				<span class="fulluserinfo input-field">Nein</span>
+			</div>
+			<div class="input">
+				<div class="input-label">Mitglied seit:</div>
+				<span class="registrationdate input-field">2012-01-01</span>
+			</div>
+			<div class="input">
+				<div class="input-label">Benutzername:</div>
+				<span class="name input-field" />
+			</div>
+			<div class="input">
+				<div class="input-label">E-Mail:</div>
+				<span class="mail">test@test.de</span> <span class="changemail">ändern</span>
+			</div>
+			<div class="input">
+				<div class="input-label">Passwort:</div>
+				<span>******</span> <span class="changepassword">ändern</span>
+			</div>
+			<br />
+			<div class="input">
+				<div class="input-label">Vorname:</div>
+				<input type="text" class="firstname input-field" />
+			</div>
+			<div class="input">
+				<div class="input-label">Familienname:</div>
+				<input type="text" class="lastname input-field" />
+			</div>
+			<div class="input">
+				<div class="input-label">Geburtstag:</div>
+				<input type="text" id="birthday" class="birthday input-field" />
+			</div>
+			<div id="input-options-parent">
+				<div id="input-child">
+					<span class="input-label">Erziehungsberechtiger:</span><br />
+					<div class="input">
+						<div class="input-label">Vorname:</div>
+						<input type="text" class="parentfirstname input-field" />
+					</div>
+					<div class="input">
+						<div class="input-label">Nachname:</div>
+						<input type="text" class="parentlastname input-field" />
+					</div>
+				</div>
+			</div>
+			<div class="input">
+				<div class="input-label">Telefonnummer:</div>
+				<input type="text" class="phone input-field" />
+			</div>
+			<div class="input">
+				<div class="input-label">Strasse/Hausnummer:</div>
+				<input type="text" class="street input-field" />
+			</div>
+			<div class="input">
+				<div class="input-label">PLZ/Ort:</div>
+				<input type="text" class="postalcode input-field-postalcode" />/<input
+					type="text" class="city input-field-city" />
+			</div>
+			<br />
+			<div class="input">
+				<div class="input-checkbox">
+					<input type="checkbox" class="newsletter" />Ja, ich will
+					Newsletter erhalten
+				</div>
+			</div>
+			<br />
+			<button type="submit" class="submit input-checkbox">Submit</button>
+			<br /> <span class="deleteaccount">Delete Link</span>
+		</form>
 	</div>
 </body>
 </html>

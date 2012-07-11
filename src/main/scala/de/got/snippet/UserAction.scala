@@ -5,6 +5,7 @@ import scala.xml.{ NodeSeq, Text }
 import net.liftweb.util.Helpers
 import net.liftweb.http._
 import net.liftweb.proto.ProtoRules
+import js.JsCmds._
 import Helpers._
 import de.got.model._
 import S._
@@ -14,8 +15,18 @@ class UserAction extends StatefulSnippet with Logger {
 
   var userName = ""
   var userEmail = ""
+  var userRetypeEmail = ""
   var userPassword = ""
   var userRetypePassword = ""
+  var firstName = ""
+  var lastName = ""
+  var birthday = ""
+  var parentFirstName = ""
+  var parentLastName = ""
+  var phoneNumber = ""
+  var street = ""
+  var postalCode = ""
+  var city = ""
   var userNewsletter = false
   var userAgb = false
 
@@ -43,21 +54,20 @@ class UserAction extends StatefulSnippet with Logger {
           curUserIsAdmin(Full(true))
         curUserId(Full(user.id.is))
         logginName(Full(user.name.is))
+        unregisterThisSnippet()
         S.redirectTo("/")
       } else S.error(S ? "user.or.password.wrong")
     }
 
     if (!User.loggedIn_?()) {
-      ".email" #> SHtml.text(userEmail, userEmail = _) &
-        ".password" #> SHtml.password(userPassword, userPassword = _) &
+      ".email" #> FocusOnLoad( SHtml.text(userEmail, userEmail = _)) &
+        ".password" #> SHtml.password("", userPassword = _) &
         ".submit" #> SHtml.submit(S ? "login", processLogin)
     } else
       "*" #> <span>{ S ? "allready.logged.in" }</span>
   }
 
   def register = {
-
-    this.registerThisSnippet()
 
     def processRegister() = {
       var invalid = false
@@ -103,7 +113,7 @@ class UserAction extends StatefulSnippet with Logger {
           S.error(S ? "user.cant.be.saved")
           error("Couldn't save user (%s, %s)".format(userName, userEmail))
         } else {
-          this.unregisterThisSnippet()
+          unregisterThisSnippet()
           S.notice(S ? "successfull.registration")
           S.redirectTo("/")
         }
@@ -115,8 +125,18 @@ class UserAction extends StatefulSnippet with Logger {
 
     ".name" #> SHtml.text(userName, userName = _) &
       ".email" #> SHtml.text(userEmail, userEmail = _) &
-      ".password" #> SHtml.password(userPassword, userPassword = _) &
-      ".retypepassword" #> SHtml.password(userRetypePassword, userRetypePassword = _) &
+      ".retypeemail" #> SHtml.text(userRetypeEmail, userRetypeEmail = _) &
+      ".password" #> SHtml.password("", userPassword = _) &
+      ".retypepassword" #> SHtml.password("", userRetypePassword = _) &
+      ".firstname" #> SHtml.text(firstName, firstName = _) &
+      ".lastname" #> SHtml.text(lastName, lastName = _) &
+      ".birthday" #> SHtml.text(birthday, birthday = _) &
+      ".parentfirstname" #> SHtml.text(parentFirstName, parentFirstName = _) &
+      ".parentlastname" #> SHtml.text(parentLastName, parentLastName = _) &
+      ".phone" #> SHtml.text(phoneNumber, phoneNumber = _) &
+      ".street" #> SHtml.text(street, street = _) &
+      ".postalcode" #> SHtml.text(postalCode, postalCode = _) &
+      ".city" #> SHtml.text(city, city = _) &
       ".newsletter" #> SHtml.checkbox(userNewsletter, userNewsletter = _) &
       ".agb" #> SHtml.checkbox(userAgb, userAgb = _) &
       ".submit" #> SHtml.submit(S ? "register", processRegister)
@@ -126,6 +146,7 @@ class UserAction extends StatefulSnippet with Logger {
     curUserIsAdmin(Empty)
     curUserId(Empty)
     logginName(Empty)
+    unregisterThisSnippet()
     S.redirectTo("/")
   }
 
@@ -170,6 +191,7 @@ class UserAction extends StatefulSnippet with Logger {
           if (errors.isEmpty) {
             user.password(newPassword).save()
 
+            unregisterThisSnippet()
             S.notice(S ? "new.password.set")
             S.redirectTo("/options")
           } else {
@@ -252,7 +274,7 @@ class UserAction extends StatefulSnippet with Logger {
       }
     }
     def processNo() = {
-      S.redirectTo("options")
+      S.redirectTo("/options")
     }
 
     ".yes" #> SHtml.submit(S ? "yes", processYes) &

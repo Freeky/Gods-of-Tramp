@@ -8,16 +8,18 @@
 	</head>
 	<h1>Registrieren</h1>
 	<p>
-	<form class="lift:UserAction.register?form=POST">
-	
+	<form class="lift:UserRegistration?form=POST">
+
 		<div class="input">
 			<div class="input-label">Bitte wählen:</div>
-			<input type="radio" name="usertype" value="user" checked="checked" />Privatperson
-			<input type="radio" name="usertype" value="business" />Geschäftskunde
+			<span class="registrationtype"> 
+				<input type="radio"	name="usertype" value="user" checked="checked" />Privatperson
+				<input type="radio" name="usertype" value="business" />Geschäftskunde
+			</span>
 		</div>
 		<br />
 		<div id="register-content">
-			<div class="register-user">
+			<div id="register-user">
 				<div class="input">
 					<div class="input-label">Benutzername:*</div>
 					<input type="text" class="name input-field" />
@@ -49,10 +51,10 @@
 				</div>
 				<div class="input">
 					<div class="input-label">Geburtstag:</div>
-					<input type="text" id="birthdate"  class="birthday input-field"/>
+					<input type="text" id="birthday" class="birthday input-field" />
 				</div>
 				<div id="input-register-parent">
-					<div class="input-child">
+					<div id="input-child">
 						<span class="input-label">Erziehungsberechtiger:</span><br />
 						<div class="input">
 							<div class="input-label">Vorname:</div>
@@ -60,7 +62,7 @@
 						</div>
 						<div class="input">
 							<div class="input-label">Nachname:</div>
-							<input type="text" class="parentfirstname input-field" />
+							<input type="text" class="parentlastname input-field" />
 						</div>
 					</div>
 				</div>
@@ -76,7 +78,8 @@
 					<div class="input-label">PLZ/Ort:</div>
 					<input type="text" class="postalcode input-field-postalcode" />/<input
 						type="text" class="city input-field-city" />
-				</div><br />
+				</div>
+				<br />
 				<div class="input">
 					<div class="input-checkbox">
 						<input type="checkbox" class="newsletter" />Ja, ich will
@@ -85,16 +88,20 @@
 				</div>
 				<div class="input">
 					<div class="input-checkbox">
-						<input type="checkbox" class="agb" />Ich akzeptiere die <span
-							class="lift:Menu.item?name=agb">AGB</span>
+						<input type="checkbox" class="agb" />Ich akzeptiere die <a
+							href="/agb">AGB</a>
 					</div>
 
 				</div>
 			</div>
-			<div class="register-business"><center>Anmeldung für Geschäftskunden ist noch nicht möglich</center></div>
-		</div><br />
-		<button type="submit" class="submit input-checkbox">Submit</button><br />
-		* Pflichtfelder
+			<div id="register-business">
+				<center>Anmeldung für Geschäftskunden ist noch nicht
+					möglich</center>
+			</div>
+		</div>
+		<br />
+		<button type="submit" class="submit input-checkbox">Submit</button>
+		<br /> * Pflichtfelder
 	</form>
 	</p>
 </div>
