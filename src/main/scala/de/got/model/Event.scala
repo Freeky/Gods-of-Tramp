@@ -18,6 +18,7 @@ class Event extends LongKeyedMapper[Event] with IdPK {
   object text extends MappedText(this)
   
   object description extends MappedString(this, 300)
+  object keywords extends MappedString(this, 512)
 
   object author extends MappedLongForeignKey(this, User) {
     def getName: String = {

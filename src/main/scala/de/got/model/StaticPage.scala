@@ -20,6 +20,12 @@ class StaticPage extends LongKeyedMapper[StaticPage] with IdPK {
   object lastModified extends MappedDateTime(this) {
     override def defaultValue = now
   }
+
+  object description extends MappedString(this, 256)
+
+  object keywords extends MappedString(this, 512)
+  
+  object title extends MappedString(this, 128)
 }
 
 object StaticPage extends StaticPage with LongKeyedMetaMapper[StaticPage]

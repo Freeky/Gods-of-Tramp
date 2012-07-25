@@ -8,12 +8,14 @@
 	<h2>Angebot hinzufügen...</h2>
 	<p>
 		<form class="lift:EventAction.new?form=POST">
-    Titel: <input type="text" class="title" />
+    Titel: <input type="text" class="title" style="width: 500px;" />
 			<br />
     Text:<br />
-			<textarea rows="10" cols="300" class="text"></textarea>
+			<textarea rows="10" cols="300" class="text" style="width: 650px; height: 500px;"></textarea>
 			<br />
-	Description: <input type="text" class="description" />
+	Description: <input type="text" class="description" maxlength="300" style="width: 500px;" />
+			<br />
+	Keywords: <input type="text" class="keywords" maxlength="512" style="width: 500px;" />
 			<br />
     Autor: <span class="author">Administrator</span> Order: <input type="text" class="order" />
 			<button type="submit" class="submit">Submit</button><br />

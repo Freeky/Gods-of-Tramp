@@ -21,71 +21,81 @@ class StaticPage extends DispatchSnippet {
 
   def show = {
     val site = S.attr("site") openOr ""
-    val contentBox = for {
+    val siteBox = for {
       staticSite <- StaticPage.find(By(StaticPage.name, site))
-    } yield staticSite.content.is
+    } yield staticSite
 
-    contentBox match {
-      case Full(content) => 
-        "*" #> TextileParser.paraFixer(
-          TextileParser.toHtml(content))
+    siteBox match {
+      case Full(site) =>
+        "*" #>
+          <div>
+            <head>
+              <title>{ site.title }</title>
+              <meta name="description" content={ site.description }/>
+              <meta name="keywords" content={ site.keywords }/>
+            </head>
+            { TextileParser.paraFixer(TextileParser.toHtml(site.content)) }
+          </div>
       case _ => {
-    	  generatePages
-    	  S.redirectTo("/")
+        generatePages
+        S.redirectTo("/")
       }
     }
   }
 
   def list = {
-    "*" #> StaticPage.findAll.map(page => 
+    "*" #> StaticPage.findAll.map(page =>
       ".id" #> Text(page.id.is.toString) &
-      ".name" #> Text(page.name.is) &
-      ".editlink [href]" #> "/admin/staticpage/edit/%d".format(page.id.is))
+        ".name" #> Text(page.name.is) &
+        ".editlink [href]" #> "/admin/staticpage/edit/%d".format(page.id.is))
   }
 
   def edit = {
-	  val pageId = (S.param("id") openOr "0").toInt
-	  val dbPage = StaticPage.find(pageId)
-	  
-	  def processEdit() = {
-	 	  dbPage.map(_.lastModified(now).save())
-	  }
-	  
-	  def updateShowContent(text: String) = {
-	    dbPage match {
-	 	  case Full(page) => 
-	 		  page.content(text)
-	 		  JsCmds.SetHtml("showcontent", TextileParser.toHtml(text))
-	 	  case _ => S.redirectTo("/admin/staticpage/list")
-	  }
-	  }
-	   
-	  dbPage match {
-	 	  case Full(page) => 
-	 		  ".name" #> Text(page.name.is) &
-	 		  ".editcontent" #> SHtml.ajaxTextarea(page.content.is, updateShowContent _) &
-	 		  "#showcontent *" #> TextileParser.paraFixer(TextileParser.toHtml(page.content.is)) &
-	 		  ".submit" #> SHtml.submit(S ? "edit", processEdit)
-	 	  case _ => S.redirectTo("/admin/staticpage/list")
-	  }
-  }
-  
-  def generate = {
-      ".submit" #> SHtml.submit(S ? "generate.static.pages", generatePages)
-  }
-  
-  def generatePages() = {
-    	if(StaticPage.find(By(StaticPage.name, "index")) == Empty)
-    	StaticPage.create.name("index").content("").save
-    	if(StaticPage.find(By(StaticPage.name, "aboutus")) == Empty)
-    	StaticPage.create.name("aboutus").content("").save
-    	if(StaticPage.find(By(StaticPage.name, "links")) == Empty)
-    	StaticPage.create.name("links").content("").save
-    	if(StaticPage.find(By(StaticPage.name, "contact")) == Empty)
-    	StaticPage.create.name("contact").content("").save
-    	if(StaticPage.find(By(StaticPage.name, "agb")) == Empty)
-    	StaticPage.create.name("agb").content("").save
-    	if(StaticPage.find(By(StaticPage.name, "impressum")) == Empty)
-    	StaticPage.create.name("impressum").content("").save
+    val pageId = (S.param("id") openOr "0").toInt
+    val dbPage = StaticPage.find(pageId)
+
+    def processEdit() = {
+      dbPage.map(_.lastModified(now).save())
     }
+
+    def updateShowContent(text: String) = {
+      dbPage match {
+        case Full(page) =>
+          page.content(text)
+          JsCmds.SetHtml("showcontent", TextileParser.toHtml(text))
+        case _ => S.redirectTo("/admin/staticpage/list")
+      }
+    }
+
+    dbPage match {
+      case Full(page) =>
+        ".name" #> Text(page.name.is) &
+          ".editcontent" #> SHtml.ajaxTextarea(page.content.is, updateShowContent _) &
+          ".edittitle" #> SHtml.text(page.title, page.title(_)) &
+          ".editdescription" #> SHtml.text(page.description, page.description(_)) &
+          ".editkeywords" #> SHtml.text(page.keywords, page.keywords(_)) &
+          "#showcontent *" #> TextileParser.paraFixer(TextileParser.toHtml(page.content.is)) &
+          ".submit" #> SHtml.submit(S ? "edit", processEdit)
+      case _ => S.redirectTo("/admin/staticpage/list")
+    }
+  }
+
+  def generate = {
+    ".submit" #> SHtml.submit(S ? "generate.static.pages", generatePages)
+  }
+
+  def generatePages() = {
+    if (StaticPage.find(By(StaticPage.name, "index")) == Empty)
+      StaticPage.create.name("index").content("").save
+    if (StaticPage.find(By(StaticPage.name, "aboutus")) == Empty)
+      StaticPage.create.name("aboutus").content("").save
+    if (StaticPage.find(By(StaticPage.name, "links")) == Empty)
+      StaticPage.create.name("links").content("").save
+    if (StaticPage.find(By(StaticPage.name, "contact")) == Empty)
+      StaticPage.create.name("contact").content("").save
+    if (StaticPage.find(By(StaticPage.name, "agb")) == Empty)
+      StaticPage.create.name("agb").content("").save
+    if (StaticPage.find(By(StaticPage.name, "impressum")) == Empty)
+      StaticPage.create.name("impressum").content("").save
+  }
 }

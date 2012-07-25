@@ -72,7 +72,8 @@ class OfferAction extends DispatchSnippet {
         ".author" #> Text(n.author.getName) &
         ".id" #> Text(n.id.is.toString) &
         "title *" #> Text(n.title.is) &
-        "@description [content]" #> n.description.is)
+        "@description [content]" #> n.description.is &
+        "@keywords [content]" #> n.keywords.is)
         
     ".entry" #> bindOffer &
       ".previsious" #> prev &
@@ -165,6 +166,7 @@ class OfferAction extends DispatchSnippet {
     ".title" #> SHtml.text(offer.title.toString, offer.title(_)) &
       ".text" #> SHtml.ajaxTextarea(offer.text.toString, updatePreview) &
       ".description" #> SHtml.text(offer.description, offer.description(_)) &
+      ".keywords" #> SHtml.text(offer.keywords, offer.keywords(_)) &
       ".order" #> SHtml.text(offer.order.toString, x => offer.order(x.toInt)) &
       ".author" #> Text(offer.author.getName) &
       ".submit" #> SHtml.submit(S ? "add", addOfferToDatabase) &
@@ -191,6 +193,7 @@ class OfferAction extends DispatchSnippet {
     ".title" #> Text(n.title.is) &
       ".text" #> TextileParser.paraFixer(TextileParser.toHtml(n.text.is)) &
       ".description" #> Text(n.description.is) &
+      ".keywords" #> SHtml.text(n.keywords, n.keywords(_)) &
       ".date" #> Text(timestamp.format(n.createDate.is)) &
       ".author" #> Text(n.author.getName) &
       ".id" #> Text(n.id.is.toString) &
@@ -232,6 +235,7 @@ class OfferAction extends DispatchSnippet {
     ".title" #> SHtml.text(offer.title.toString, offer.title(_)) &
       ".text" #> SHtml.ajaxTextarea(offer.text.toString, updatePreview) &
       ".description" #> SHtml.text(offer.description, offer.description(_)) &
+      ".keywords" #> SHtml.text(offer.keywords, offer.keywords(_)) &
       ".order" #> SHtml.text(offer.order.toString, x => offer.order(x.toInt)) &
       ".author" #> Text(offer.author.getName) &
       ".submit" #> SHtml.submit(S ? "edit", updateOfferInDatabase) &

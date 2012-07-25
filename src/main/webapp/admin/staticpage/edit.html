@@ -5,20 +5,29 @@
 </head>
 <body class="lift:content_id=main">
 	<div id="main" class="lift:surround?with=default;at=content">
-	<h2>Bearbeite Statische Seite...</h2>
-	<p>
-		<form class="lift:StaticPage.edit?form=POST">
-    Seite: <input type="text" class="name" />
-			<br />
-    Inhalt:<br />
-			<textarea rows="10" cols="300" class="editcontent"></textarea>
-			<br />
-			<button type="submit" class="submit">Submit</button>
-			<br />
-			<hr />
-			<div id="showcontent">Content der Seite</div>
-		</form>
-	</p>
+		<h2>Bearbeite Statische Seite...</h2>
+		<p>
+			<form class="lift:StaticPage.edit?form=POST">
+				Seite: <input type="text" class="name" /> 
+				<br /> 
+				Inhalt:<br />
+				<textarea rows="10" cols="300" class="editcontent" style="width: 650px; height: 500px;"></textarea>
+				<br />
+				title:
+				<input type="text" class="edittitle" maxlength="128" style="width: 500px;"></input>
+				<br />
+				meta description: 
+				<input type="text" class="editdescription" maxlength="256" style="width: 500px;"></input> 
+				<br /> 
+				meta keywords: 
+				<input type="text" class="editkeywords" maxlength="512" style="width: 500px;"></input>
+				<br />
+				<button type="submit" class="submit">Submit</button>
+				<br />
+				<hr />
+				<div id="showcontent">Content der Seite</div>
+			</form>
+		</p>
 	</div>
 </body>
 </html>
