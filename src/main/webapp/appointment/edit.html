@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body class="lift:content_id=main">
+	<div id="main" class="lift:surround?with=default;at=content">
+		<h2>Termin bearbeiten</h2>
+		<p>
+			<div class="lift:EditAppointment?form=POST">
+				<div class="input">
+					<div class="input-label">Beschreibung:</div>
+					<input type="text" class="description input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Anfang:</div>
+					<input type="text" class="from input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Ende:</div>
+					<input type="text" class="till input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Anmeldeschluss:</div>
+					<input type="text" class="deadline input-field" />
+				</div>
+				<div class="input">
+					<div class="input-label">Plätze:</div>
+					<input type="text" class="spots input-field" />
+				</div>
+				<br />
+				<button type="submit" class="edit input-checkbox">Submit</button>
+				<button type="submit" class="delete input-checkbox">Submit</button>
+
+				<table>
+					<thead>
+						<tr>
+							<td style="width: 30px;">ID</td>
+							<td style="width: 350px;">Teilnehmer</td>
+							<td style="width: 105px;">Status</td>
+							<td style="width: 105px;">Anmeldedatum</td>
+						</tr>
+					</thead>
+					<tbody id="attendees">
+						<tr class="attendee-entry">
+							<td><span class="attendee-id">0</span></td>
+							<td><span class="attendee-name">Name</span></td>
+							<td><select class="attendee-status">
+									<option selected="selected">Teilnehmend</option>
+									<option>Warteliste</option>
+									<option>Unbestätigt</option>
+									<option>Löschen</option>
+							</select></td>
+							<td><span class="attendee-registration-date">01.01.2012</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</p>
+	</div>
+</body>
+</html>

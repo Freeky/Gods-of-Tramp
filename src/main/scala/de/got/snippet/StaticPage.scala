@@ -6,6 +6,7 @@ import _root_.net.liftweb.http._
 import _root_.net.liftweb.common._
 import Helpers._
 import de.got.model._
+import de.got.lib.AjaxFactory._
 import S._
 import net.liftweb.textile._
 import net.liftweb.http.js.JsCmds
@@ -70,7 +71,7 @@ class StaticPage extends DispatchSnippet {
     dbPage match {
       case Full(page) =>
         ".name" #> Text(page.name.is) &
-          ".editcontent" #> SHtml.ajaxTextarea(page.content.is, updateShowContent _) &
+          ".editcontent" #> ajaxLiveTextarea(page.content.is, updateShowContent _) &
           ".edittitle" #> SHtml.text(page.title, page.title(_)) &
           ".editdescription" #> SHtml.text(page.description, page.description(_)) &
           ".editkeywords" #> SHtml.text(page.keywords, page.keywords(_)) &

@@ -6,6 +6,7 @@ import _root_.net.liftweb.util.Helpers
 import _root_.net.liftweb.http._
 import Helpers._
 import de.got.model._
+import de.got.lib.AjaxFactory._
 import S._
 import java.text.SimpleDateFormat
 import de.got.main._
@@ -164,7 +165,7 @@ class OfferAction extends DispatchSnippet {
     }
 
     ".title" #> SHtml.text(offer.title.toString, offer.title(_)) &
-      ".text" #> SHtml.ajaxTextarea(offer.text.toString, updatePreview) &
+      ".text" #> ajaxLiveTextarea(offer.text.toString, updatePreview) &
       ".description" #> SHtml.text(offer.description, offer.description(_)) &
       ".keywords" #> SHtml.text(offer.keywords, offer.keywords(_)) &
       ".order" #> SHtml.text(offer.order.toString, x => offer.order(x.toInt)) &
@@ -233,7 +234,7 @@ class OfferAction extends DispatchSnippet {
     }
 
     ".title" #> SHtml.text(offer.title.toString, offer.title(_)) &
-      ".text" #> SHtml.ajaxTextarea(offer.text.toString, updatePreview) &
+      ".text" #> ajaxLiveTextarea(offer.text.toString, updatePreview) &
       ".description" #> SHtml.text(offer.description, offer.description(_)) &
       ".keywords" #> SHtml.text(offer.keywords, offer.keywords(_)) &
       ".order" #> SHtml.text(offer.order.toString, x => offer.order(x.toInt)) &

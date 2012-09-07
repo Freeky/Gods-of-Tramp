@@ -18,6 +18,7 @@ import net.liftweb.http.js.JE._
 import net.liftweb.http.js.JsCmds._
 import scala.xml.Elem
 import de.got.lib.AjaxFactory._
+import de.got.lib.DateFunctions._
 
 class UserRegistration extends StatefulSnippet with Logger {
 
@@ -30,8 +31,7 @@ class UserRegistration extends StatefulSnippet with Logger {
     Full(RegistrationMethod.PrivateUser),
     loadTemplateFor(_))
 
-  val germanDate = new SimpleDateFormat("dd.MM.yyyy")
-
+  
   var r_user = User.create
 
   var userRetypeEmail = ""
@@ -85,7 +85,7 @@ class UserRegistration extends StatefulSnippet with Logger {
     }).openOr(JsCmds.Noop)
   }
 
-  def formatDate(d: java.util.Date): String = d match { case null => "" case s => germanDate.format(s) }
+  
 
   def renderUserRegistration: NodeSeq = {
     {

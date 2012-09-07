@@ -9,6 +9,7 @@ import de.got.model._
 import S._
 import java.text.SimpleDateFormat
 import de.got.main._
+import de.got.lib.AjaxFactory._
 import net.liftweb.textile._
 import net.liftweb.http.js.JsCmd
 import net.liftweb.http.js.JsCmds
@@ -163,7 +164,7 @@ class EventAction extends DispatchSnippet {
     }
 
     ".title" #> SHtml.text(event.title.toString, event.title(_)) &
-      ".text" #> SHtml.ajaxTextarea(event.text.toString, updatePreview) &
+      ".text" #> ajaxLiveTextarea(event.text.toString, updatePreview) &
       ".description" #> SHtml.text(event.description, event.description(_)) &
       ".keywords" #> SHtml.text(event.keywords, event.keywords(_)) &
       ".order" #> SHtml.text(event.order.toString, x => event.order(x.toInt)) &
@@ -232,7 +233,7 @@ class EventAction extends DispatchSnippet {
     }
 
     ".title" #> SHtml.text(event.title.toString, event.title(_)) &
-      ".text" #> SHtml.ajaxTextarea(event.text.toString, updatePreview) &
+      ".text" #> ajaxLiveTextarea(event.text.toString, updatePreview) &
       ".description" #> SHtml.text(event.description, event.description(_)) &
       ".keywords" #> SHtml.text(event.keywords, event.keywords(_)) &
       ".order" #> SHtml.text(event.order.toString, x => event.order(x.toInt)) &

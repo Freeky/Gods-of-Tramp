@@ -60,7 +60,7 @@ class UserAction extends StatefulSnippet with Logger {
     }
 
     if (!User.loggedIn_?()) {
-      ".email" #> FocusOnLoad( SHtml.text(userEmail, userEmail = _)) &
+      ".email" #> SHtml.text(userEmail, userEmail = _) &
         ".password" #> SHtml.password("", userPassword = _) &
         ".submit" #> SHtml.submit(S ? "login", processLogin)
     } else

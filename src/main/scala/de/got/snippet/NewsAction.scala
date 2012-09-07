@@ -9,6 +9,7 @@ import de.got.model._
 import S._
 import java.text.SimpleDateFormat
 import de.got.main._
+import de.got.lib.AjaxFactory._
 import net.liftweb.textile._
 import net.liftweb.http.js.JsCmd
 import net.liftweb.http.js.JsCmds
@@ -159,7 +160,7 @@ class NewsAction extends DispatchSnippet {
     }
 
     ".title" #> SHtml.text(news.title.toString, news.title(_)) &
-      ".text" #> SHtml.ajaxTextarea(news.text.toString, updatePreview) &
+      ".text" #> ajaxLiveTextarea(news.text.toString, updatePreview) &
       ".author" #> Text(news.author.getName) &
       ".submit" #> SHtml.submit(S ? "add", addNewsToDatabase) &
       "#previewarea *" #> preview
@@ -221,7 +222,7 @@ class NewsAction extends DispatchSnippet {
     }
 
     ".title" #> SHtml.text(news.title.toString, news.title(_)) &
-      ".text" #> SHtml.ajaxTextarea(news.text.toString, updatePreview) &
+      ".text" #> ajaxLiveTextarea(news.text.toString, updatePreview) &
       ".author" #> Text(news.author.getName) &
       ".submit" #> SHtml.submit(S ? "edit", updateNewsInDatabase) &
       "#previewarea *" #> preview

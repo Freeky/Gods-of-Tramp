@@ -37,7 +37,8 @@ class User extends LongKeyedMapper[User] with IdPK {
 }
 
 object User extends User with LongKeyedMetaMapper[User] {
-  def currentUserId: Box[Long] = curUserId.is
+  def currentUser: Box[User] = curUser.is
+  def currentUserId: Box[Long] = curUser.map(_.id.is)
   def loggedIn_?() = currentUserId.isDefined
   def currentUserIsAdmin: Box[Boolean] = curUserIsAdmin.is
   def isAdmin_?() = currentUserIsAdmin.isDefined

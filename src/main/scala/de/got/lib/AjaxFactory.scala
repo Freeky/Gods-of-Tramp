@@ -16,4 +16,15 @@ object AjaxFactory {
           "=' + encodeURIComponent(this.value)")))
     }
   }
+  
+  /*
+   * Using onblur event because onkeyup is not fast enough in real world environment
+   */
+  def ajaxLiveTextarea(value: String, func: String => JsCmd, attrs: (String, String)*): Elem = {
+    S.fmapFunc(S.SFuncHolder(func)) { funcName =>
+      (attrs.foldLeft(<textarea type="text">{ value }</textarea>)(_ % _)) %
+        ("onblur" -> SHtml.makeAjaxCall(JsRaw("'" + funcName +
+          "=' + encodeURIComponent(this.value)")))
+    }
+  }
 }

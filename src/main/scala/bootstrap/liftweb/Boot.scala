@@ -36,7 +36,7 @@ class Boot {
       DB.defineConnectionManager(DefaultConnectionIdentifier, vendor)
     }
     //DB.defineConnectionManager(DefaultConnectionIdentifier, DBVendor)
-    Schemifier.schemify(true, Schemifier.infoF _, Event, Offer, News, User, Image, StaticPage, ImageCategory, ImageToCategory, AccountType)
+    Schemifier.schemify(true, Schemifier.infoF _, Event, Offer, News, User, Image, StaticPage, ImageCategory, ImageToCategory, AccountType, Appointment, AppointmentAttendee)
     S.addAround(DB.buildLoanWrapper)
 
     // where to search snippet
@@ -57,7 +57,7 @@ class Boot {
       case Req("image" :: secure :: name :: Nil, fileType, _) =>
         () => ImageAction.serveImage(secure, "%s.%s".format(name, fileType))
     }
-    LiftRules.statelessDispatchTable.append(de.got.lib.MySitemap) 
+    LiftRules.statelessDispatchTable.append(de.got.lib.MySitemap)
     
   }
 
@@ -78,6 +78,7 @@ class Boot {
     Menu("changemail", S ? "change.mail") / "options" / "changemail" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("changepassword", S ? "change.password") / "options" / "changepassword" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("deleteaccount", S ? "delete.account") / "options" / "deleteaccount" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
+    Menu("appointment", S ? "appointment") / "appointment" >> Hidden >> If(() => User.loggedIn_?(), S ? "no.permission"),
     Menu("admin", S ? "admin") / "admin" / "index"
       >> LocGroup("main")
       >> If(User.isAdmin_?, S ? "no.permission")
@@ -121,6 +122,12 @@ class Boot {
         >> If(User.isAdmin_?, "no.permission")
         >> Hidden,
         Menu("admin.picture.delete", S ? "admin.picture.delete") / "admin" / "picture" / "delete"
+        >> If(User.isAdmin_?, S ? "no.permission")
+        >> Hidden,
+        Menu("appointment.create", S ? "appointment.create") / "appointment" / "create"
+        >> If(User.isAdmin_?, S ? "no.permission")
+        >> Hidden,
+        Menu("appointment.edit", S ? "appointment.edit") / "appointment" / "edit"
         >> If(User.isAdmin_?, S ? "no.permission")
         >> Hidden,
         Menu("admin.staticpage.list", S ? "admin.staticpage.list") / "admin" / "staticpage" / "list"
@@ -182,6 +189,12 @@ class Boot {
       case RewriteRequest(
         ParsePath(List("admin", "picture", "categories", id), _, _, _), _, _) =>
         RewriteResponse("admin" :: "picture" :: "categories" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("appointment", "edit", id), _, _, _), _, _) =>
+        RewriteResponse("appointment" :: "edit" :: Nil, Map("id" -> id))
+      case RewriteRequest(
+        ParsePath(List("appointment", "create", id), _, _, _), _, _) =>
+        RewriteResponse("appointment" :: "create" :: Nil, Map("id" -> id))
       case RewriteRequest(
         ParsePath(List("pictures", category), _, _, _), _, _) =>
         RewriteResponse("pictures" :: Nil, Map("category" -> category))
