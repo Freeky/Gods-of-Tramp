@@ -23,5 +23,5 @@ class Image extends LongKeyedMapper[Image] with IdPK with ManyToMany {
 
 object Image extends Image with LongKeyedMetaMapper[Image] {	def toHTML(img: Image, width: Int, height: Int): Node = {		<img src={ "/image/%s/%s?width=%d&height=%d".format(img.secure.is, img.name.is, width, height)}>{img.name.is}</img>	};		
 	def toHTML(img: Image): Node = {
-		<img src={"/image/" + img.secure.is + "/" + img.name.is}>{img.name.is}</img>	};		def detailLink(img: Image): String = {		"/admin/picture/detail/%d" format img.id.is	};		def deleteLink(img: Image): String = {		"/admin/picture/delete/%d" format img.id.is	};		def file(img: Image) = {		val path = new File(Props.get("imagepath", "./images"));		val file = new File(path, img.id.toString);		file	};		
+		<img src={"/image/" + img.secure.is + "/" + img.name.is}>{img.name.is}</img>	};		def detailLink(img: Image): String = {		"/admin/picture/detail/%d" format img.id.is	};		def deleteLink(img: Image): String = {		"/admin/picture/delete/%d" format img.id.is	};		def file(img: Image, ext: String = "") = {		val path = new File(Props.get("imagepath", "./images"));		val file = new File(path, img.id.toString + ext);		file	};		
 }
