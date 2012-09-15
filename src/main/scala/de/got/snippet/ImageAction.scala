@@ -11,6 +11,8 @@ import _root_.net.liftweb.mapper._
 import Helpers._
 import de.got.model._
 import S._
+import de.got.main._
+import java.io.FileOutputStream
 
 class ImageAction extends DispatchSnippet {
   def dispatch: DispatchIt = _ match {
@@ -19,6 +21,22 @@ class ImageAction extends DispatchSnippet {
     case "list" => list
     case "delete" => delete
     case "detail" => detail
+  }
+
+  def saveImage(fileName: String, mime: String, data: Array[Byte]) = {
+    val image = Image.create
+      .name(fileName)
+      .mimeType(mime)
+      .uploader(curUser.map(_.id.is).openOr(0L))
+    image.save
+
+    val file = Image.file(image)
+    if (!file.createNewFile()) error("file: %s could not be created".format(file.getAbsoluteFile()))
+    val fos = new FileOutputStream(file)
+    fos.write(data)
+    fos.close()
+
+    image
   }
 
   def upload = {
@@ -30,12 +48,7 @@ class ImageAction extends DispatchSnippet {
       fileBox.map(_ match {
         case FileParamHolder(_, null, _, _) => S.error("No file uploaded")
         case FileParamHolder(_, mime, fileName, data) if mime.startsWith("image/") => {
-          val image = Image.create
-            .blob(data)
-            .name(fileName)
-            .mimeType(mime)
-            .uploader(currentUser)
-          image.save
+          val image = saveImage(fileName, mime, data)
           S.redirectTo("/image/" + image.secure.is.toLowerCase + "/" + image.name.is)
         }
         case _ => S.error("Invalid upload")
@@ -43,7 +56,7 @@ class ImageAction extends DispatchSnippet {
 
     }
 
-      ".fileupload" #> SHtml.fileUpload(x => fileBox = Full(x)) &
+    ".fileupload" #> SHtml.fileUpload(x => fileBox = Full(x)) &
       ".submit" #> SHtml.submit(S ? "upload", processUpload)
   }
 
@@ -54,14 +67,8 @@ class ImageAction extends DispatchSnippet {
     def processUpload() = {
       S.request.map(_.uploadedFiles.map(_ match {
         case FileParamHolder(_, null, _, _) => S.error("No file uploaded")
-        case FileParamHolder(name , mime, fileName, data) if mime.startsWith("image/") => {
-          println(name)
-          val image = Image.create
-            .blob(data)
-            .name(fileName)
-            .mimeType(mime)
-            .uploader(currentUser)
-          image.save
+        case FileParamHolder(name, mime, fileName, data) if mime.startsWith("image/") => {
+          val image = saveImage(fileName, mime, data)
 
           val currentCategoryName = S.param("category").openOr("")
           val currentCategory = ImageCategory.find(By(ImageCategory.name, currentCategoryName))
@@ -152,7 +159,12 @@ class ImageAction extends DispatchSnippet {
 
     val imageId = S.param("id").open_!.toInt
     val image = Image.find(imageId).open_!
-    val imageData = ImageIO.read(new ByteArrayInputStream(image.blob.is))
+
+    val file = Image.file(image)
+    if (!file.canRead())
+      error("file: %s could not be read" format (file.getAbsoluteFile()))
+    val imageData = ImageIO.read(file)
+
     var selectedCategory = ""
 
     def deleteCategory(category: ImageCategory) = {
@@ -176,9 +188,9 @@ class ImageAction extends DispatchSnippet {
 
     def addCategory = {
       ImageToCategory.create
-      .category(ImageCategory.find(By(ImageCategory.id, selectedCategory.toInt)))
-      .image(image)
-      .save()
+        .category(ImageCategory.find(By(ImageCategory.id, selectedCategory.toInt)))
+        .image(image)
+        .save()
     }
 
     ".image" #> Image.toHTML(image, 300, 300) &
@@ -201,8 +213,10 @@ object ImageAction extends Logger {
     for {
       image <- Image.find(By(Image.secure, secure.toUpperCase)) if image.name.is.equals(name)
     } yield {
-      val inputStream = new ByteArrayInputStream(image.blob.is)
-      val originalImage = ImageIO.read(inputStream)
+      val file = Image.file(image)
+      if (!file.canRead())
+        error("file: %s could not be read" format (file.getAbsoluteFile()))
+      val originalImage = ImageIO.read(file)
 
       val widthParam = S.param("width").openOr(Int.MaxValue.toString).toInt
       var width =

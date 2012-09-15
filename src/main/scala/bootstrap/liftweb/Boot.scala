@@ -58,7 +58,9 @@ class Boot {
         () => ImageAction.serveImage(secure, "%s.%s".format(name, fileType))
     }
     LiftRules.statelessDispatchTable.append(de.got.lib.MySitemap)
-
+    
+    //for(i <- 1 to 20) User.create.email("%d@got.de".format(i)).name("Testi%d".format(i)).birthday((20 years).ago.toDate).firstName("firstname").lastName("lastname").password("flasche").phoneNumber("1234").postalCode("81825").city("München").street("street").save()
+    
   }
 
   def sitemap() = SiteMap(

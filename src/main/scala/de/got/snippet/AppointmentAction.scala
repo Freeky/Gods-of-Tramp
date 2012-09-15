@@ -167,7 +167,7 @@ class AppointmentPanel extends DispatchSnippet with Logger {
   def panel = {
 
     val appointments = S.param("id").map(_.toLong)
-      .map(id => Appointment.findAll(By(Appointment.offer, id)))
+      .map(id => Appointment.findAll(By(Appointment.offer, id), By_>(Appointment.till, ((-1 day).ago.toDate)), OrderBy(Appointment.from, Ascending)))
       .openOr(Nil)
 
     // TODO: Panel finalisieren (Termine zum Angebot anzeigen und Create Link)
@@ -201,14 +201,14 @@ class AppointmentPanel extends DispatchSnippet with Logger {
       Text(S ? "you.had.to.be.logged.in")
     else if (isAdmin)
       <a href={ "/appointment/edit/%d".format(a.id.is) }>{ S ? "edit" }</a>
-    else if (a.attendees.filter(u => (u.id == User.currentUserId.openOr(-1L))).size > 0)
-      SHtml.submit(S ? "sign.out", () => signOut(a)) // ToDo: machen
     else if (!User.currentUser.map(User.isFullUser_?(_)).openOr(false))
-      <span class="lift:Menu.item?linktToSelf=true&name=options;">{ S ? "you.must.be.a.full.user" }</span>
-    else if (a.attendees.size >= { if (a.spots == 0) Int.MaxValue else a.spots.toInt })
-      Text(S ? "appointment.full")
+      <a href="/options">{ S ? "you.must.be.a.full.user" }</a>
     else if (a.getDeadline().isBeforeNow())
       Text(S ? "deadline.reached")
+    else if (a.attendees.filter(u => (u.id == User.currentUserId.openOr(-1L))).size > 0)
+      SHtml.submit(S ? "sign.out", () => signOut(a)) // ToDo: machen
+    else if (a.attendees.size >= { if (a.spots == 0) Int.MaxValue else a.spots.toInt })
+      Text(S ? "appointment.full")
     else
       SHtml.submit(S ? "sign.in", () => signIn(a)) // ToDo: machen
   }

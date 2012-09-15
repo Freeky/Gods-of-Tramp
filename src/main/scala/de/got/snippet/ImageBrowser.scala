@@ -49,7 +49,7 @@ class ImageBrowser extends DispatchSnippet {
       } yield img
 
     "*" #> images.map(img =>
-      ".imagelink [href]" #> "/image/%s/%s?width=950".format(img.secure.is.toLowerCase, img.name.is) &
+      ".imagelink [href]" #> "/image/%s/%s?width=950&height=712".format(img.secure.is.toLowerCase, img.name.is) &
         ".content [src]" #> "/image/%s/%s?width=%d&height=%d".format(img.secure.is.toLowerCase, img.name.is, imageWidth, imageHeight))
   }
 
@@ -73,6 +73,7 @@ class ImageBrowser extends DispatchSnippet {
         .parent(currentCategory.open_!)
         .save
     }
+    
 
     if (User.isAdmin_?)
       ".name" #> SHtml.text(categoryName, categoryName = _) &

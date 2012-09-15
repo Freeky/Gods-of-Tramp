@@ -5,3 +5,5 @@ db.driver=com.mysql.jdbc.Driver
 db.url=jdbc:mysql://localhost/dbname
 db.user=dbuser
 db.password=dbpass
+
+imagepath=\path\to\images

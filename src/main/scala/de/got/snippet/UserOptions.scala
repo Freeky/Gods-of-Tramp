@@ -16,6 +16,7 @@ import net.liftweb.http.js.JsCmds._
 import scala.xml.Elem
 import net.liftweb.proto.ProtoRules
 import de.got.lib.AjaxFactory._
+import de.got.main.curUser
 
 class UserOptions extends StatefulSnippet with Logger {
 
@@ -50,7 +51,7 @@ class UserOptions extends StatefulSnippet with Logger {
           ".changepassword" #> <lift:Menu.item name="changepassword"/> &
           ".deleteaccount" #> <lift:Menu.item name="deleteaccount"/> &
           ".submit" #> SHtml.submit(S ? "change", processOptions) &
-          ".fulluserinfo" #> Text(if(User.isFullUser_?(user)) {S ? "yes"} else {S ? "no"})
+          ".fulluserinfo" #> Text(if (User.isFullUser_?(user)) { S ? "yes" } else { S ? "no" })
       }.apply(in)
       case _ => {
         warn("show-snippet was invoked but no user was set")
@@ -68,7 +69,6 @@ class UserOptions extends StatefulSnippet with Logger {
       ".parentlastname" #> SHtml.text(currentUser.open_!.parentLastName, currentUser.open_!.parentLastName(_))
 
   def processOptions() = {
-        println("is called")
     var invalid = false
 
     currentUser match {
@@ -89,6 +89,7 @@ class UserOptions extends StatefulSnippet with Logger {
     if (!invalid) {
       currentUser.map(user => {
         user.save()
+        curUser(Full(user))
         S.notice(S ? "chganes.saved")
       })
     }
@@ -98,12 +99,12 @@ class UserOptions extends StatefulSnippet with Logger {
 
   def checkBirthday(s: String): JsCmd = {
     tryo({
-      if(s.isEmpty()) {
+      if (s.isEmpty()) {
         currentUser.open_!.birthday(null)
       } else
-      currentUser.open_!.birthday(germanDate.parse(s))
+        currentUser.open_!.birthday(germanDate.parse(s))
       val age = getCurrentAge
-      println(age)
+
       if (age < 18 && age >= 0) {
         JsCmds.SetHtml("input-options-parent", renderParentFields)
       } else {
