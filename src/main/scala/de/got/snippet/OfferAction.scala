@@ -144,7 +144,7 @@ class OfferAction extends DispatchSnippet {
    */
   def createOffer = {
     val offer = Offer.create
-    offer.author(curUserId.is.open_!)
+    offer.author(curUser.map(_.id.is).openOr(0L))
 
     def addOfferToDatabase() = {
       if (offer.title.is.eq("") && offer.text.is.eq(""))
@@ -213,7 +213,7 @@ class OfferAction extends DispatchSnippet {
 
     val offer = queriedOffer.open_!
 
-    offer.author(curUserId.is.open_!)
+    offer.author(curUser.map(_.id.is).openOr(0L))
 
     def updateOfferInDatabase() = {
       if (offer.title.is.eq("") && offer.text.is.eq(""))

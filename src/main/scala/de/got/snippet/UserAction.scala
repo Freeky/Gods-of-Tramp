@@ -52,7 +52,7 @@ class UserAction extends StatefulSnippet with Logger {
         val user = userInABox.open_!
         if (user.accountType.obj.open_!.isAdmin.is == true)
           curUserIsAdmin(Full(true))
-        curUserId(Full(user.id.is))
+        curUser(Full(user))
         logginName(Full(user.name.is))
         unregisterThisSnippet()
         S.redirectTo("/")
@@ -144,7 +144,7 @@ class UserAction extends StatefulSnippet with Logger {
 
   def processLogout() = {
     curUserIsAdmin(Empty)
-    curUserId(Empty)
+    curUser(Empty)
     logginName(Empty)
     unregisterThisSnippet()
     S.redirectTo("/")

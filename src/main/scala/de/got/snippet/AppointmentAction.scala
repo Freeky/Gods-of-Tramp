@@ -16,6 +16,7 @@ import JsCmd._
 import JsCmds._
 import JsExp._
 import de.got.lib.DateFunctions._
+import org.joda.time.DateTime
 
 class CreateAppointment extends DispatchSnippet {
   def dispatch: DispatchIt = _ match {
@@ -41,7 +42,7 @@ class CreateAppointment extends DispatchSnippet {
         ".description" #> SHtml.text(appointment.description, appointment.description(_)) &
           ".from" #> SHtml.text(formatDateTime(appointment.from), s => appointment.from(germanDateTime.parse(s))) &
           ".till" #> SHtml.text(formatDateTime(appointment.till), s => appointment.till(germanDateTime.parse(s))) &
-          ".deadline" #> SHtml.text(formatDateTime(appointment.deadline), s => appointment.deadline(germanDateTime.parse(s))) &
+          ".deadline" #> SHtml.text(formatDateTime(appointment.deadline), s => if (!s.isEmpty) appointment.deadline(germanDateTime.parse(s))) &
           ".spots" #> SHtml.text(appointment.spots.toString, s => appointment.spots(s.toInt)) &
           ".submit" #> SHtml.submit(S ? "add", processCreate)
       }
@@ -81,7 +82,7 @@ class EditAppointment extends StatefulSnippet {
         ".description" #> SHtml.text(appointment.description, appointment.description(_)) &
           ".from" #> SHtml.text(formatDateTime(appointment.from), s => appointment.from(germanDateTime.parse(s))) &
           ".till" #> SHtml.text(formatDateTime(appointment.till), s => appointment.till(germanDateTime.parse(s))) &
-          ".deadline" #> SHtml.text(formatDateTime(appointment.deadline), s => if (!s.equals("")) appointment.deadline(germanDateTime.parse(s))) &
+          ".deadline" #> SHtml.text(formatDateTime(appointment.deadline), s => if (!s.isEmpty) appointment.deadline(germanDateTime.parse(s))) &
           ".spots" #> SHtml.text(appointment.spots.toString, s => appointment.spots(s.toInt)) &
           ".edit" #> SHtml.submit(S ? "edit", processEdit) &
           ".delete" #> SHtml.submit(S ? "delete", processDelete, "onclick" ->
@@ -147,7 +148,7 @@ class ListAppointment extends DispatchSnippet {
         ".appointment-description" #> a.description &
         ".appointment-spots" #> (if (a.spots <= 0) "--" else ("%d/%d".format(0, a.spots.is))) &
         ".appointment-date" #> {
-          if (a.from.getDay == a.till.getDay)
+          if (new DateTime(a.from).getDayOfMonth == new DateTime(a.till).getDayOfMonth)
             formatShortDate(a.from)
           else
             "%s - %s".format(formatShortDate(a.from), formatShortDate(a.till))
@@ -156,7 +157,7 @@ class ListAppointment extends DispatchSnippet {
   }
 }
 
-class AppointmentPanel extends DispatchSnippet {
+class AppointmentPanel extends DispatchSnippet with Logger {
   def dispatch: DispatchIt = _ match {
     case "render" => panel
   }
@@ -179,14 +180,20 @@ class AppointmentPanel extends DispatchSnippet {
             ("%d/%d".format(a.attendees.size, a.spots.is))
         } &
         ".appointment-date" #> {
-          if (a.from.getDay == a.till.getDay)
+          if (new DateTime(a.from.is).getDayOfMonth == new DateTime(a.till.is).getDayOfMonth)
             formatShortDate(a.from)
           else
             "%s - %s".format(formatShortDate(a.from), formatShortDate(a.till))
         } &
         ".appointment-time" #> "%s - %s".format(formatTime(a.from), formatTime(a.till)) &
-        ".appointment-deadline" #> (a.deadline match { case null => "keine" case s => formatShortDate(s) }) &
-        ".appointment-action" #> buildActionField(a))
+        ".appointment-deadline" #> (a.deadline.is match { case null => "keine" case s => formatShortDate(s) }) &
+        ".appointment-action" #> buildActionField(a)) &
+      {
+        if (isAdmin)
+          ".new [href]" #> "/appointment/create/%d".format(S.param("id").map(_.toInt).openOr(0))
+        else
+          ".new" #> ""
+      }
   }
 
   def buildActionField(a: Appointment) = {
@@ -195,12 +202,25 @@ class AppointmentPanel extends DispatchSnippet {
     else if (isAdmin)
       <a href={ "/appointment/edit/%d".format(a.id.is) }>{ S ? "edit" }</a>
     else if (a.attendees.filter(u => (u.id == User.currentUserId.openOr(-1L))).size > 0)
-      SHtml.submit(S ? "sign.out", () => println("LooL")) // ToDo: machen
+      SHtml.submit(S ? "sign.out", () => signOut(a)) // ToDo: machen
     else if (!User.currentUser.map(User.isFullUser_?(_)).openOr(false))
-      <span	class="lift:Menu.item?linktToSelf=true&name=options;">{S ? "you.must.be.a.full.user"}</span>
+      <span class="lift:Menu.item?linktToSelf=true&name=options;">{ S ? "you.must.be.a.full.user" }</span>
     else if (a.attendees.size >= { if (a.spots == 0) Int.MaxValue else a.spots.toInt })
       Text(S ? "appointment.full")
+    else if (a.getDeadline().isBeforeNow())
+      Text(S ? "deadline.reached")
     else
-      SHtml.submit(S ? "sign.in", () => println("LooL")) // ToDo: machen
+      SHtml.submit(S ? "sign.in", () => signIn(a)) // ToDo: machen
+  }
+
+  def signOut(a: Appointment) = {
+    curUser.map(u => AppointmentAttendee.findAll(By(AppointmentAttendee.attendee, u.id),
+      By(AppointmentAttendee.appointment, a.id)).map(_.delete_!))
+  }
+
+  def signIn(a: Appointment) = {
+    if (curUser.map(AppointmentAttendee.create.appointment(a).attendee(_).save()).openOr(false))
+      error("AppointmentAttendee could not be saved (Appointment: %s; User: %s)"
+        .format(a, curUser.map(_.id.toString).openOr("not found")))
   }
 }

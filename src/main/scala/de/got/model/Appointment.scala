@@ -4,8 +4,9 @@ import _root_.net.liftweb.common._
 import _root_.net.liftweb.util._
 import Helpers._
 import net.liftweb.mapper._
+import org.joda.time.DateTime
 
-class Appointment extends LongKeyedMapper[Appointment] with IdPK with ManyToMany{
+class Appointment extends LongKeyedMapper[Appointment] with IdPK with ManyToMany {
   def getSingleton = Appointment
 
   object description extends MappedString(this, 512)
@@ -15,7 +16,7 @@ class Appointment extends LongKeyedMapper[Appointment] with IdPK with ManyToMany
   object editDate extends MappedDate(this) {
     override def defaultValue = new java.util.Date
   }
-  
+
   object owner extends MappedLongForeignKey(this, User) {
     def getName: String = {
       User.find(this.is).map(_.name.is).openOr("noname")
@@ -27,15 +28,22 @@ class Appointment extends LongKeyedMapper[Appointment] with IdPK with ManyToMany
   object till extends MappedDateTime(this) {
     override def defaultValue = time(millis + days(1))
   }
-  
+
   object spots extends MappedInt(this)
-  
+
   object offer extends MappedLongForeignKey(this, Offer)
-  
+
   object deadline extends MappedDateTime(this)
-  
-  object attendees extends MappedManyToMany(AppointmentAttendee, 
-      AppointmentAttendee.appointment, AppointmentAttendee.attendee, User)
+
+  object attendees extends MappedManyToMany(AppointmentAttendee,
+    AppointmentAttendee.appointment, AppointmentAttendee.attendee, User)
+
+  def getDeadline(): DateTime = {
+    if (deadline == null)
+      new DateTime(from.is)
+    else
+      new DateTime(deadline.is)
+  }
 }
 
 object Appointment extends Appointment with LongKeyedMetaMapper[Appointment]

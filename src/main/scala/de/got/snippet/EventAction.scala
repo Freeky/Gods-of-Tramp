@@ -143,7 +143,7 @@ class EventAction extends DispatchSnippet {
    */
   def createEvent = {
     val event = Event.create
-    event.author(curUserId.is.open_!)
+    event.author(curUser.map(_.id.is).openOr(0L))
 
     def addEventToDatabase() = {
       if (event.title.is.eq("") && event.text.is.eq(""))
@@ -212,7 +212,7 @@ class EventAction extends DispatchSnippet {
 
     val event = queriedEvent.open_!
 
-    event.author(curUserId.is.open_!)
+    event.author(curUser.map(_.id.is).openOr(0L))
 
     def updateEventInDatabase() = {
       if (event.title.is.eq("") && event.text.is.eq(""))

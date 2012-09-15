@@ -51,14 +51,14 @@ class Boot {
     addRewritesToLiftRules
 
     LiftRules.loggedInTest = Full(() => User.loggedIn_?)
-    
+
     // Dispatches
     LiftRules.dispatch.append {
       case Req("image" :: secure :: name :: Nil, fileType, _) =>
         () => ImageAction.serveImage(secure, "%s.%s".format(name, fileType))
     }
     LiftRules.statelessDispatchTable.append(de.got.lib.MySitemap)
-    
+
   }
 
   def sitemap() = SiteMap(

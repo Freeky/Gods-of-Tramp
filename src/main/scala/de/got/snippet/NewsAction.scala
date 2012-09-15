@@ -141,7 +141,7 @@ class NewsAction extends DispatchSnippet {
    */
   def createNews = {
     val news = News.create
-    news.author(curUserId.is.open_!)
+    news.author(curUser.map(_.id.is).openOr(0L))
 
     def addNewsToDatabase() = {
       if (news.title.is.eq("") && news.text.is.eq(""))
@@ -203,7 +203,7 @@ class NewsAction extends DispatchSnippet {
 
     val news = queriedNews.open_!
 
-    news.author(curUserId.is.open_!)
+    news.author(curUser.map(_.id.is).openOr(0L))
 
     def updateNewsInDatabase() = {
       if (news.title.is.eq("") && news.text.is.eq(""))

@@ -71,11 +71,9 @@ class UserRegistration extends StatefulSnippet with Logger {
   }
 
   def checkBirthday(s: String): JsCmd = {
-    println(s)
     tryo({
       r_user.birthday(germanDate.parse(s))
       val age = getCurrentAge
-        println(age)
       if (age < 18 && age >= 0) {
         JsCmds.SetHtml("input-register-parent", renderParentFields)
       } else {
