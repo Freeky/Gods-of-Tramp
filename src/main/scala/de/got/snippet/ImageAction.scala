@@ -15,6 +15,8 @@ import de.got.main._
 import java.io.FileOutputStream
 import java.io.FileInputStream
 import scala.io.Source
+import scala.actors.threadpool.helpers.NanoTimer
+import org.joda.time.DateTime
 
 class ImageAction extends DispatchSnippet {
   def dispatch: DispatchIt = _ match {
@@ -212,10 +214,12 @@ class ImageAction extends DispatchSnippet {
 object ImageAction extends Logger {
   def serveImage(secure: String, name: String): Box[LiftResponse] = {
 
+    //println("%-50s %s init".format(name, new DateTime().toString()))
     for {
       image <- Image.find(By(Image.secure, secure.toUpperCase)) if image.name.is.equals(name)
     } yield {
 
+      //println("%-50s %s process".format(name, new DateTime().toString()))
       val widthParam = S.param("width").map(_.toInt).openOr(Int.MaxValue)
       val heightParam = S.param("height").map(_.toInt).openOr(Int.MaxValue)
 
@@ -269,6 +273,8 @@ object ImageAction extends Logger {
           ba
         }
 
+      //println("%-50s %s finish".format(name, new DateTime().toString()))
+      
       InMemoryResponse(
         imageBA,
         ("Content-Type" -> image.mimeType.is) :: Nil,
