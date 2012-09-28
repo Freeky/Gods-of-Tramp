@@ -17,6 +17,8 @@ import java.io.FileInputStream
 import scala.io.Source
 import scala.actors.threadpool.helpers.NanoTimer
 import org.joda.time.DateTime
+import java.awt.AlphaComposite
+import java.awt.RenderingHints
 
 class ImageAction extends DispatchSnippet {
   def dispatch: DispatchIt = _ match {
@@ -274,7 +276,7 @@ object ImageAction extends Logger {
         }
 
       //println("%-50s %s finish".format(name, new DateTime().toString()))
-      
+
       InMemoryResponse(
         imageBA,
         ("Content-Type" -> image.mimeType.is) :: Nil,
@@ -292,6 +294,10 @@ object ImageAction extends Logger {
     val resizedImage = new BufferedImage(width, height,
       if (image.getType == 0) BufferedImage.TYPE_INT_ARGB else image.getType);
     val g = resizedImage.createGraphics();
+	g.setComposite(AlphaComposite.Src);
+    g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+    g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
     g.drawImage(image, 0, 0, width, height, null);
     g.dispose();
     return resizedImage;
