@@ -13,6 +13,10 @@ import de.got.model._
 import S._
 import de.got.main._
 import java.io.FileOutputStream
+import java.io.FileInputStream
+import scala.io.Source
+import scala.actors.threadpool.helpers.NanoTimer
+import org.joda.time.DateTime
 
 class ImageAction extends DispatchSnippet {
   def dispatch: DispatchIt = _ match {
@@ -210,50 +214,80 @@ class ImageAction extends DispatchSnippet {
 object ImageAction extends Logger {
   def serveImage(secure: String, name: String): Box[LiftResponse] = {
 
+    //println("%-50s %s init".format(name, new DateTime().toString()))
     for {
       image <- Image.find(By(Image.secure, secure.toUpperCase)) if image.name.is.equals(name)
     } yield {
-      val file = Image.file(image)
-      if (!file.canRead())
-        error("file: %s could not be read" format (file.getAbsoluteFile()))
-      val originalImage = ImageIO.read(file)
 
-      val widthParam = S.param("width").openOr(Int.MaxValue.toString).toInt
-      var width =
-        if (widthParam.abs < originalImage.getWidth)
-          widthParam.abs
-        else
-          originalImage.getWidth
+      //println("%-50s %s process".format(name, new DateTime().toString()))
+      val widthParam = S.param("width").map(_.toInt).openOr(Int.MaxValue)
+      val heightParam = S.param("height").map(_.toInt).openOr(Int.MaxValue)
 
-      val heightParam = S.param("height").openOr(Int.MaxValue.toString).toInt
-      var height =
-        if (heightParam.abs < originalImage.getHeight)
-          heightParam.abs
-        else
-          originalImage.getHeight
+      val file = Image.file(image, fileExtension(widthParam, heightParam))
 
-      val widthRatio = originalImage.getWidth.toDouble / width
-      val heightRatio = originalImage.getHeight.toDouble / height
+      val imageBA: Array[Byte] =
+        if (file.exists()) {
+          val source = Source.fromFile(file)(scala.io.Codec.ISO8859)
+          val byteArray = source.map(_.toByte).toArray
+          source.close
+          byteArray
+        } else {
+          val originalfile = Image.file(image)
+          if (!originalfile.canRead())
+            error("file: %s could not be read" format (file.getAbsoluteFile()))
+          val originalImage = ImageIO.read(originalfile)
 
-      if (widthRatio > heightRatio) {
-        height = (originalImage.getHeight / widthRatio).toInt
-      } else {
-        width = (originalImage.getWidth / heightRatio).toInt
-      }
+          var width =
+            if (widthParam.abs < originalImage.getWidth)
+              widthParam.abs
+            else
+              originalImage.getWidth
 
-      val byteStream = new ByteArrayOutputStream()
+          var height =
+            if (heightParam.abs < originalImage.getHeight)
+              heightParam.abs
+            else
+              originalImage.getHeight
 
-      ImageIO.write(resize(originalImage, width, height),
-        image.mimeType.is.substring("image/".length), byteStream)
+          val widthRatio = originalImage.getWidth.toDouble / width
+          val heightRatio = originalImage.getHeight.toDouble / height
 
+          if (widthRatio > heightRatio) {
+            height = (originalImage.getHeight / widthRatio).toInt
+          } else {
+            width = (originalImage.getWidth / heightRatio).toInt
+          }
+
+          val byteStream = new ByteArrayOutputStream()
+
+          ImageIO.write(resize(originalImage, width, height),
+            image.mimeType.is.substring("image/".length), byteStream)
+
+          val ba = byteStream.toByteArray
+
+          if (!file.createNewFile()) error("file: %s could not be created".format(file.getAbsoluteFile()))
+          val fos = new FileOutputStream(file)
+          fos.write(ba)
+          fos.close()
+
+          ba
+        }
+
+      //println("%-50s %s finish".format(name, new DateTime().toString()))
+      
       InMemoryResponse(
-        byteStream.toByteArray,
+        imageBA,
         ("Content-Type" -> image.mimeType.is) :: Nil,
         Nil,
         200)
     }
   }
 
+  def fileExtension(width: Int, height: Int): String = {
+    val sw = if (width == Int.MaxValue) "" else "w%d".format(width)
+    val sh = if (height == Int.MaxValue) "" else "h%d".format(height)
+    sw + sh
+  }
   private def resize(image: BufferedImage, width: Int, height: Int): BufferedImage = {
     val resizedImage = new BufferedImage(width, height,
       if (image.getType == 0) BufferedImage.TYPE_INT_ARGB else image.getType);
