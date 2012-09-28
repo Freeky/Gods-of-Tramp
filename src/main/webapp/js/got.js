@@ -45,7 +45,8 @@ $('.sidebar ul li').hover(function() {
 
 //
 function birthdayDatepicker() {
-	$("#birthday").datepicker({
+	$(".datepicker").datepicker("destroy");
+	$(".datepicker").datepicker({
 		dateFormat : "dd.mm.yy",
 		changeMonth : true,
 		changeYear : true,

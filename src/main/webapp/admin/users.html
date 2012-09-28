@@ -7,106 +7,98 @@
 <body class="lift:content_id=main">
 	<div id="main" class="lift:surround?with=default;at=content">
 		<h2>Advanced: User Administration</h2>
-		<div>
-			<lift:UserAdministration.edituser form="POST">
-				<table>
-					<tr>
-						<td>Name:</td>
-						<td><user:name /></td>
-					</tr>
-					<tr>
-						<td>Password:</td>
-						<td><user:password /></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><user:passwordretype /></td>
-					</tr>
-					<tr>
-						<td>Email:</td>
-						<td><user:email /></td>
-					</tr>
-					<tr>
-						<td>Registration date:</td>
-						<td><user:registrationdate /></td>
-					</tr>
-					<tr>
-						<td>Account type:</td>
-						<td><user:accounttype /></td>
-					</tr>
-					<tr>
-						<td>Erhält Newsletter:</td>
-						<td><user:newsletter /></td>
-					</tr>
-					<tr>
-						<td>Vorname:</td>
-						<td><user:firstname /></td>
-					</tr>
-					<tr>
-						<td>Nachname:</td>
-						<td><user:lastname /></td>
-					</tr>
-					<tr>
-						<td>Geburtstag:</td>
-						<td><user:birthday /></td>
-					</tr>
-					<tr>
-						<td>Erziehungsberechtigter Vorname:</td>
-						<td><user:parentfirstname /></td>
-					</tr>
-					<tr>
-						<td>Erziehungsberechtigter Vorname:</td>
-						<td><user:parentlastname /></td>
-					</tr>
-					<tr>
-						<td>Strasse:</td>
-						<td><user:street /></td>
-					</tr>
-					<tr>
-						<td>PLZ:</td>
-						<td><user:postalcode /></td>
-					</tr>
-					<tr>
-						<td>Stadt:</td>
-						<td><user:city /></td>
-					</tr>
-					<tr>
-						<td>Telefonnummer:</td>
-						<td><user:phonenumber /></td>
-					</tr>
-				</table>
-				<user:submit />
-			</lift:UserAdministration.edituser>
+		<div class="lift:UserAdministration.edituser?form=POST">
+			<table>
+				<tr>
+					<td>Name:</td>
+					<td><span class="name">name</span></td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><span class="password">password</span></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><span class="passwordretype">passwordretype</span></td>
+				</tr>
+				<tr>
+					<td>Email:</td>
+					<td><span class="email">email</span></td>
+				</tr>
+				<tr>
+					<td>Registration date:</td>
+					<td><span class="registrationdate">registrationdate</span></td>
+				</tr>
+				<tr>
+					<td>Account type:</td>
+					<td><span class="accounttype">accounttype</span></td>
+				</tr>
+				<tr>
+					<td>Erhält Newsletter:</td>
+					<td><span class="newsletter">newsletter</span></td>
+				</tr>
+				<tr>
+					<td>Vorname:</td>
+					<td><span class="firstname">firstname</span></td>
+				</tr>
+				<tr>
+					<td>Nachname:</td>
+					<td><span class="lastname">lastname</span></td>
+				</tr>
+				<tr>
+					<td>Geburtstag:</td>
+					<td><span class="birthday">birthday</span></td>
+				</tr>
+				<tr>
+					<td>Erziehungsberechtigter Vorname:</td>
+					<td><span class="parentfirstname">parentfirstname</span></td>
+				</tr>
+				<tr>
+					<td>Erziehungsberechtigter Vorname:</td>
+					<td><span class="parentlastname">parentlastname</span></td>
+				</tr>
+				<tr>
+					<td>Strasse:</td>
+					<td><span class="street">street</span></td>
+				</tr>
+				<tr>
+					<td>PLZ:</td>
+					<td><span class="postalcode">postalcode</span></td>
+				</tr>
+				<tr>
+					<td>Stadt:</td>
+					<td><span class="city">city</span></td>
+				</tr>
+				<tr>
+					<td>Telefonnummer:</td>
+					<td><span class="phonenumber">phonenumber</span></td>
+				</tr>
+			</table>
+			<button type="submit" class="submit">submit</button>
 		</div>
-		<div>
-			<lift:UserAdministration.overview>
-				<overview:entrycount />
-				<overview:prevpage />
-				<span id="current_page"><overview:page /> </span>
-				<overview:nextpage />
-				<table>
-					<thead>
-						<tr>
-							<td>id</td>
-							<td>name</td>
-							<td>Type</td>
-							<td>edit link</td>
-						</tr>
-					</thead>
-					<tbody id="user_table">
-						<overview:table>
-							<overview:entry>
-								<tr>
-									<td><entry:id /></td>
-									<td><entry:name /></td>
-									<td><entry:type /></td>
-									<td><entry:editlink>edit</entry:editlink></td>
-								</tr>
-							</overview:entry>
-						</overview:table>
-					</tbody>
-				</table>
-			</lift:UserAdministration.overview>
+		<div class="lift:UserAdministration.overview">
+			<select class="entrycount"><option>10</option></select>
+			<a class="prevpage" href="/">prev</a>
+			<span id="current_page"><overview:page /> </span>
+			<a class="nextpage" href="/">next</a>
+			<table>
+				<thead>
+					<tr>
+						<td>id</td>
+						<td>name</td>
+						<td>Type</td>
+						<td>edit link</td>
+					</tr>
+				</thead>
+				<tbody id="user_table">
+							<tr class="entry">
+								<td><span class="id">id</span></td>
+								<td><span class="name">name</span></td>
+								<td><span class="type">type</span></td>
+								<td><a class="editlink" href="/">edit</a></td>
+							</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 </body>

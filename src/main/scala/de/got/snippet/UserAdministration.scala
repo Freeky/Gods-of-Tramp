@@ -31,17 +31,17 @@ class UserAdministration extends StatefulSnippet {
   def overview(in: NodeSeq): NodeSeq = {
     var entrycount = 25
     var page = 0
+    
+    var entryTemplate = {".entry ^^" #> (n => n)}.apply(in)
 
     def buildUserTable(entries: List[User], template: NodeSeq) = {
-      entries.flatMap({ entry =>
-        bind("entry", chooseTemplate("overview", "entry", template),
-          "id" -> Text(entry.id.toString),
-          "name" -> Text(entry.name),
-          "type" -> Text(entry.accountType.obj.open_!.name),
-          "editlink" -> { nodes: NodeSeq =>
-            <a href={ "/admin/users/" + entry.id.toString }>{ nodes }</a>
-          })
-      })
+      entries.flatMap(entry =>
+        {".id" #> entry.id.toString &
+          ".name" #> entry.name.is &
+          ".type" #> entry.accountType.obj.map(_.name.is).openOr("unkown") &
+          ".editlink [href]" #> ("/admin/users/%d".format(entry.id.is))
+          }.apply(entryTemplate)
+      )
     }
 
     def userTable() = {
@@ -71,16 +71,15 @@ class UserAdministration extends StatefulSnippet {
       updateUserTable
     }
 
-    bind("overview", in,
-      "entrycount" -> SHtml.ajaxSelect(List(10, 25, 50, 100).map(i => (i.toString, i.toString)),
-        Full(25.toString), v => updateEntryCount(v)),
-      "page" -> Text((page + 1).toString),
-      "prevpage" -> SHtml.ajaxButton(Text(S ? "previous"), () => prevPage),
-      "nextpage" -> SHtml.ajaxButton(Text(S ? "next"), () => nextPage),
-      "table" -> userTable)
+    {".entrycount" #> SHtml.ajaxSelect(List(10, 25, 50, 100).map(i => (i.toString, i.toString)),
+        Full(25.toString), v => updateEntryCount(v)) &
+      ".page" #> Text((page + 1).toString) &
+      ".prevpage" #> SHtml.ajaxButton(Text(S ? "previous"), () => prevPage) &
+      ".nextpage" #> SHtml.ajaxButton(Text(S ? "next"), () => nextPage) &
+      "#user_table" #> userTable}.apply(in)
   }
 
-  def editUser(in: NodeSeq): NodeSeq = {
+  def editUser = {
     var password = ""
     var passwordretype = ""
     var accountType = ""
@@ -119,26 +118,25 @@ class UserAdministration extends StatefulSnippet {
 
     userOption match {
       case Full(user) => {
-        bind("user", in,
-          "name" -> SHtml.text(user.name, user.name(_)),
-          "password" -> SHtml.password(password, password = _),
-          "passwordretype" -> SHtml.password(passwordretype, passwordretype = _),
-          "email" -> SHtml.text(user.email, user.email(_)),
-          "registrationdate" -> Text(user.registrationDate.toString()),
-          "accounttype" -> SHtml.select(buildAccountTypeValues, Full(user.accountType.is.toString), accountType = _),
-          "newsletter" -> SHtml.checkbox(user.wantsNewsletter, user.wantsNewsletter(_)),
-          "firstname" -> SHtml.text(user.firstName, user.firstName(_)),
-          "lastname" -> SHtml.text(user.lastName, user.lastName(_)),
-          "birthday" -> SHtml.text(tryo{germanDate.format(user.birthday.is)}.openOr(""), s => tryo {user.birthday(germanDate.parse(s))}),
-          "parentfirstname" -> SHtml.text(user.parentFirstName, user.parentLastName(_)),
-          "parentlastname" -> SHtml.text(user.parentLastName, user.parentLastName(_)),
-          "street" -> SHtml.text(user.street, user.street(_)),
-          "postalcode" -> SHtml.text(user.postalCode, user.postalCode(_)),
-          "city" -> SHtml.text(user.city, user.city(_)),
-          "phonenumber" -> SHtml.text(user.phoneNumber, user.phoneNumber(_)),
-          "submit" -> SHtml.submit(S ? "edit", processEditUser))
+          ".name" #> SHtml.text(user.name, user.name(_)) &
+          ".password" #> SHtml.password(password, password = _) &
+          ".passwordretype" #> SHtml.password(passwordretype, passwordretype = _) &
+          ".email" #> SHtml.text(user.email, user.email(_)) &
+          ".registrationdate" #> Text(user.registrationDate.toString()) &
+          ".accounttype" #> SHtml.select(buildAccountTypeValues, Full(user.accountType.is.toString), accountType = _) &
+          ".newsletter" #> SHtml.checkbox(user.wantsNewsletter, user.wantsNewsletter(_)) &
+          ".firstname" #> SHtml.text(user.firstName, user.firstName(_)) &
+          ".lastname" #> SHtml.text(user.lastName, user.lastName(_)) &
+          ".birthday" #> SHtml.text(tryo{germanDate.format(user.birthday.is)}.openOr(""), s => tryo {user.birthday(germanDate.parse(s))}) &
+          ".parentfirstname" #> SHtml.text(user.parentFirstName, user.parentLastName(_)) &
+          ".parentlastname" #> SHtml.text(user.parentLastName, user.parentLastName(_)) &
+          ".street" #> SHtml.text(user.street, user.street(_)) &
+          ".postalcode" #> SHtml.text(user.postalCode, user.postalCode(_)) &
+          ".city" #> SHtml.text(user.city, user.city(_)) &
+          ".phonenumber" #> SHtml.text(user.phoneNumber, user.phoneNumber(_)) &
+          ".submit" #> SHtml.submit(S ? "edit", processEditUser)
       }
-      case _ => Text("")
+      case _ => "*" #> ""
     }
   }
 }

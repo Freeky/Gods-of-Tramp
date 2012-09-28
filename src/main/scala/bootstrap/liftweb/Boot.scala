@@ -22,6 +22,9 @@ import de.got.lib._
 class Boot {
   def boot {
 
+    // Turn on HTML5
+    LiftRules.htmlProperties.default.set((r: Req) => new Html5Properties(r.userAgent))
+    
     // Database things
     if (!DB.jndiJdbcConnAvailable_?) {
       val vendor =
