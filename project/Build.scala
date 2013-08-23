@@ -4,7 +4,7 @@ import Keys._
 object BuildSettings {
   val buildOrganization = "de.got"
   val buildVersion      = "0.2.3"
-  val buildScalaVersion = "2.9.1"
+  val buildScalaVersion = "2.10.0"
 
   val buildSettings = Defaults.defaultSettings ++ Seq (
     organization := buildOrganization,
@@ -25,15 +25,15 @@ object Resolvers {
 
 object Dependencies {
   val logbackVer = "0.9.26"
-  val liftVersion = "2.4"
+  val liftVersion = "2.5"
 
   val liftwebkit     = "net.liftweb"             %% "lift-webkit"          % liftVersion % "compile->default"
   val liftmapper	 = "net.liftweb" 			 %% "lift-mapper" 		   % liftVersion % "compile->default"
-  val lifttextile	 = "net.liftweb" 			 %% "lift-textile" 		   % liftVersion % "compile->default"
+  val lifttextile  = "net.liftmodules"     %% "textile_2.5"        % "1.3"
   val jetty          = "org.mortbay.jetty"       %  "jetty"                % "6.1.26"    % "container,test"
   val servlet        = "javax.servlet"           %  "servlet-api"          % "2.5"       % "provided->default"
   val junit          = "junit"                   %  "junit"                % "4.7"       % "test"
-  val scalatest      = "org.scala-tools.testing" %  "specs_2.9.0"          % "1.6.8"     % "test"
+  val scalatest      = "org.scala-tools.testing" %% "specs"                % "1.6.9"     % "test"
   val logbackcore    = "ch.qos.logback"          %  "logback-core"         % logbackVer
   val logbackclassic = "ch.qos.logback"          %  "logback-classic"      % logbackVer
   val mysql          = "mysql"                   %  "mysql-connector-java" % "5.1.20"

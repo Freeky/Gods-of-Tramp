@@ -32,7 +32,7 @@ class UserAdministration extends StatefulSnippet {
     var entrycount = 25
     var page = 0
     
-    var entryTemplate = {".entry ^^" #> (n => n)}.apply(in)
+    var entryTemplate = {".entry ^^" #> ((n: NodeSeq) => n)}.apply(in)
 
     def buildUserTable(entries: List[User], template: NodeSeq) = {
       entries.flatMap(entry =>

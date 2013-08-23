@@ -8,7 +8,7 @@ import Helpers._
 import de.got.model._
 import de.got.lib.AjaxFactory._
 import S._
-import net.liftweb.textile._
+import net.liftmodules.textile._
 import net.liftweb.http.js.JsCmds
 
 class StaticPage extends DispatchSnippet {

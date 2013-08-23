@@ -9,7 +9,7 @@ import de.got.model._
 import S._
 import java.text.SimpleDateFormat
 import de.got.main._
-import net.liftweb.textile._
+import net.liftmodules.textile._
 import net.liftweb.http.js._
 import JE._
 import JsCmd._
